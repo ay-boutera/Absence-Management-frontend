@@ -7,9 +7,9 @@
 import { NextResponse } from "next/server";
 
 // ── Protected Routes ──────────────────────────
-const ADMIN_ROUTES   = ["/dashboard/admin"];
-const TEACHER_ROUTES = ["/dashboard/teacher"];
-const AUTH_ROUTES    = ["/login", "/forgot-password"];
+const ADMIN_ROUTES = ["/admin"];
+const TEACHER_ROUTES = ["/teacher"];
+const AUTH_ROUTES = ["/login", "/forget-password"];
 
 export function middleware(request) {
   const { pathname } = request.nextUrl;
@@ -20,7 +20,7 @@ export function middleware(request) {
   // ── If logged in → block access to auth pages ──
   // Prevent logged-in users from seeing /login again
   if (token && AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL("/dashboard/admin", request.url));
+    return NextResponse.redirect(new URL("/admin", request.url));
   }
 
   // ── If NOT logged in → block protected routes ──
@@ -37,9 +37,5 @@ export function middleware(request) {
 
 // ── Apply middleware to these routes only ──────
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/login",
-    "/forgot-password",
-  ],
+  matcher: ["/admin", "/teacher", "/login", "/forget-password"],
 };

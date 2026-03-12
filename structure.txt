@@ -25,7 +25,7 @@ my-app/
 │   │   │   ├── layout.jsx
 │   │   │   ├── login/
 │   │   │   │   └── page.jsx              # [US-01, US-02] Login + Google OAuth
-│   │   │   └── forgot-password/
+│   │   │   └── forget-password/
 │   │   │       └── page.jsx              # [US-03] Password reset
 │   │   │
 │   │   ├── (dashboard)/
@@ -79,7 +79,7 @@ my-app/
 │   │   ├── auth/                         ✅ SPRINT 1
 │   │   │   ├── LoginForm.jsx             # [US-01] Email + password
 │   │   │   ├── GoogleOAuthButton.jsx     # [US-02] Google OAuth
-│   │   │   └── ForgotPasswordForm.jsx    # [US-03] Reset password
+│   │   │   └── forgetPasswordForm.jsx    # [US-03] Reset password
 │   │   │
 │   │   ├── attendance/                   🔒 SPRINT 3 (PWA)
 │   │   │   ├── SessionList.jsx           # [US-18] Today's sessions
@@ -153,7 +153,7 @@ my-app/
 ========================================================
 
   /login                    →  Admin + Teacher
-  /forgot-password          →  Admin + Teacher
+  /forget-password          →  Admin + Teacher
 
   /admin                    →  Administrator only
   /admin/users              →  Administrator only

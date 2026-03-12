@@ -25,9 +25,9 @@ export function RoleGuard({ children, allowedRoles }) {
     // Logged in but wrong role → redirect to their own dashboard
     if (!allowedRoles.includes(role)) {
       if (role === ROLES.ADMIN) {
-        router.push("/dashboard/admin");
+        router.push("/admin");
       } else if (role === ROLES.TEACHER) {
-        router.push("/dashboard/teacher");
+        router.push("/teacher");
       } else {
         router.push("/login");
       }

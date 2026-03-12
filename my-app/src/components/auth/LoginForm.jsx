@@ -12,14 +12,14 @@ import { useAuthStore } from "@/store/authStore";
 import { ROLE_ROUTES } from "@/lib/constants";
 
 export function LoginForm() {
-  const router   = useRouter();
-  const setAuth  = useAuthStore((state) => state.setAuth);
+  const router = useRouter();
+  const setAuth = useAuthStore((state) => state.setAuth);
 
   // ── Local State ──────────────────────────
-  const [email,    setEmail]    = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,    setError]    = useState("");
-  const [loading,  setLoading]  = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // ── Submit ───────────────────────────────
   const handleSubmit = async (e) => {
@@ -28,10 +28,10 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      const user = await login(email, password);
-        setAuth(user);                          // fill the store
-        console.log(user);
-      router.push(ROLE_ROUTES[user.role]);    // redirect by role
+      const data = await login(email, password);
+      setAuth(data); // fill the store
+      console.log(data);
+      router.push(ROLE_ROUTES[data.role]); // redirect by role
     } catch (err) {
       const status = err.response?.status;
 
@@ -82,18 +82,14 @@ export function LoginForm() {
         </div>
 
         {/* Error Message — US-09 */}
-        {error && (
-          <div className="error-message">
-            {error}
-          </div>
-        )}
+        {error && <div className="error-message">{error}</div>}
 
         <button type="submit" disabled={loading}>
           {loading ? "Connexion..." : "Se connecter"}
         </button>
       </form>
 
-      <a href="/forgot-password">Mot de passe oublié ?</a>
+      <a href="/forget-password">Mot de passe oublié ?</a>
     </div>
   );
 }

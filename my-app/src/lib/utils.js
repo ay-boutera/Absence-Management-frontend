@@ -3,7 +3,7 @@ export function formatDate(date) {
 }
 
 export function getRoleRedirect(role) {
-  if (role === "admin") return "/admin/users";
-  if (role === "enseignant") return "/dashboard";
+  if (role === "admin") return "/admin";
+  if (role === "teacher") return "/teacher";
   return "/login";
 }

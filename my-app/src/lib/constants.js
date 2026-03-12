@@ -40,8 +40,8 @@ export const TOKEN = {
 // ROLE-BASED REDIRECT ROUTES
 // ----------------------------
 export const ROLE_ROUTES = {
-  [ROLES.ADMIN]:   "/dashboard/admin",
-  [ROLES.TEACHER]: "/dashboard/teacher",
+  [ROLES.ADMIN]:   "/admin",
+  [ROLES.TEACHER]: "/teacher",
 };
 
 // ----------------------------
@@ -49,14 +49,14 @@ export const ROLE_ROUTES = {
 // token is handled by httpOnly cookie — never in localStorage
 // ----------------------------
 export const API_ENDPOINTS = {
-  LOGIN:                  "/api/v1/auth/login",
-  LOGOUT:                 "/api/v1/auth/logout",
-  REFRESH_TOKEN:          "/api/v1/auth/refresh",
-  RESET_PASSWORD:         "/api/v1/auth/reset-password",
-  RESET_PASSWORD_CONFIRM: "/api/v1/auth/reset-password/confirm",
-  CHANGE_PASSWORD:        "/api/v1/auth/change-password",
-  ME:                     "/api/v1/auth/me",
-  GOOGLE_AUTH:            "/api/v1/auth/google",
-  USERS:                  "/api/v1/users/",
-  USER_ME:                "/api/v1/users/me",
+  LOGIN:                  "/v1/auth/login",
+  LOGOUT:                 "/v1/auth/logout",
+  REFRESH_TOKEN:          "/v1/auth/refresh",
+  RESET_PASSWORD:         "/v1/auth/reset-password",
+  RESET_PASSWORD_CONFIRM: "/v1/auth/reset-password/confirm",
+  CHANGE_PASSWORD:        "/v1/auth/change-password",
+  ME:                     "/v1/auth/me",
+  GOOGLE_AUTH:            "/v1/auth/google",
+  USERS:                  "/v1/users/",
+  USER_ME:                "/v1/users/me",
 };

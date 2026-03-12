@@ -10,18 +10,18 @@ export const useAuthStore = create((set) => ({
 
   // Call this after successful login
   // token is handled by httpOnly cookie — never stored here
-  setAuth: (user) =>
+  setAuth: (data) =>
     set({
-      user,
-      role:            user.role,
+      user : data,
+      role:            data.role,
       isAuthenticated: true,
     }),
 
   // Call this to update user info only
-  setUser: (user) =>
+  setUser: (data) =>
     set({
-      user,
-      role: user.role,
+      user : { ...data },
+      role: data.role,
     }),
 
   // Call this on logout
