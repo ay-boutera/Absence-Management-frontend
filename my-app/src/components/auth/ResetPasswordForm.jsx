@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { resetPasswordConfirm } from "@/services/authService";
+import Image from "next/image";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams();
@@ -63,9 +64,25 @@ export function ResetPasswordForm() {
   };
 
   return (
-    <div className="reset-password-form">
-      <h2>Reset Password</h2>
-      <p>Enter your new password below.</p>
+    <div className="login-form px-20">
+       <a href="/login">
+              <Image 
+                className="pb-32"
+                src="/arrow-narrow-left.svg"
+                alt="Back"
+                width={32}
+                height={40}
+              />
+      </a>
+      <div>
+
+            <h2 className="text-[#143888] font-semibold text-4xl mb-4">
+              Reset Password
+            </h2>
+            <p className="text-[#00000035] text-xl">
+              Please enter your email. We will send you a code to reset your password.
+            </p>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div className="form-group">

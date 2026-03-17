@@ -1,519 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Digital";
+  src:
+    local("Digital"),
+    url("/fonts/Digital.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+*{
+  font-family: "Poppins", sans-serif;
+}
+
 /* Simple auth screen styling (Login + forget Password) */
-:root {
-  --auth-bg-0: #fff7ed;
-  --auth-bg-1: #ecfeff;
-  --auth-card: rgba(255, 255, 255, 0.86);
-  --auth-border: rgba(15, 23, 42, 0.12);
-  --auth-text: #0f172a;
-  --auth-muted: rgba(15, 23, 42, 0.68);
-  --auth-shadow: 0 18px 50px rgba(2, 6, 23, 0.12);
-  --auth-focus: rgba(14, 165, 233, 0.38);
-}
-
-.auth-layout {
-  min-height: 100svh;
+.auth-container {
+  padding-inline:4rem ;
+  padding-block: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(20px, 4vw, 44px);
-  background:
-    radial-gradient(900px 600px at 20% 15%, var(--auth-bg-1), transparent 60%),
-    radial-gradient(900px 600px at 80% 85%, var(--auth-bg-0), transparent 60%),
-    linear-gradient(180deg, #ffffff, #ffffff);
-  color: var(--auth-text);
+  gap:4rem;
+  min-height: 100vh;
+  background-color: #fff; 
 }
-
-.auth-layout > * {
-  width: min(420px, 100%);
-}
-
-.auth-stack {
-  width: min(420px, 100%);
+.login-img-container {
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  flex:1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  gap:2rem;
 }
-
-.login-form,
-.forget-password-form {
-  width: 100%;
-  border: 1px solid var(--auth-border);
-  border-radius: 16px;
-  padding: 22px;
-  background: var(--auth-card);
-  box-shadow: var(--auth-shadow);
-  backdrop-filter: blur(10px);
+.login-form{
+  height: 100%;
+  width: 400px;
+  flex:1;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-between;
+  gap:2rem;
 }
-
-.login-form h2,
-.forget-password-form h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-.forget-password-form p {
-  margin: 0 0 14px;
-  color: var(--auth-muted);
-  line-height: 1.35;
-}
-
 .form-group {
-  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
-
 .form-group label {
-  display: block;
-  margin: 0 0 6px;
-  font-size: 13px;
-  font-weight: 650;
-  color: var(--auth-muted);
+  font-weight: 500;
+  color: #143888;
+  font-size: 1.6rem;
+  font-family: "Poppins", sans-serif;
 }
-
 .form-group input {
-  width: 100%;
+  height: 4.5rem;
+  padding: 0.75rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.18);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 10px 12px;
-  outline: none;
-  transition:
-    box-shadow 160ms ease,
-    border-color 160ms ease,
-    background 160ms ease;
+  font-size: 1.2rem;
 }
-
-.form-group input::placeholder {
-  color: rgba(15, 23, 42, 0.42);
-}
-
 .form-group input:focus {
-  border-color: rgba(14, 165, 233, 0.6);
-  box-shadow: 0 0 0 4px var(--auth-focus);
-  background: #ffffff;
+  outline: none;
+  border-color: #143888;
+}
+.auth-helper{
+color: rgba(0, 0, 0, 0.60);
+font-size: 1rem;
+font-style: normal;
+font-weight: 300;
+line-height: normal;
+}
+.auth-helper-mail{
+text-decoration-line: underline;
+text-decoration-style: solid;
+text-decoration-skip-ink: none;
+text-decoration-thickness: auto;
+text-underline-offset: auto;
+text-underline-position: from-font;
 }
 
-.login-form button,
-.forget-password-form button,
-.google-oauth-button {
-  width: 100%;
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    transform 120ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease,
-    border-color 160ms ease,
-    opacity 160ms ease;
-}
 
-.login-form button,
-.forget-password-form button {
-  margin-top: 6px;
-  border: 1px solid rgba(15, 23, 42, 0.14);
-  background: linear-gradient(180deg, #0ea5e9, #0284c7);
-  color: #ffffff;
-  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.25);
-}
 
-.login-form button:hover,
-.forget-password-form button:hover {
-  transform: translateY(-1px);
-}
-
-.login-form button:disabled,
-.forget-password-form button:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.google-oauth-button {
-  border: 1px solid rgba(15, 23, 42, 0.16);
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--auth-text);
-  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.08);
-}
-
-.google-oauth-button:hover {
-  transform: translateY(-1px);
-}
-
-.auth-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgba(15, 23, 42, 0.55);
-  font-size: 12px;
-  font-weight: 650;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.auth-divider::before,
-.auth-divider::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: rgba(15, 23, 42, 0.14);
-}
-
-.error-message {
-  margin: 10px 0 0;
-  border-radius: 12px;
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  background: rgba(254, 226, 226, 0.8);
-  color: rgba(153, 27, 27, 0.95);
-  padding: 10px 12px;
-  font-size: 13px;
-}
-
-.success-message {
-  text-align: left;
-}
-
-.success-message p {
-  margin: 8px 0 0;
-}
-
-.forget-password-link,
-.auth-layout a {
-  display: inline-block;
-  margin-top: 12px;
-  color: rgba(2, 132, 199, 0.95);
-  text-decoration: none;
-  font-weight: 650;
-}
-
-.forget-password-link:hover,
-.auth-layout a:hover {
-  text-decoration: underline;
-}
-
-/* ============================================
-   Admin Dashboard Page Styles
-   ============================================ */
-
-.admin-page {
-  padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.page-header {
-  margin-bottom: 28px;
-}
-
-.page-header h1 {
-  font-size: 28px;
-  font-weight: 800;
-  color: #0f172a;
-  margin: 0 0 6px;
-  letter-spacing: -0.02em;
-}
-
-.page-header p {
-  color: #64748b;
-  font-size: 15px;
-  margin: 0;
-}
-
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-  margin-bottom: 32px;
-}
-
-.stat-card {
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 14px;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-}
-
-.stat-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.users-icon {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #2563eb;
-}
-
-.teachers-icon {
-  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-  color: #16a34a;
-}
-
-.absences-icon {
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  color: #d97706;
-}
-
-.pending-icon {
-  background: linear-gradient(135deg, #fce7f3, #fbcfe8);
-  color: #db2777;
-}
-
-.stat-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 800;
-  color: #0f172a;
-  line-height: 1.1;
-}
-
-.stat-label {
-  font-size: 13px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-/* Dashboard Section */
-.dashboard-section {
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-.dashboard-section h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 20px;
-}
-
-/* Activity List */
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.activity-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px;
-  background: #f8fafc;
-  border-radius: 10px;
-}
-
-.activity-time {
-  font-size: 12px;
-  color: #94a3b8;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.activity-text {
-  font-size: 14px;
-  color: #334155;
-}
-
-/* ============================================
-   Dashboard Layout Styles
-   ============================================ */
-
-.dashboard-layout {
-  display: flex;
-  min-height: 100vh;
-  background: #f1f5f9;
-}
-
-.dashboard-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin-left: 260px;
-  min-height: 100vh;
-}
-
-.dashboard-content {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-}
-
-/* ============================================
-   Sidebar Styles
-   ============================================ */
-
-.sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 260px;
-  background: #0f172a;
-  color: #f8fafc;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 100;
-}
-
-.sidebar-logo {
-  padding: 0 20px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.sidebar-logo span:first-child {
-  font-size: 24px;
-  font-weight: 900;
-  color: #0ea5e9;
-  letter-spacing: 0.02em;
-}
-
-.sidebar-logo span:last-child {
-  font-size: 11px;
-  color: #94a3b8;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-}
-
-.sidebar-nav {
-  flex: 1;
-  padding: 0 12px;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  color: #94a3b8;
-  text-decoration: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 160ms ease;
-  margin-bottom: 4px;
-}
-
-.sidebar-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #f8fafc;
-}
-
-.sidebar-link.active {
-  background: linear-gradient(135deg, #0ea5e9, #0284c7);
-  color: #fff;
-}
-
-.sidebar-link svg {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.sidebar-logout {
-  margin: 16px 20px;
-  padding: 12px 16px;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 10px;
-  background: transparent;
-  color: #fca5a5;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 160ms ease;
-}
-
-.sidebar-logout:hover {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: #ef4444;
-  color: #f87171;
-}
-
-/* ============================================
-   Navbar Styles
-   ============================================ */
-
-.navbar {
-  background: #fff;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 16px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.navbar-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-}
-
-.navbar-user {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.navbar-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #334155;
-}
-
-.navbar-role-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.badge-admin {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #2563eb;
-}
-
-.badge-teacher {
-  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-  color: #16a34a;
-}
