@@ -1,19 +1,22 @@
 /** @type {import('tailwindcss').Config} */
-const config = {
+export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./src/app/**/*.{js,jsx,ts,tsx}",
-    "./src/components/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#143888",
+        border: "#E3E8EF",
+        warning: "#F6C420",
+      },
       fontFamily: {
-        poppins: ["Poppins", "sans-serif"],
-        "digital-numbers": ["Digital", "monospace"],
+        inter: ["Inter", "sans-serif"],
+        digital: ["Digital", "monospace"],
       },
     },
   },
   plugins: [],
 };
-
-export default config;

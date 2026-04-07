@@ -58,5 +58,7 @@ export const API_ENDPOINTS = {
   ME:                     "/v1/auth/me",
   GOOGLE_AUTH:            "/v1/auth/google",
   USERS:                  "/v1/users/",
+  STUDENTS:                  "/v1/students/",
+  TEACHERS:                  "/v1/teachers/",
   USER_ME:                "/v1/users/me",
 };

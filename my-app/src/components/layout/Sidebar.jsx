@@ -147,8 +147,8 @@ const ADMIN_SECTIONS = [
     title: "Main",
     links: [
       { label: "Dashboard",  href: "/admin",           icon: "dashboard" },
-      { label: "Students",   href: "/admin/users/",  icon: "students" },
-      { label: "Teachers",   href: "/admin//users",  icon: "teachers" },
+      { label: "Students",   href: "/admin/students/",  icon: "students" },
+      { label: "Teachers",   href: "/admin//teachers",  icon: "teachers" },
       { label: "Lessons",    href: "/admin/lessons",   icon: "lessons" },
       { label: "Groups",     href: "/admin/groups",    icon: "groups" },
       { label: "Users",      href: "/admin/users",     icon: "users" },
