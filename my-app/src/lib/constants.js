@@ -16,6 +16,7 @@ export const CONFIG = {
 export const ROLES = {
   ADMIN:   "admin",
   TEACHER: "teacher",
+  STUDENT: "student",
 };
 
 // ----------------------------

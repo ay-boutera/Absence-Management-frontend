@@ -6,6 +6,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 import { getAllUsers, createUser, disableUser } from "@/services/userService";
 import { ROLES, STATUSES } from "@/lib/constants";
@@ -13,6 +14,8 @@ import DataTable from "@/components/shared/DataTable";
 import StatusBadge from "@/components/shared/StatusBadge";
 
 export default function UsersPage() {
+  const searchParams = useSearchParams();
+
   // ── State ─────────────────────────────────────
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,9 +26,42 @@ export default function UsersPage() {
     password: "",
     first_name: "",
     last_name: "",
-    role: ROLES.TEACHER,
+    role: ROLES.TEACHER
   });
   const [submitting, setSubmitting] = useState(false);
+
+  const activeView = searchParams.get("view") || "all";
+
+  const headerCopy = {
+    all: {
+      title: "Users Management",
+      description: "Manage system users and their roles",
+    },
+    teachers: {
+      title: "Teachers Management",
+      description: "Manage teacher accounts",
+    },
+    students: {
+      title: "Students Management",
+      description: "Manage student accounts",
+    },
+  };
+
+  const currentHeader = headerCopy[activeView] || headerCopy.all;
+
+  const filteredUsers = users.filter((user) => {
+    const normalizedRole = String(user.role || "").toLowerCase();
+
+    if (activeView === "teachers") {
+      return normalizedRole === ROLES.TEACHER;
+    }
+
+    if (activeView === "students") {
+      return normalizedRole === "student";
+    }
+
+    return true;
+  });
 
   // ── Fetch Users ───────────────────────────────
   const fetchUsers = async () => {
@@ -94,8 +130,8 @@ export default function UsersPage() {
           }}
         >
           <div>
-            <h1>Users Management</h1>
-            <p>Manage system users and their roles</p>
+            <h1>{currentHeader.title}</h1>
+            <p>{currentHeader.description}</p>
           </div>
           <button className="add-user-btn" onClick={() => setShowModal(true)}>
             + Add User
@@ -126,13 +162,20 @@ export default function UsersPage() {
               { Header: "Actions", accessor: "actions" },
             ]}
             data={
-              users.length === 0
+              filteredUsers.length === 0
                 ? []
-                : users.map((user) => ({
+                : filteredUsers.map((user) => ({
                     id: user.id,
                     name: `${user.first_name} ${user.last_name}`,
                     email: user.email,
-                    role: user.role === ROLES.ADMIN ? "Admin" : "Teacher",
+                    role:
+                      user.role === ROLES.ADMIN
+                        ? "Admin"
+                        : user.role === ROLES.TEACHER
+                          ? "Teacher"
+                          : user.role === "student"
+                            ? "Student"
+                            : user.role,
                     status: (
                       <StatusBadge
                         status={user.is_active ? "active" : "disabled"}
@@ -225,6 +268,7 @@ export default function UsersPage() {
                 >
                   <option value={ROLES.TEACHER}>Teacher</option>
                   <option value={ROLES.ADMIN}>Admin</option>
+                  <option value={ROLES.STUDENT}>Student</option>
                 </select>
               </div>
               <div className="modal-actions">

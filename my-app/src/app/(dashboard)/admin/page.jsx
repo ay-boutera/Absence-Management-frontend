@@ -66,16 +66,16 @@ const MONTHLY_DATA = [
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function AdminPage() {
   return (
-    <div className="dashboard-page">
+    <div className="main-page">
 
       {/* ── Header row ── */}
-      <div className="dashboard-header">
-        <div className="dashboard-header-text">
+      <div className="main-header">
+        <div className="main-header-text">
           <h2 className="main-title">Dashboard</h2>
-          <p className="dashboard-subtitle">View ESI attendance statistics</p>
+          <p className="main-subtitle">View ESI attendance statistics</p>
         </div>
 
-        <button className="dashboard-export-btn">
+        <button className="main-export-btn">
           Export
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path

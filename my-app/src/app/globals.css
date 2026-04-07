@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
+/* ── Custom fonts ─────────────────────────── */
 @font-face {
   font-family: "Digital";
   src:
@@ -11,74 +12,73 @@
   font-style: normal;
 }
 
+/* ── Base ─────────────────────────────────── */
 * {
   font-family: "Poppins", sans-serif;
 }
-.font-digital {
-  font-family: "Digital", sans-serif;
-}
-button{
+
+button {
   cursor: pointer;
 }
 
-/* ─────────────────────────────────────────
-   AUTH LAYOUT
+.font-digital {
+  font-family: "Digital", sans-serif;
+}
+
+/* ============================================
+   AUTH
    Shared by: Login, ForgetPassword, ResetPassword
-───────────────────────────────────────── */
+   ============================================ */
+
 .auth-container {
-  padding-inline: 4rem;
-  padding-block: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4rem;
   min-height: 100vh;
+  padding-inline: 4rem;
+  padding-block: 2rem;
   background-color: #fff;
 }
 
 .login-img-container {
-  background-color: #f8f8f8;
-  border-radius: 12px;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3rem;
+  flex: 1;
+  background-color: #f8f8f8;
+  border-radius: 12px;
 }
 
 .login-form {
-  height: 100%;
-  width: 400px;
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 2rem;
+  height: 100%;
+  width: 400px;
+  flex: 1;
 }
 
-/* ─────────────────────────────────────────
-   AUTH HEADER  (title + subtitle)
-   Replaces repeated inline Tailwind classes
-───────────────────────────────────────── */
+/* ── Auth header ── */
 .auth-title {
-  color: #143888;
+  font-size: 2.5rem;
   font-weight: 600;
-  font-size: 2.5rem; /* ~text-4xl */
-  margin-bottom: 0.75rem;
+  color: #143888;
   line-height: 1.2;
+  margin-bottom: 0.75rem;
 }
 
 .auth-subtitle {
-  color: rgba(0, 0, 0, 0.2);
-  font-size: 1.25rem; /* ~text-xl */
+  font-size: 1.25rem;
   font-weight: 400;
+  color: rgba(0, 0, 0, 0.2);
   line-height: 1.5;
 }
 
-/* ─────────────────────────────────────────
-   BACK LINK  (arrow icon + href /login)
-───────────────────────────────────────── */
+/* ── Back link ── */
 .auth-back {
   display: inline-flex;
   align-items: center;
@@ -86,13 +86,12 @@ button{
   opacity: 0.7;
   transition: opacity 0.2s;
 }
+
 .auth-back:hover {
   opacity: 1;
 }
 
-/* ─────────────────────────────────────────
-   FORM GROUPS  (label + input pairs)
-───────────────────────────────────────── */
+/* ── Form groups ── */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -100,10 +99,9 @@ button{
 }
 
 .form-group label {
+  font-size: 1.6rem;
   font-weight: 500;
   color: #143888;
-  font-size: 1.6rem;
-  font-family: "Poppins", sans-serif;
 }
 
 .form-group input {
@@ -127,23 +125,17 @@ button{
   cursor: not-allowed;
 }
 
-/* ─────────────────────────────────────────
-   PRIMARY BUTTON
-   Replaces repeated: w-full mt-6 h-16 bg-[#143888]
-   hover:bg-[#072256] text-white font-semibold
-   text-xl rounded-xl transition
-───────────────────────────────────────── */
+/* ── Primary button ── */
 .btn-primary {
   width: 100%;
   height: 4rem;
   margin-top: 1.5rem;
   background-color: #143888;
   color: #fff;
-  font-weight: 600;
   font-size: 1.1rem;
+  font-weight: 600;
   border: none;
   border-radius: 12px;
-  cursor: pointer;
   transition:
     background-color 0.2s,
     opacity 0.2s;
@@ -158,15 +150,13 @@ button{
   cursor: not-allowed;
 }
 
-/* ─────────────────────────────────────────
-   OR DIVIDER  (Login page)
-───────────────────────────────────────── */
+/* ── OR divider ── */
 .auth-divider {
   display: flex;
   align-items: center;
-  color: rgba(0, 0, 0, 0.2);
   gap: 0.75rem;
   font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .auth-divider hr {
@@ -175,9 +165,7 @@ button{
   border-top: 1px solid #e5e7eb;
 }
 
-/* ─────────────────────────────────────────
-   GOOGLE OAUTH BUTTON
-───────────────────────────────────────── */
+/* ── Google OAuth button ── */
 .btn-google {
   display: flex;
   align-items: center;
@@ -188,9 +176,8 @@ button{
   background-color: #f9f9f9;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
   font-size: 1rem;
+  font-weight: 600;
   color: #374151;
   transition: background-color 0.2s;
 }
@@ -199,9 +186,7 @@ button{
   background-color: #e5e7eb;
 }
 
-/* ─────────────────────────────────────────
-   REMEMBER ME + FORGOT PASSWORD ROW
-───────────────────────────────────────── */
+/* ── Remember me + forgot password row ── */
 .auth-row {
   display: flex;
   justify-content: space-between;
@@ -213,8 +198,8 @@ button{
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: hsl(0, 0%, 53%);
   font-size: 1.25rem;
+  color: hsl(0, 0%, 53%);
   cursor: pointer;
 }
 
@@ -226,8 +211,8 @@ button{
 }
 
 .auth-forgot {
-  color: #143888;
   font-size: 1.25rem;
+  color: #143888;
   text-decoration: none;
   transition: opacity 0.2s;
 }
@@ -236,32 +221,19 @@ button{
   opacity: 0.75;
 }
 
-/* ─────────────────────────────────────────
-   ERROR & SUCCESS MESSAGES
-───────────────────────────────────────── */
+/* ── Error & success messages ── */
 .error-message {
   margin-top: 0.5rem;
   padding: 0.75rem 1rem;
   background-color: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: 10px;
-  color: #dc2626;
   font-size: 0.95rem;
+  color: #dc2626;
   line-height: 1.4;
 }
 
-
-
-.success-card h2 {
-  color: #143888;
-  font-weight: 600;
-  font-size: 2rem;
-}
-
-
-/* ─────────────────────────────────────────
-   INVALID LINK CARD  (ResetPassword — no token)
-───────────────────────────────────────── */
+/* ── Invalid link card ── */
 .invalid-link-card {
   display: flex;
   flex-direction: column;
@@ -274,29 +246,27 @@ button{
 }
 
 .invalid-link-card h2 {
-  color: #dc2626;
-  font-weight: 600;
   font-size: 1.5rem;
+  font-weight: 600;
+  color: #dc2626;
 }
 
 .invalid-link-card p {
-  color: rgba(0, 0, 0, 0.55);
   font-size: 1rem;
+  color: rgba(0, 0, 0, 0.55);
 }
 
 .invalid-link-card a {
-  color: #143888;
   font-weight: 500;
+  color: #143888;
   text-decoration: underline;
 }
 
-/* ─────────────────────────────────────────
-   FOOTER HELPER TEXT  (contact admin)
-───────────────────────────────────────── */
+/* ── Footer helper text ── */
 .auth-helper {
-  color: rgba(0, 0, 0, 0.6);
   font-size: 1rem;
   font-weight: 300;
+  color: rgba(0, 0, 0, 0.6);
   line-height: 1.6;
 }
 
@@ -307,71 +277,7 @@ button{
 }
 
 /* ============================================
-   Admin Dashboard Page Styles
-   ============================================ */
-.dashboard-page {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  padding: 24px;
-  width: 100%;
-}
- 
-/* ── Header row ───────────────────────────── */
-.dashboard-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
- 
-.dashboard-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
- 
-.main-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  color: #16151c;
-  margin: 0;
-  line-height: 1.2;
-}
- 
-.dashboard-subtitle {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #4a5567;
-  margin: 0;
-}
- 
-/* ── Export button ────────────────────────── */
-.dashboard-export-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 40px;
-  padding: 0 20px;
-  background: #143888;
-  color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.15s ease;
-}
- 
-.dashboard-export-btn:hover {
-  background: #0f2d6e;
-}
-/* ============================================
-   Dashboard Layout Styles
+   DASHBOARD LAYOUT
    ============================================ */
 
 .dashboard-layout {
@@ -381,9 +287,9 @@ button{
 }
 
 .dashboard-main {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  flex: 1;
   min-height: 100vh;
 }
 
@@ -392,36 +298,101 @@ button{
   padding: 1rem;
   overflow-y: auto;
 }
-.main-title{
-  font-size:2.5rem;
+
+/* ============================================
+   DASHBOARD PAGE
+   ============================================ */
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  width: 100%;
+}
+
+.main-header,
+.stats-card-top,
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── Header row ── */
+.main-header {
+  align-items: center;
+  gap: 16px;
+}
+
+.main-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.main-title {
+  font-size: 2rem;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
-  color:#143888
+  color: #143888;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.main-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4a5567;
+  margin: 0;
+}
+
+/* ── Export button ── */
+.main-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 20px;
+  background: #143888;
+  color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.main-export-btn:hover {
+  background: #0f2d6e;
 }
 
 /* ============================================
-   AMS — ESI Sidi Bel Abbès
-   styles/stats-card.css
+   STATS CARDS
    ============================================ */
 
-/* ── Card shell ───────────────────────────── */
+.stats-cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  width: 100%;
+}
+
 .stats-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
+  min-width: 180px;
   height: 12rem;
-  flex: 1;               /* fills the 4-column grid equally        */
-  min-width: 180px;      /* prevents cards from getting too narrow */
   padding: 12px 20px;
   background: #ffffff;
   border: 1px solid #e3e8ef;
   border-radius: 10px;
 }
 
-/* ── Top row: icon badge + label ──────────── */
 .stats-card-top {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
 }
 
@@ -436,16 +407,14 @@ button{
 }
 
 .stats-card-label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-size: 1rem;
-  line-height: 20px;
+  font-weight: 400;
   color: rgba(0, 0, 0, 0.6);
+  line-height: 20px;
   text-align: right;
-  max-width: 80px;      /* lets long labels wrap like in Figma */
+  max-width: 80px;
 }
 
-/* ── Body: title + value ──────────────────── */
 .stats-card-body {
   display: flex;
   flex-direction: column;
@@ -454,105 +423,25 @@ button{
 }
 
 .stats-card-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-size: 1.2rem;
-  line-height: 20px;
+  font-weight: 400;
   color: #000000;
+  line-height: 20px;
   margin: 0;
 }
 
 .stats-card-value {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
   font-size: 1.6rem;
-  line-height: 40px;
+  font-weight: 600;
   color: #000000;
+  line-height: 40px;
   margin: 0;
-}
-
-/* ── Grid wrapper (use this in your page) ─── */
-.stats-cards-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  width: 100%;
 }
 
 /* ============================================
-   AMS — ESI Sidi Bel Abbès
-   styles/charts.css
+   CHARTS
    ============================================ */
 
-/* ── Card shell (shared by both charts) ──── */
-.chart-card {
-  display: flex;
-  flex-direction: column;
-  gap: 17px;
-  padding: 22px 27px;
-  background: #ffffff;
-  border: 1px solid #e3e8ef;
-  border-radius: 10px;
-  flex: 1;
-  min-width: 0;       /* prevents flex children from overflowing */
-}
-
-/* ── Header row ───────────────────────────── */
-.chart-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.chart-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 16px;
-  color: #000000;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.chart-year {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 11px;
-  color: #6f6f6f;
-  letter-spacing: 0.22px;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-/* ── Tooltip ──────────────────────────────── */
-.chart-tooltip {
-  background: #ffffff;
-  border: 1px solid #e3e8ef;
-  border-radius: 8px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.chart-tooltip-label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 12px;
-  color: #6f6f6f;
-  margin: 0 0 2px;
-}
-
-.chart-tooltip-value {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  color: #143888;
-  margin: 0;
-}
-
-/* ── Charts grid wrapper (use in your page) ── */
 .charts-grid {
   display: flex;
   gap: 25px;
@@ -564,29 +453,82 @@ button{
     flex-direction: column;
   }
 }
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  flex: 1;
+  min-width: 0;
+  padding: 22px 27px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 10px;
+}
+
+.chart-header {
+  align-items: baseline;
+  width: 100%;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.chart-year {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6f6f6f;
+  letter-spacing: 0.22px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.chart-tooltip {
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chart-tooltip-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6f6f6f;
+  margin: 0 0 2px;
+}
+
+.chart-tooltip-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #143888;
+  margin: 0;
+}
+
 /* ============================================
-   Sidebar Styles
-   ============================================ */
-/* ============================================
-   AMS — ESI Sidi Bel Abbès
-   styles/sidebar.css  (or global.css / layout.css)
+   SIDEBAR
    ============================================ */
 
-/* ── Shell ────────────────────────────────── */
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 18rem;
+  width: 22rem;
   min-height: 100vh;
+  padding: 2rem 2.5rem;
   background: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 2rem 2.5rem;
-  gap: 0;
   position: sticky;
   top: 0;
 }
 
-/* ── Nav ──────────────────────────────────── */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -594,7 +536,6 @@ button{
   flex: 1;
   overflow-y: auto;
   padding-bottom: 1rem;
-  /* hide scrollbar but keep scroll */
   scrollbar-width: none;
 }
 
@@ -602,7 +543,6 @@ button{
   display: none;
 }
 
-/* ── Section ──────────────────────────────── */
 .sidebar-section {
   display: flex;
   flex-direction: column;
@@ -610,32 +550,34 @@ button{
 }
 
 .sidebar-section-title {
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
   font-size: 12px;
+  font-weight: 500;
   color: #a0aec0;
   text-transform: uppercase;
-  margin: 0 0 4px 4px;
   line-height: 1;
+  margin: 0 0 4px 4px;
 }
 
-/* ── Link ─────────────────────────────────── */
-.sidebar-link {
+.sidebar-link,
+.sidebar-logout {
   display: flex;
   align-items: center;
   gap: 12px;
   height: 40px;
   padding: 0 10px;
+  width: 100%;
+  border: 1px solid transparent;
   border-radius: 8px;
-  text-decoration: none;
+}
+
+.sidebar-link {
   color: #4a5568;
+  text-decoration: none;
+  cursor: pointer;
   transition:
     background 0.15s ease,
     color 0.15s ease,
     border-color 0.15s ease;
-  border: 1px solid transparent;
-  cursor: pointer;
-  width: 100%;
 }
 
 .sidebar-link:hover {
@@ -661,9 +603,8 @@ button{
 
 .sidebar-link-label {
   flex: 1;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
   font-size: 1.1rem;
+  font-weight: 400;
   line-height: 20px;
   color: inherit;
   white-space: nowrap;
@@ -688,35 +629,25 @@ button{
   color: #143888;
 }
 
-/* ── Bottom links (Help) ──────────────────── */
 .sidebar-bottom-links {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding-top: 8px;
-  border-top: 1px solid #f0f4f8;
-  margin-top: 4px;
   flex-shrink: 0;
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px solid #f0f4f8;
 }
 
-/* ── Logout ───────────────────────────────── */
 .sidebar-logout {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 40px;
-  padding: 0 10px;
-  border-radius: 8px;
-  border: 1px solid transparent;
+  margin-top: 8px;
+  flex-shrink: 0;
   background: transparent;
-  cursor: pointer;
-  width: 100%;
   color: #e53e3e;
+  cursor: pointer;
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
-  margin-top: 8px;
-  flex-shrink: 0;
 }
 
 .sidebar-logout:hover {
@@ -725,25 +656,19 @@ button{
 }
 
 .sidebar-logout .sidebar-link-label {
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
   color: #e53e3e;
 }
 
 .sidebar-logout .sidebar-link-icon {
   color: #e53e3e;
 }
-/* ============================================
-   Navbar Styles
-   ============================================ */
 
 /* ============================================
-   AMS — ESI Sidi Bel Abbès
-   styles/navbar.css
+   NAVBAR
    ============================================ */
 
-/* ── Shell ────────────────────────────────── */
 .navbar {
   display: flex;
   align-items: center;
@@ -756,20 +681,18 @@ button{
   gap: 16px;
 }
 
-/* ── Left side ────────────────────────────── */
 .navbar-left {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Search bar */
 .navbar-search {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 32rem;
-  height: 3rem;
+  height: 2.5rem;
   padding: 0 16px;
   background: #f7f7f7;
   border: 1px solid #e6ebf0;
@@ -784,41 +707,36 @@ button{
 
 .navbar-search-input {
   flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   outline: none;
-  font-family: "Inter", sans-serif;
+  font-size: 1rem;
   font-weight: 400;
-  font-size: 1.2rem;
   color: #16151c;
-  min-width: 0;
 }
 
 .navbar-search-input::placeholder {
   color: #6b7280;
 }
- 
 
-/* Notification bell */
 .navbar-notification {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
-  border: none;
   background: transparent;
+  border: none;
   border-radius: 10px;
-  cursor: pointer;
   transition: background 0.15s ease;
-  flex-shrink: 0;
 }
 
 .navbar-notification:hover {
   background: #f8faff;
 }
 
-/* ── Right side ───────────────────────────── */
 .navbar-user {
   display: flex;
   align-items: center;
@@ -829,38 +747,379 @@ button{
 .navbar-user-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
   align-items: flex-start;
+  gap: 5px;
   white-space: nowrap;
 }
 
 .navbar-name {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
   font-size: 16px;
+  font-weight: 600;
   color: #16151c;
   line-height: 1;
 }
 
 .navbar-role {
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
   font-size: 13px;
+  font-weight: 400;
   color: #a2a1a8;
   line-height: 1;
 }
 
-/* Avatar */
 .navbar-avatar {
-  border-radius: 8px;
-  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: 14px;
   flex-shrink: 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
   letter-spacing: 0.5px;
   user-select: none;
 }
+
+/* ============================================
+   UNAUTHORIZED PAGE
+   ============================================ */
+
+.unauthorized-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.unauthorized-card {
+  width: 100%;
+  max-width: 34rem;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 16px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.unauthorized-eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e53e3e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.unauthorized-title {
+  margin: 0.6rem 0 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #143888;
+  line-height: 1.2;
+}
+
+.unauthorized-subtitle {
+  margin: 0.8rem auto 0;
+  max-width: 28rem;
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.unauthorized-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.unauthorized-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9rem;
+  height: 2.8rem;
+  padding: 0 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.unauthorized-btn-primary {
+  background: #143888;
+  color: #ffffff;
+  border: 1px solid #143888;
+}
+
+.unauthorized-btn-primary:hover {
+  background: #0f2d6e;
+  border-color: #0f2d6e;
+}
+
+.unauthorized-btn-secondary {
+  background: #ffffff;
+  color: #4a5568;
+  border: 1px solid #d7deea;
+}
+
+.unauthorized-btn-secondary:hover {
+  background: #f8faff;
+  color: #143888;
+  border-color: #cdd8ea;
+}
+
+/* ============================================
+   SESSION CARD  — Figma node 292:4693
+   ============================================ */
+
+/* ── Card shell ── */
+.session-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Header ── */
+.session-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  background: #ffffff;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.session-card__header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.session-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+  line-height: 1;
+  letter-spacing: -0.07px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.session-card__type {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4a5567;
+  line-height: 1;
+  letter-spacing: -0.06px;
+}
+
+.session-card__dots-btn,
+.sc-overlay__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #4a5568;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ── Dots button ── */
+.session-card__dots-btn {
+  flex-shrink: 0;
+}
+
+.session-card__dots-btn:hover {
+  background: #f8faff;
+}
+
+/* ── Meta section ── */
+.session-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.session-card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4a5567;
+  line-height: 1.4;
+  letter-spacing: -0.07px;
+  white-space: nowrap;
+}
+
+.session-card__meta-group strong {
+  color: #030712;
+  font-weight: 400;
+}
+
+/* ── Footer ── */
+.session-card__footer {
+  padding: 14px;
+}
+
+/* ── Start session button ── */
+.session-card__start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: #f8faff;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  letter-spacing: -0.07px;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.session-card__start-btn:hover {
+  background: #eef3ff;
+  border-color: #c5d0e0;
+}
+
+/* ── Overlay (backdrop-blur dropdown) — node 346:14419 ── */
+.sc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  backdrop-filter: blur(3px);
+  background: rgba(175, 175, 175, 0.14);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-overlay__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.sc-overlay__close:hover {
+  background: #f8faff;
+  color: #143888;
+}
+
+.sc-overlay__menu {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: sc-popIn 0.15s ease;
+}
+
+@keyframes sc-popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sc-overlay__divider {
+  border: none;
+  border-top: 1px solid #e3e8ef;
+  margin: 0;
+}
+
+.sc-overlay__item {
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.06px;
+  line-height: 1.4;
+  transition: opacity 0.15s;
+}
+
+.sc-overlay__item:hover {
+  opacity: 0.75;
+}
+
+.sc-overlay__item--blue {
+  color: #143888;
+}
+
+.sc-overlay__item--red {
+  color: #d62525;
+}
+
+/* ============================================
+   SESSIONS PAGE  —
+   ============================================ */
+
+/* ── Cards grid ── */
+.sessions-page__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.sessions-page__grid > .session-card {
+  flex: 1 0 calc(33.333% - 22px);
+  min-width: 260px;
+  max-width: calc(33.333% - 15px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .sessions-page__grid > .session-card {
+    flex: 1 0 calc(50% - 22px);
+    max-width: calc(50% - 11px);
+  }
+}
+
+@media (max-width: 600px) {
+  .sessions-page {
+    padding: 24px 16px;
+  }
+
+  .sessions-page__grid > .session-card {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}
+

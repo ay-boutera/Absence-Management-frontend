@@ -7,13 +7,23 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { ROLES } from "@/lib/constants";
 
 export function RoleGuard({ children, allowedRoles }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { role, isAuthenticated, isAuthLoading } = useAuthStore();
+
+  const normalizedRole = typeof role === "string" ? role.toLowerCase() : null;
+
+  const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isTeacherPath =
+    pathname === "/teacher" || pathname.startsWith("/teacher/");
+  const hasPathRoleMismatch =
+    (isAdminPath && normalizedRole !== ROLES.ADMIN) ||
+    (isTeacherPath && normalizedRole !== ROLES.TEACHER);
 
   useEffect(() => {
     if (isAuthLoading) return;
@@ -21,30 +31,52 @@ export function RoleGuard({ children, allowedRoles }) {
       "[RoleGuard] isAuthenticated:",
       isAuthenticated,
       "role:",
-      role,
+      normalizedRole,
       "allowedRoles:",
       allowedRoles,
+      "pathname:",
+      pathname,
     );
+
     // Not logged in → redirect to login
     if (!isAuthenticated) {
-      router.push("/login");
+      router.replace("/login");
+      return;
+    }
+
+    // Logged in but trying to access another role's route
+    if (hasPathRoleMismatch) {
+      router.replace("/unauthorized");
       return;
     }
 
     // Logged in but wrong role → redirect to their own dashboard
-    if (!allowedRoles.includes(role)) {
-      if (role === ROLES.ADMIN) {
-        router.push("/admin");
-      } else if (role === ROLES.TEACHER) {
-        router.push("/teacher");
+    if (!allowedRoles.includes(normalizedRole)) {
+      if (normalizedRole === ROLES.ADMIN) {
+        router.replace("/admin");
+      } else if (normalizedRole === ROLES.TEACHER) {
+        router.replace("/teacher");
       } else {
-        router.push("/login");
+        router.replace("/login");
       }
     }
-  }, [isAuthenticated, role, allowedRoles, router, isAuthLoading]);
+  }, [
+    isAuthenticated,
+    normalizedRole,
+    allowedRoles,
+    router,
+    isAuthLoading,
+    pathname,
+    hasPathRoleMismatch,
+  ]);
 
   // While checking auth → show nothing
-  if (isAuthLoading || !isAuthenticated || !allowedRoles.includes(role)) {
+  if (
+    isAuthLoading ||
+    !isAuthenticated ||
+    hasPathRoleMismatch ||
+    !allowedRoles.includes(normalizedRole)
+  ) {
     return null;
   }
 
