@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect , useMemo} from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { ROLES, STATUSES } from "@/lib/constants";
 import { getAllStudents } from "@/services/studentService";
@@ -145,7 +145,7 @@ function StatusBadge({ status }) {
 }
 function Avatar({ student }) {
   const [bg, fg] = getAvatarColors(student.id);
-  const initials = `${student.prenom[0]}${student.nom[0]}`.toUpperCase();
+  const initials = `${student.first_name[0]}${student.last_name[0]}`.toUpperCase();
   return (
     <div
       style={{
@@ -371,10 +371,6 @@ function Pagination({ page, totalPages, onPage }) {
   );
 }
 
-
-
-
-
 export default function StudentsPage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -382,60 +378,61 @@ export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  //   t3 csv 
-const [csvFile, setCsvFile] = useState(null);
-const handleFileChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setCsvFile(file);
-  }
-};
-
-const handleUploadCSV = async () => {
-  if (!csvFile) return;
-
-  setLoading(true);
-
-  try {
-    const formData = new FormData();
-    formData.append("file", csvFile);
-
-    const res = await fetch("http://localhost:8000/api/v1/import/students", {
-      method: "POST",
-      credentials: "include",
-      body: formData,
-    });
-
-    const data = await res.json().catch(() => null);
-
-    if (!res.ok) {
-      throw new Error(data?.detail || "Upload failed");
+  //   t3 csv
+  const [csvFile, setCsvFile] = useState(null);
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCsvFile(file);
     }
+  };
 
-    alert("CSV uploaded successfully");
-    fetchStudents();
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  } finally {
-    setLoading(false);
-  }
-};
-  //   t3 csv 
+  const handleUploadCSV = async () => {
+    if (!csvFile) return;
+
+    setLoading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", csvFile);
+
+      const res = await fetch("http://localhost:8000/api/v1/import/students", {
+        method: "POST",
+        credentials: "include",
+        body: formData,
+      });
+       console.log("these are the result" , res)
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(data?.detail || "Upload failed");
+      }
+
+      alert("CSV uploaded successfully");
+      fetchStudents();
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  //   t3 csv
 
   const filtered = useMemo(() => {
-  if (!search) return MOCK_STUDENTS;
+    if (!search) return students;
+    console.log("these are the students" , students)
 
-  const q = search.toLowerCase();
+    const q = search.toLowerCase();
 
-
-  return students.filter(
-    (s) =>
-      `${s.prenom} ${s.nom}`.toLowerCase().includes(q) ||
-      s.matricule.includes(q) ||
-      s.email.toLowerCase().includes(q)
-  );
-}, [search, students]);
+    return students.filter(
+      (s) =>
+        `${s.prenom} ${s.nom}`.toLowerCase().includes(q) ||
+        s.matricule.includes(q) ||
+        s.email.toLowerCase().includes(q),
+    );
+  }, [search, students]);
 
   const thStyle = {
     padding: "0 16px",
@@ -448,22 +445,22 @@ const handleUploadCSV = async () => {
   };
 
   const fetchStudents = async () => {
-  try {
-    setLoading(true);
-    const data = await getAllStudents();
-    setStudents(data);
-    setError("");
-  } catch (err) {
-    setError("Failed to load students");
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      const data = await getAllStudents();
+      setStudents(data);
+      setError("");
+    } catch (err) {
+      setError("Failed to load students");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-useEffect(() => {
-  fetchStudents();
-}, []);
+  useEffect(() => {
+    fetchStudents();
+  }, []);
 
   return (
     <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -541,50 +538,50 @@ useEffect(() => {
               <ImportIcon />
             </button> */}
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-  <input
-    type="file"
-    accept=".csv"
-    id="csvUpload"
-    style={{ display: "none" }}
-    onChange={handleFileChange}
-  />
+              <input
+                type="file"
+                accept=".csv"
+                id="csvUpload"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
 
-  <label
-    htmlFor="csvUpload"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      gap: 10,
-      padding: "6px 14px",
-      height: 36,
-      border: `0.5px solid rgba(0,0,0,0.08)`,
-      borderRadius: 8,
-      background: T.blue2,
-      cursor: "pointer",
-      fontSize: 14,
-      color: "#fff",
-    }}
-  >
-    Select CSV
-    <ImportIcon />
-  </label>
+              <label
+                htmlFor="csvUpload"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  padding: "6px 14px",
+                  height: 36,
+                  border: `0.5px solid rgba(0,0,0,0.08)`,
+                  borderRadius: 8,
+                  background: T.blue2,
+                  cursor: "pointer",
+                  fontSize: 14,
+                  color: "#fff",
+                }}
+              >
+                Select CSV
+                <ImportIcon />
+              </label>
 
-  <button
-    onClick={handleUploadCSV}
-    style={{
-      padding: "6px 14px",
-      height: 36,
-      borderRadius: 8,
-      background: "#16a34a",
-      color: "#fff",
-      border: "none",
-      cursor: "pointer",
-      fontSize: 14,
-    }}
-  >
-    Upload
-  </button>
-</div>
+              <button
+                onClick={handleUploadCSV}
+                style={{
+                  padding: "6px 14px",
+                  height: 36,
+                  borderRadius: 8,
+                  background: "#16a34a",
+                  color: "#fff",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: 14,
+                }}
+              >
+                Upload
+              </button>
+            </div>
           </div>
         </div>
 
