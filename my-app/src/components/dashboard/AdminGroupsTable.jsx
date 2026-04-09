@@ -218,9 +218,9 @@ function GroupCard({ group }) {
       </div>
 
       <div className="admin-groups-card__stats">
-        <span>{group.studentCount ?? "—"} student</span>
-        <span>{group.sectionCount ?? 1} section</span>
-        <span>{group.groupCount ?? "—"} group</span>
+       <p> <span className="text-md font-semibold ">{group.studentCount ?? "—"} </span> students</p>
+       <p><span className="text-md font-semibold ">{group.sectionCount ?? 1} </span>section </p> 
+      <p><span className="text-md font-semibold">{group.groupCount ?? "—"} </span>group</p>  
       </div>
 
       <div className="admin-groups-card__chips">

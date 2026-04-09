@@ -63,4 +63,7 @@ export const API_ENDPOINTS = {
   ADMINS: "/v1/accounts/admins/",
   ACOUNTS: "/v1/accounts/",
   USER_ME: "/v1/accounts/me",
+  IMPORT_STUDENTS: "/v1/import/students",
+  IMPORT_TEACHERS: "/v1/import/teachers",
+  IMPORT_SESSIONS: "/v1/import/sessions",
 };

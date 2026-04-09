@@ -165,7 +165,7 @@ export function StatusBadge({ status }) {
 export function YearBadge({ value, className = "", style }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border border-[#dbe3ff] bg-[#eef3ff] px-2 py-0.5 text-[11px] font-medium text-[#143888] ${className}`.trim()}
+      className={`inline-flex items-center rounded-md border border-[#dbe3ff] bg-[#eef3ff] px-2 py-0.5 text-[14px] font-medium text-[#143888] ${className}`.trim()}
       style={style}
     >
       {value || "—"}
