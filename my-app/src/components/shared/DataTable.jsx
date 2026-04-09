@@ -115,8 +115,7 @@ export default function DataTable({
   const totalPages = hasPagination
     ? Math.max(1, Math.ceil(totalCount / pageSize))
     : 1;
-  const from =
-    hasPagination && totalCount > 0 ? (page - 1) * pageSize + 1 : 0;
+  const from = hasPagination && totalCount > 0 ? (page - 1) * pageSize + 1 : 0;
   const to = hasPagination ? Math.min(page * pageSize, totalCount) : 0;
   const pageList = hasPagination ? buildPageList(page, totalPages) : [];
   const bodyRef = useRef(null);
@@ -153,8 +152,13 @@ export default function DataTable({
       setCurrentRowsHeight(measuredRowsHeight);
     }
 
-    if (visibleRowCount === pageSize && measuredRowsHeight > 0) {
-      setFullPageBodyHeight((prev) => Math.max(prev, measuredRowsHeight));
+    if (visibleRowCount > 0 && measuredRowsHeight > 0) {
+      const estimatedFullPageHeight =
+        visibleRowCount === pageSize
+          ? measuredRowsHeight
+          : Math.ceil((measuredRowsHeight / visibleRowCount) * pageSize);
+
+      setFullPageBodyHeight((prev) => Math.max(prev, estimatedFullPageHeight));
     }
   }, [hasPagination, page, pageSize, visibleRowCount, currentRowsHeight]);
 
