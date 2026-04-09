@@ -10,6 +10,7 @@ const config = {
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         "digital-numbers": ["Digital", "monospace"],
+        inter: ["Inter", "sans-serif"],
       },
     },
   },

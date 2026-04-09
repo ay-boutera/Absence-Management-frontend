@@ -4,16 +4,13 @@
 // ============================================
 
 import axios from "axios";
-import { API_ENDPOINTS } from "@/lib/constants";
-import { CONFIG } from "@/lib/constants";
+import { CONFIG, API_ENDPOINTS } from "@/lib/constants";
 
 const api = axios.create({
-  baseURL: CONFIG.API_URL, // http://localhost:8000
-  withCredentials: true,                    // send httpOnly cookies automatically
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+  baseURL: "/api",  // ← was CONFIG.API_URL or the env var
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' },
+})
 
 // ── Response Interceptor ──────────────────────────────
 // If backend returns 401 → try to refresh the token once
@@ -21,7 +18,20 @@ const api = axios.create({
 
 let isRefreshing = false;
 let failedQueue = [];
+api.interceptors.request.use((config) => {
+  if (typeof document !== "undefined") {
+    const csrfToken = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("csrf_token="))
+      ?.split("=")[1];
 
+    if (csrfToken) {
+      config.headers["X-CSRF-Token"] = csrfToken;
+    }
+  }
+
+  return config;
+});
 const processQueue = (error) => {
   failedQueue.forEach((prom) => {
     if (error) {
@@ -65,7 +75,9 @@ api.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError);
         // Refresh failed → force logout → redirect to login
+        if (typeof window !== "undefined") {
         window.location.href = "/login";
+}
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
