@@ -8,7 +8,7 @@
 // APP CONFIG
 // ----------------------------
 export const CONFIG = {
-  API_URL: "/api",  // ← was process.env.NEXT_PUBLIC_API_URL
+  API_URL: "/api", // ← was process.env.NEXT_PUBLIC_API_URL
 };
 // ----------------------------
 // USER ROLES — must match backend exactly
@@ -66,4 +66,5 @@ export const API_ENDPOINTS = {
   IMPORT_STUDENTS: "/v1/import/students",
   IMPORT_TEACHERS: "/v1/import/teachers",
   IMPORT_SESSIONS: "/v1/import/sessions",
+  IMPORT_EXPORT_HISTORY: "/v1/import-export/history",
 };

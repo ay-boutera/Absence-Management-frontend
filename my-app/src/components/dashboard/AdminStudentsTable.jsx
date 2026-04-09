@@ -5,8 +5,8 @@
 // AdminStudentsTable.jsx
 // ============================================
 
-import { useMemo, useState } from "react";
 import DataTable from "@/components/shared/DataTable";
+import useDashboardTable from "@/hooks/useDashboardTable";
 import {
   Avatar,
   StatusBadge,
@@ -14,7 +14,16 @@ import {
   IconDots,
 } from "@/components/shared/TableShared";
 
-const COLUMNS = ["Name", "Student ID", "Year", "Group", "Absence", "Status", "Action"];
+const COLUMNS = [
+  "Name",
+  "Student ID",
+  "Year",
+  "Group",
+  "Absence",
+  "Status",
+  "Action",
+];
+const PAGE_SIZE = 7;
 
 function StudentRow({ student }) {
   return (
@@ -78,41 +87,45 @@ function normalizeStudent(raw, index) {
     year: raw?.year || raw?.level || "—",
     group: raw?.group || "",
     absence: raw?.absence ?? raw?.absences ?? raw?.absence_count ?? 0,
-    // backend may send status string directly, or fall back from is_active boolean
     status: raw?.status || (raw?.is_active ? "active" : "disabled"),
   };
 }
 
 export default function AdminStudentsTable({ students = [] }) {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const normalizedStudents = useMemo(
-    () => students.map((s, i) => normalizeStudent(s, i)),
-    [students],
-  );
-
-  const filteredStudents = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return normalizedStudents;
-    return normalizedStudents.filter((s) =>
-      [s.name, s.email, String(s.studentId), String(s.group), String(s.year)]
-        .some((v) => v.toLowerCase().includes(query)),
-    );
-  }, [normalizedStudents, searchQuery]);
+  const {
+    searchQuery,
+    handleSearch,
+    page,
+    setPage,
+    normalizedItems: normalizedStudents,
+    pagedItems: pagedStudents,
+    totalCount,
+  } = useDashboardTable({
+    items: students,
+    normalizeItem: normalizeStudent,
+    searchFields: ["name", "email", "studentId", "group", "year"],
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <DataTable
       title="Total Students"
       count={normalizedStudents.length}
       searchQuery={searchQuery}
-      onSearch={setSearchQuery}
+      onSearch={handleSearch}
       placeholder="Search name, id, year, group..."
       columns={COLUMNS}
       tableClass="admin-students-table"
       headerClass="admin-students-table__header-row"
+      footerClass="admin-students-table__footer"
       emptyMessage="No students found."
+      rowLabel="students"
+      page={page}
+      pageSize={PAGE_SIZE}
+      totalCount={totalCount}
+      onPageChange={setPage}
     >
-      {filteredStudents.map((student) => (
+      {pagedStudents.map((student) => (
         <StudentRow key={student.id} student={student} />
       ))}
     </DataTable>

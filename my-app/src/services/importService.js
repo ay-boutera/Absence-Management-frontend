@@ -28,3 +28,17 @@ export const importTeachers = async (file) => {
 export const importSessions = async (file) => {
   return postImportFile(API_ENDPOINTS.IMPORT_SESSIONS, file);
 };
+
+export const getImportExportHistory = async ({
+  page = 1,
+  pageSize = 20,
+} = {}) => {
+  const response = await api.get(API_ENDPOINTS.IMPORT_EXPORT_HISTORY, {
+    params: {
+      page,
+      page_size: pageSize,
+    },
+  });
+
+  return response.data;
+};

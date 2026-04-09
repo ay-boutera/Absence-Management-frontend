@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import ImportButton from "@/components/dashboard/ImportButton";
 import ImportErrorReportModal from "@/components/dashboard/ImportErrorReportModal";
+import CriticalErrorNotification from "@/components/import/CriticalErrorNotification";
 import * as importService from "@/services/importService";
 
 export default function ImportPage() {
@@ -13,6 +14,7 @@ export default function ImportPage() {
   const [success, setSuccess] = useState(false);
   const [importResult, setImportResult] = useState(null);
   const [showErrorModal, setShowErrorModal] = useState(false);
+  const [criticalError, setCriticalError] = useState(false);
   const fileInputRef = useRef(null);
 
   const options = [
@@ -95,6 +97,7 @@ export default function ImportPage() {
       setError(null);
       setSuccess(false);
       setShowErrorModal(false);
+      setCriticalError(false);
     }
   };
 
@@ -159,6 +162,7 @@ export default function ImportPage() {
     setError(null);
     setSuccess(false);
     setShowErrorModal(false);
+    setCriticalError(false);
 
     try {
       const result =
@@ -173,6 +177,7 @@ export default function ImportPage() {
 
       if (normalizedResult.errors > 0) {
         setSuccess(false);
+        setCriticalError(false);
         setError(
           normalizedResult.message ||
             (normalizedResult.imported > 0
@@ -182,21 +187,35 @@ export default function ImportPage() {
         setShowErrorModal(true);
       } else {
         setSuccess(true);
+        setCriticalError(false);
         setError(null);
       }
       setFile(null);
     } catch (err) {
       console.error("Import failed:", err);
+      const status = err?.response?.status;
       const normalizedResult = normalizeImportResult(
         err.response?.data,
         file?.name,
       );
       const detail = err.response?.data?.detail;
+      const hasErrorReport =
+        normalizedResult.errors > 0 || normalizedResult.error_report.length > 0;
+      const isSystemFailure = (!status || status >= 500) && !hasErrorReport;
+
+      if (isSystemFailure) {
+        setCriticalError(true);
+        setImportResult(null);
+        setShowErrorModal(false);
+        setError(null);
+        return;
+      }
 
       if (
         normalizedResult.errors > 0 ||
         normalizedResult.error_report.length > 0
       ) {
+        setCriticalError(false);
         setImportResult(normalizedResult);
         setError(
           normalizedResult.message ||
@@ -206,6 +225,7 @@ export default function ImportPage() {
         );
         setShowErrorModal(true);
       } else {
+        setCriticalError(false);
         setError(
           normalizedResult.message ||
             (typeof detail === "string"
@@ -341,7 +361,9 @@ export default function ImportPage() {
         )}
       </div>
 
-      {error && (
+      {criticalError && <CriticalErrorNotification />}
+
+      {error && !criticalError && (
         <div className="error-message" style={{ margin: "16px 0 0 0" }}>
           <p style={{ fontWeight: "600", marginBottom: "8px" }}>{error}</p>
           {importResult?.error_report?.length > 0 && (
@@ -377,6 +399,7 @@ export default function ImportPage() {
                   setError(null);
                   setSuccess(false);
                   setShowErrorModal(false);
+                  setCriticalError(false);
                 }}
                 disabled={loading}
               >

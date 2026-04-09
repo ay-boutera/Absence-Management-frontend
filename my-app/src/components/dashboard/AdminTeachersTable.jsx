@@ -5,14 +5,12 @@
 // AdminTeachersTable.jsx
 // ============================================
 
-import { useMemo, useState } from "react";
 import DataTable from "@/components/shared/DataTable";
-import {
-  Avatar,
-  IconDots,
-} from "@/components/shared/TableShared";
+import { Avatar, IconDots } from "@/components/shared/TableShared";
+import useDashboardTable from "@/hooks/useDashboardTable";
 
 const COLUMNS = ["Name", "Role", "Subjects", "Groups", "Action"];
+const PAGE_SIZE = 7;
 
 function TeacherRow({ teacher }) {
   return (
@@ -77,35 +75,40 @@ function normalizeTeacher(raw, index) {
 }
 
 export default function AdminTeachersTable({ teachers = [] }) {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const normalizedTeachers = useMemo(
-    () => teachers.map((t, i) => normalizeTeacher(t, i)),
-    [teachers],
-  );
-
-  const filteredTeachers = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return normalizedTeachers;
-    return normalizedTeachers.filter((t) =>
-      [t.name, t.email, t.role, t.subject, t.groups]
-        .some((v) => String(v).toLowerCase().includes(query)),
-    );
-  }, [normalizedTeachers, searchQuery]);
+  const {
+    searchQuery,
+    handleSearch,
+    page,
+    setPage,
+    normalizedItems: normalizedTeachers,
+    pagedItems: pagedTeachers,
+    totalCount,
+  } = useDashboardTable({
+    items: teachers,
+    normalizeItem: normalizeTeacher,
+    searchFields: ["name", "email", "role", "subject", "groups"],
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <DataTable
       title="Total Teachers"
       count={normalizedTeachers.length}
       searchQuery={searchQuery}
-      onSearch={setSearchQuery}
+      onSearch={handleSearch}
       placeholder="Search name, role, subject, groups..."
       columns={COLUMNS}
       tableClass="admin-teachers-table"
       headerClass="admin-teachers-table__header-row"
+      footerClass="admin-teachers-table__footer"
       emptyMessage="No teachers found."
+      rowLabel="teachers"
+      page={page}
+      pageSize={PAGE_SIZE}
+      totalCount={totalCount}
+      onPageChange={setPage}
     >
-      {filteredTeachers.map((teacher) => (
+      {pagedTeachers.map((teacher) => (
         <TeacherRow key={teacher.id} teacher={teacher} />
       ))}
     </DataTable>

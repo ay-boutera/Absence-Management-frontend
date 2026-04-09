@@ -5,6 +5,7 @@
 
 "use client";
 
+import { useEffect, useState ,useCallback} from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
@@ -205,6 +206,25 @@ const icons = {
       />
     </svg>
   ),
+  manageData: (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <rect
+        x="2.75"
+        y="3"
+        width="14.5"
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M6 8h8M6 12h8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
   attendance: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <rect
@@ -369,8 +389,8 @@ const ADMIN_SECTIONS = [
     title: "Main",
     links: [
       { label: "Dashboard", href: "/admin", icon: "dashboard" },
-      { label: "Students",   href: "/admin/students/",  icon: "students" },
-      { label: "Teachers",   href: "/admin//teachers",  icon: "teachers" },
+      { label: "Students", href: "/admin/students/", icon: "students" },
+      { label: "Teachers", href: "/admin/teachers", icon: "teachers" },
       { label: "Groups", href: "/admin/groups", icon: "groups" },
     ],
   },
@@ -378,19 +398,38 @@ const ADMIN_SECTIONS = [
     title: "Attendance",
     links: [
       { label: "Attendance", href: "/admin/absences", icon: "attendance" },
-      {label: "Justifications",href: "/admin/justifications",icon: "justifications",},
-      {label: "Exam Absences",href: "/admin/absences/exam",icon: "examAbsences",},
+      {
+        label: "Justifications",
+        href: "/admin/justifications",
+        icon: "justifications",
+      },
+      {
+        label: "Exam Absences",
+        href: "/admin/absences/exam",
+        icon: "examAbsences",
+      },
       { label: "Rattrapages", href: "/admin/rattrapages", icon: "rattrapages" },
     ],
   },
   {
     title: "System",
     links: [
-      {label: "Notifications",href: "/admin/notifications",icon: "notifications",},
+      {
+        label: "Notifications",
+        href: "/admin/notifications",
+        icon: "notifications",
+      },
       { label: "Settings", href: "/admin/settings", icon: "settings" },
       { label: "Audit Log", href: "/admin/audit", icon: "audit" },
-      { label: "Import", href: "/admin/import", icon: "import" },
-      { label: "Export", href: "/admin/export", icon: "export" },
+      {
+        label: "Manage data",
+        icon: "manageData",
+        children: [
+          { label: "Import / Export", href: "/admin/import" },
+          { label: "Import history", href: "/admin/import/history" },
+          { label: "Salles and Amphis", href: "/admin/salles-amphis" },
+        ],
+      },
     ],
   },
 ];
@@ -415,28 +454,57 @@ export function Sidebar() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { role, clearAuth } = useAuthStore();
+  const [expandedMenus, setExpandedMenus] = useState({});
 
   const sections = role === ROLES.ADMIN ? ADMIN_SECTIONS : TEACHER_SECTIONS;
   const bottomLinks = role === ROLES.ADMIN ? ADMIN_BOTTOM_LINKS : [];
 
-  const isActive = (href) => {
-    const [targetPath, targetQuery] = href.split("?");
+  const isActive = useCallback(
+    (href) => {
+      const [targetPath, targetQuery] = href.split("?");
 
-    if (!targetQuery) {
-      return targetPath === "/admin" || targetPath === "/teacher"
-        ? pathname === targetPath
-        : pathname.startsWith(targetPath);
-    }
+      if (!targetQuery) {
+        return targetPath === "/admin" || targetPath === "/teacher"
+          ? pathname === targetPath
+          : pathname.startsWith(targetPath);
+      }
 
-    if (pathname !== targetPath) return false;
+      if (pathname !== targetPath) return false;
 
-    const targetParams = new URLSearchParams(targetQuery);
-    for (const [key, value] of targetParams.entries()) {
-      if (searchParams.get(key) !== value) return false;
-    }
+      const targetParams = new URLSearchParams(targetQuery);
+      for (const [key, value] of targetParams.entries()) {
+        if (searchParams.get(key) !== value) return false;
+      }
 
-    return true;
-  };
+      return true;
+    },
+    [pathname, searchParams],
+  );
+
+  useEffect(() => {
+    setExpandedMenus((prev) => {
+      const next = { ...prev };
+
+      sections.forEach((section) => {
+        section.links.forEach((link) => {
+          if (!Array.isArray(link.children)) return;
+
+          const menuKey = `${section.title}-${link.label}`;
+          const hasActiveChild = link.children.some((child) =>
+            isActive(child.href),
+          );
+
+          if (typeof next[menuKey] === "undefined") {
+            next[menuKey] = hasActiveChild;
+          } else if (hasActiveChild) {
+            next[menuKey] = true;
+          }
+        });
+      });
+
+      return next;
+    });
+  }, [isActive, pathname, sections]);
 
   const handleLogout = async () => {
     try {
@@ -467,7 +535,60 @@ export function Sidebar() {
           <div key={section.title} className="sidebar-section">
             <p className="sidebar-section-title">{section.title}</p>
             {section.links.map((link) => {
+              const menuKey = `${section.title}-${link.label}`;
+              const hasChildren =
+                Array.isArray(link.children) && link.children.length > 0;
+
+              if (hasChildren) {
+                const hasActiveChild = link.children.some((child) =>
+                  isActive(child.href),
+                );
+                const isExpanded = !!expandedMenus[menuKey];
+
+                return (
+                  <div key={menuKey} className="sidebar-submenu-group">
+                    <button
+                      type="button"
+                      className={`sidebar-link sidebar-link-button${hasActiveChild ? " active" : ""}`}
+                      onClick={() =>
+                        setExpandedMenus((prev) => ({
+                          ...prev,
+                          [menuKey]: !prev[menuKey],
+                        }))
+                      }
+                    >
+                      <span className="sidebar-link-icon">
+                        {icons[link.icon]}
+                      </span>
+                      <span className="sidebar-link-label">{link.label}</span>
+                      <span
+                        className={`sidebar-link-chevron${
+                          isExpanded ? " sidebar-link-chevron-rotated" : ""
+                        }`}
+                      >
+                        {icons.chevron}
+                      </span>
+                    </button>
+
+                    {isExpanded && (
+                      <div className="sidebar-sublinks">
+                        {link.children.map((child) => (
+                          <Link
+                            key={`${menuKey}-${child.href}`}
+                            href={child.href}
+                            className={`sidebar-sublink${isActive(child.href) ? " active" : ""}`}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               const active = isActive(link.href);
+
               return (
                 <Link
                   key={`${section.title}-${link.href}-${link.label}`}
