@@ -9,11 +9,18 @@ import { API_ENDPOINTS } from "@/lib/constants";
 // ── Login ─────────────────────────────────────
 // Backend sets httpOnly cookie automatically on success
 export const login = async (email, password) => {
-  const response = await api.post(API_ENDPOINTS.LOGIN, {
-    identifier: email,
-    password: password,
-  });
-  return response.data; // {  id, first_name, last_name, email, role }
+  const response = await api.post(
+    API_ENDPOINTS.LOGIN,
+    {
+      identifier: email,
+      password: password,
+    },
+    {
+      withCredentials: true,
+    },
+  );
+
+  return response.data;
 };
 
 // ── Logout ────────────────────────────────────

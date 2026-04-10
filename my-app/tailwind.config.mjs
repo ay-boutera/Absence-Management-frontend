@@ -5,6 +5,11 @@ const config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#143888",
+        border: "#E3E8EF",
+        warning: "#F6C420",
+      },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
         "digital-numbers": ["Digital", "monospace"],
