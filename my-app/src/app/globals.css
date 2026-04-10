@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 @font-face {
@@ -12,7 +12,7 @@
 }
 
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 .font-digital {
   font-family: "Digital", sans-serif;
@@ -309,7 +309,40 @@ button{
 /* ============================================
    Admin Dashboard Page Styles
    ============================================ */
-.dashboard-page {
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+  /* width: calc(100% ); */
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 16rem; */
+  width: calc(100% );
+  min-height: 100vh;
+}
+
+
+.dashboard-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.header-title-table {
+  font-size: 1.2rem;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
+  color: #4a5567;
+}
+
+/* ============================================
+   DASHBOARD PAGE
+   ============================================ */
+
+.main-page {
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -328,24 +361,23 @@ button{
 .dashboard-header-text {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 3px;
 }
  
 .main-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 22px;
-  color: #16151c;
-  margin: 0;
-  line-height: 1.2;
-}
+  font-size: 1.25rem;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  color: #143888;
+  
  
-.dashboard-subtitle {
-  font-family: 'Inter', sans-serif;
+}
+
+.main-subtitle {
+  font-size: 0.875rem;
   font-weight: 400;
   font-size: 14px;
   color: #4a5567;
-  margin: 0;
 }
  
 /* ── Export button ────────────────────────── */
@@ -353,22 +385,39 @@ button{
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 40px;
-  padding: 0 20px;
+  height: 36px;
+  padding: 6px 14px;
   background: #143888;
   color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
   font-size: 14px;
-  cursor: pointer;
+  font-weight: 400;
   flex-shrink: 0;
   transition: background 0.15s ease;
 }
  
 .dashboard-export-btn:hover {
   background: #0f2d6e;
+}
+.main-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 6px 14px;
+  background: #ffffff;
+  color: #143888;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.main-add-btn:hover {
+  background: #f8faff;
 }
 /* ============================================
    Dashboard Layout Styles
@@ -576,14 +625,17 @@ button{
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 18rem;
-  min-height: 100vh;
+  width: 15rem;
+  height: 100vh;
+
   background: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
-  padding: 2rem 2.5rem;
-  gap: 0;
   position: sticky;
-  top: 0;
+  
+  
+  
+  z-index: 20;
+  @apply px-[24px]
 }
 
 /* ── Nav ──────────────────────────────────── */
@@ -641,11 +693,13 @@ button{
 .sidebar-link:hover {
   background: #f8faff;
   color: #143888;
+  border: 1px solid #e3e8ef;
+
 }
 
 .sidebar-link.active {
   background: #f8faff;
-  border-color: #e3e8ef;
+  border: 1px solid #e3e8ef;
   color: #143888;
 }
 
@@ -661,14 +715,25 @@ button{
 
 .sidebar-link-label {
   flex: 1;
-  font-family: "Inter", sans-serif;
-  font-weight: 400;
-  font-size: 1.1rem;
+  font-size: 14px;
+  font-weight: medium;
   line-height: 20px;
   color: inherit;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+}
+.sidebar-link-label2 {
+  flex: 1;
+  font-size: 14px;
+  font-weight: regular;
+  line-height: 20px;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
 }
 
 .sidebar-link.active .sidebar-link-label {
@@ -749,9 +814,9 @@ button{
   align-items: center;
   justify-content: space-between;
   height: 5rem;
-  padding: 0 4rem;
+  padding: 0 2.5rem;
   background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.06); */
   flex-shrink: 0;
   gap: 16px;
 }
@@ -760,7 +825,7 @@ button{
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 /* Search bar */
@@ -768,10 +833,10 @@ button{
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 32rem;
-  height: 3rem;
-  padding: 0 16px;
-  background: #f7f7f7;
+  width: 25rem;
+  
+  padding: 6px 12px;
+  background-color: #f8faff;
   border: 1px solid #e6ebf0;
   border-radius: 6px;
 }
@@ -861,6 +926,690 @@ button{
   font-weight: 600;
   font-size: 14px;
   flex-shrink: 0;
-  letter-spacing: 0.5px;
-  user-select: none;
+}
+
+.session-card__dots-btn:hover {
+  background: #f8faff;
+}
+
+/* ── Meta section ── */
+.session-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.session-card__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4a5567;
+  line-height: 1.4;
+  letter-spacing: -0.07px;
+  white-space: nowrap;
+}
+
+.session-card__meta-group strong {
+  color: #030712;
+  font-weight: 400;
+}
+
+/* ── Footer ── */
+.session-card__footer {
+  padding: 14px;
+}
+
+/* ── Start session button ── */
+.session-card__start-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: #f8faff;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #000000;
+  letter-spacing: -0.07px;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.session-card__start-btn:hover {
+  background: #eef3ff;
+  border-color: #c5d0e0;
+}
+
+/* ── Overlay (backdrop-blur dropdown) — node 346:14419 ── */
+.sc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  backdrop-filter: blur(3px);
+  background: rgba(175, 175, 175, 0.14);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-overlay__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.sc-overlay__close:hover {
+  background: #f8faff;
+  color: #143888;
+}
+
+.sc-overlay__menu {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  animation: sc-popIn 0.15s ease;
+}
+
+@keyframes sc-popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sc-overlay__divider {
+  border: none;
+  border-top: 1px solid #e3e8ef;
+  margin: 0;
+}
+
+.sc-overlay__item {
+  width: 100%;
+  padding: 12px 0;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.06px;
+  line-height: 1.4;
+  transition: opacity 0.15s;
+}
+
+.sc-overlay__item:hover {
+  opacity: 0.75;
+}
+
+.sc-overlay__item--blue {
+  color: #143888;
+}
+
+.sc-overlay__item--red {
+  color: #d62525;
+}
+
+/* ============================================
+   SESSIONS PAGE  —
+   ============================================ */
+
+/* ── Cards grid ── */
+.sessions-page__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.sessions-page__grid > .session-card {
+  flex: 1 0 calc(33.333% - 22px);
+  min-width: 260px;
+  max-width: calc(33.333% - 15px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .sessions-page__grid > .session-card {
+    flex: 1 0 calc(50% - 22px);
+    max-width: calc(50% - 11px);
+  }
+}
+
+@media (max-width: 600px) {
+  .sessions-page {
+    padding: 24px 16px;
+  }
+
+  .sessions-page__grid > .session-card {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   ADMIN DATA TABLE (shared)
+   ============================================ */
+
+.admin-data-table {
+  border: 1.5px solid #e3e8ef;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.admin-data-table__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  min-height: 60px;
+  background: #f8faff;
+  border-bottom: 1px solid #e3e8ef;
+}
+
+.admin-data-table__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-data-table__title-icon {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.admin-data-table__title-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.admin-data-table__title {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  color: #4a5567;
+}
+
+.admin-data-table__count {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  color: #030712;
+}
+
+.admin-data-table__tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: auto;
+}
+
+.admin-data-table__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 310px;
+  height: 36px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 8px;
+}
+
+.admin-data-table__search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #111827;
+}
+
+.admin-data-table__search-input::placeholder {
+  color: #4a5567;
+}
+
+.admin-data-table__control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 8px 12px;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #030712;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.admin-data-table__control-btn:hover {
+  background: #f8faff;
+  border-color: #cdd8ea;
+}
+
+.admin-data-table__header-cell {
+  font-size: 12px;
+  font-weight: 400;
+  color: #4a5567;
+}
+
+.admin-data-table__header-cell--action {
+  text-align: right;
+}
+
+.admin-data-table__cell {
+  padding: 12px 12px 12px 0;
+}
+
+.admin-data-table__cell--name,
+.admin-data-table__name-wrap,
+.admin-data-table__name-info {
+  min-width: 0;
+}
+
+.admin-data-table__name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-data-table__name {
+  font-size: 12px;
+  color: #030712;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-data-table__email,
+.admin-data-table__text-cell {
+  font-size: 12px;
+  color: #030712;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-data-table__email {
+  font-size: 11px;
+  line-height: 150%;
+  letter-spacing: 0.06em;
+  color: #4a5567;
+}
+
+.admin-data-table__cell--action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.admin-data-table__action-btn {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  background: #ffffff;
+  transition: background-color 0.15s ease;
+}
+
+.admin-data-table__action-btn:hover {
+  background: #f9fafb;
+}
+
+/* ============================================
+   ADMIN STUDENTS TABLE (specific)
+   ============================================ */
+
+.admin-students-table__header-row,
+.admin-students-table__row {
+  display: grid;
+  grid-template-columns: 2.2fr 1.15fr 0.9fr 0.9fr 0.9fr 1fr 64px;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.admin-students-table__header-row {
+  height: 36px;
+  background: #f8faff;
+  border-bottom: 1px solid #e6ebf0;
+}
+
+.admin-students-table__row {
+  min-height: 60px;
+  border-bottom: 1px solid #e3e8ef;
+  transition: background-color 0.15s ease;
+}
+
+.admin-students-table__row:hover {
+  background: #fbfcff;
+}
+
+/* ============================================
+   ADMIN TEACHERS TABLE (specific)
+   ============================================ */
+
+.admin-teachers-table__header-row,
+.admin-teachers-table__row {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1.2fr 1.2fr 64px;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.admin-teachers-table__header-row {
+  height: 36px;
+  background: #f8faff;
+  border-bottom: 1px solid #e6ebf0;
+}
+
+.admin-teachers-table__row {
+  height: 64px;
+  border-bottom: 1px solid #e3e8ef;
+  transition: background-color 0.15s ease;
+}
+
+.admin-teachers-table__row:hover {
+  background: #fbfcff;
+}
+
+/* ============================================
+   ADMIN DATA TABLE — PAGINATION FOOTER
+   ============================================ */
+
+.admin-data-table__pagination-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  height: 56px;
+}
+
+.admin-data-table__pagination-info {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  color: #4a5567;
+}
+
+.admin-data-table__pagination-info strong {
+  color: #000000;
+  font-weight: 400;
+}
+
+.admin-data-table__pagination-center {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-data-table__page-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
+  color: #030712;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.admin-data-table__page-btn:hover {
+  background: #f0f4ff;
+}
+
+.admin-data-table__page-btn--active {
+  border: 1px solid #143888;
+}
+
+.admin-data-table__pagination-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-data-table__nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 32px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #030712;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.admin-data-table__nav-btn:hover {
+  background: #f8faff;
+}
+
+.admin-data-table__nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   ADMIN GROUPS TABLE (specific)
+   ============================================ */
+
+/* ============================================
+   ADMIN GROUPS TABLE (fixed)
+   ============================================ */
+
+.admin-groups-table__header-row,
+.admin-groups-table__row {
+  display: grid; /* ✅ FIX */
+  grid-template-columns: 1fr 1fr 1fr 2fr 1.2fr 1.2fr 64px;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.admin-groups-table__header-row {
+  height: 40px;
+  background: #f8faff;
+  border-bottom: 1px solid #e6ebf0;
+}
+
+.admin-groups-table__row {
+  min-height: 60px;
+  border-bottom: 1px solid #e3e8ef;
+  transition: background-color 0.15s ease;
+}
+
+.admin-groups-table__row:hover {
+  background: #fbfcff;
+}
+
+.admin-groups-table__view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.admin-groups-table__view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  min-width: 92px;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.15s ease;
+}
+
+.admin-groups-table__view-btn.is-active {
+  background: #143888;
+  color: #ffffff;
+}
+
+.admin-groups-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+
+.admin-groups-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e3e8ef;
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.admin-groups-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eef1f5;
+}
+
+.admin-groups-card__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: #4a5567;
+  border-bottom: 1px solid #eef1f5;
+}
+
+.admin-groups-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  min-height: 52px;
+}
+
+.admin-groups-card__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  font-size: 11px;
+  color: #4b5563;
+}
+
+.admin-groups-card__footer {
+  padding: 8px 10px 10px;
+  border-top: 1px solid #eef1f5;
+}
+
+.admin-groups-card__details-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid #e3e8ef;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 12px;
+}
+
+.admin-groups-card__details-btn:hover {
+  background: #f8faff;
+}
+
+@media (max-width: 1200px) {
+  .admin-groups-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-groups-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .admin-data-table__toolbar {
+    align-items: flex-start;
+  }
+
+  .admin-data-table__tools {
+    width: 100%;
+  }
+
+  .admin-data-table__search {
+    flex: 1;
+    min-width: 230px;
+  }
 }

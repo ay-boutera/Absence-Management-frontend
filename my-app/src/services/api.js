@@ -1,22 +1,11 @@
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// services/api.js — Axios Instance
-// ============================================
-
 import axios from "axios";
 import { CONFIG, API_ENDPOINTS } from "@/lib/constants";
 
 const api = axios.create({
-  baseURL: CONFIG.API_URL, // http://localhost:8000
-  withCredentials: true,                    // send httpOnly cookies automatically
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-// ── Response Interceptor ──────────────────────────────
-// If backend returns 401 → try to refresh the token once
-// If refresh fails → redirect to login
+  baseURL: "/api",  
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' },
+})
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -51,7 +40,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If 401 and not already retried and not the refresh endpoint itself
+    
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -70,7 +59,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Ask backend to refresh — cookie is sent automatically
+        
         await api.post(API_ENDPOINTS.REFRESH_TOKEN);
         processQueue(null);
         return api(originalRequest); // retry original request
