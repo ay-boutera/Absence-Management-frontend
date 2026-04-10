@@ -8,7 +8,7 @@
 // APP CONFIG
 // ----------------------------
 export const CONFIG = {
-  API_URL: process.env.NEXT_PUBLIC_API_URL,
+  API_URL: "/api", // ← was process.env.NEXT_PUBLIC_API_URL
 };
 // ----------------------------
 // USER ROLES — must match backend exactly

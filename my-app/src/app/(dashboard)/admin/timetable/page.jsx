@@ -5,11 +5,28 @@ import api from "@/services/api";
 import TimetableBlock from "@/components/timetable/TimetableBlock";
 
 const SearchIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.75 15.7501L12.495 12.4951" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.25 8.25C2.25 11.5615 4.93851 14.25 8.25 14.25C11.5615 14.25 14.25 11.5615 14.25 8.25C14.25 4.93851 11.5615 2.25 8.25 2.25C4.93851 2.25 2.25 4.93851 2.25 8.25V8.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 18 18"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M15.75 15.7501L12.495 12.4951"
+      stroke="#6B7280"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M2.25 8.25C2.25 11.5615 4.93851 14.25 8.25 14.25C11.5615 14.25 14.25 11.5615 14.25 8.25C14.25 4.93851 11.5615 2.25 8.25 2.25C4.93851 2.25 2.25 4.93851 2.25 8.25V8.25"
+      stroke="#6B7280"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
 );
 
 const ChevronDownIcon = () => (
@@ -25,11 +42,17 @@ const ChevronDownIcon = () => (
 );
 
 const LEVELS = ["1CP", "2CP", "1CS", "2CS", "3CS"];
-const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
-const TIME_SLOTS = [ "08:00 - 09:30","09:30 - 11:00","11:00 - 12:30","14:00 - 15:30","15:30 - 17:00"];
-const SLOT_MAP = {"08:00": 0,"09:30": 1,"11:00": 2,"14:00": 3,"15:30": 4,};
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
+const timeslots = [
+  "08:00 - 09:30",
+  "09:30 - 11:00",
+  "11:00 - 12:30",
+  "14:00 - 15:30",
+  "15:30 - 17:00",
+];
+const slotMap = { "08:00": 0, "09:30": 1, "11:00": 2, "14:00": 3, "15:30": 4 };
 
-const GROUP_COLOR = {
+const groupColor = {
   G1: "yellow",
   G2: "teal2",
   G3: "purple",
@@ -40,15 +63,16 @@ const GROUP_COLOR = {
   G8: "red",
 };
 
-const MODULE_COLOR = {"ARCHI-EVO":  "teal",
-  "IA-INTRO":   "purple",
-  "DEV-WEB":    "blue",
-  "SECU":       "orange",
+const moduleColor = {
+  "ARCHI-EVO": "teal",
+  "IA-INTRO": "purple",
+  "DEV-WEB": "blue",
+  SECU: "orange",
   "BD-ANALYSE": "lightYellow",
-  "CLOUD":      "teal2",
-  "UX-UI":      "pink",
-  "ALGO":       "yellow",
-  "MATH":       "red",
+  CLOUD: "teal2",
+  "UX-UI": "pink",
+  ALGO: "yellow",
+  MATH: "red",
 };
 
 function extractLevel(id_seance) {
@@ -67,50 +91,50 @@ function dateToDayIndex(dateStr) {
 }
 
 function mapSession(raw, teacherMap) {
-  const level  = extractLevel(raw.id_seance);
-  const group  = extractGroup(raw.id_seance);
+  const level = extractLevel(raw.id_seance);
+  const group = extractGroup(raw.id_seance);
   const isCollectif = raw.id_seance.includes("-COLL-");
 
   let type, groupLabel, colorKey;
 
   if (raw.type_seance === "cours") {
-    type       = "Cours";
+    type = "Cours";
     groupLabel = level;
-    colorKey   = MODULE_COLOR[raw.code_module] || "teal";
+    colorKey = moduleColor[raw.code_module] || "teal";
   } else if (isCollectif) {
-    type       = "TD collectif";
+    type = "TD collectif";
     groupLabel = `${level}–G5`;
-    colorKey   = "yellow";
+    colorKey = "yellow";
   } else {
-    type       = raw.type_seance.toUpperCase(); // "TD" or "TP"
+    type = raw.type_seance.toUpperCase(); // "TD" or "TP"
     groupLabel = group || level;
-    colorKey   = GROUP_COLOR[group] || "teal";
+    colorKey = groupColor[group] || "teal";
   }
 
   const teacher = teacherMap[raw.id_enseignant] || "";
 
   return {
     level,
-    day:      dateToDayIndex(raw.date),   // 0–4 (Sun–Thu)
-    slot:     SLOT_MAP[raw.heure_debut],  // 0–4
+    day: dateToDayIndex(raw.date), // 0–4 (Sun–Thu)
+    slot: slotMap[raw.heure_debut], // 0–4
     type,
-    group:    groupLabel,
-    subject:  raw.nom_module,
+    group: groupLabel,
+    subject: raw.nom_module,
     teacher,
-    room:     raw.salle,
+    room: raw.salle,
     colorKey,
   };
 }
 
 export default function TimetablePage() {
-  const [activeLevel,   setActiveLevel]   = useState("1CP");
-  const [search,        setSearch]        = useState("");
-  const [groupFilter,   setGroupFilter]   = useState("All groups");
+  const [activeLevel, setActiveLevel] = useState("1CP");
+  const [search, setSearch] = useState("");
+  const [groupFilter, setGroupFilter] = useState("All groups");
   const [subjectFilter, setSubjectFilter] = useState("All subjects");
 
-  const [sessions,  setSessions]  = useState([]);
-  const [loading,   setLoading]   = useState(true);
-  const [error,     setError]     = useState("");
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   // ── Fetch all sessions + teachers once ──────────────────────────────────────
   useEffect(() => {
@@ -141,14 +165,15 @@ export default function TimetablePage() {
     load();
   }, []);
 
-  // ── Derived filter values ────────────────────────────────────────────────────
   const levelSessions = useMemo(
     () => sessions.filter((s) => s.level === activeLevel),
-    [sessions, activeLevel]
+    [sessions, activeLevel],
   );
 
   const allGroups = useMemo(() => {
-    const set = new Set(levelSessions.map((s) => s.group).filter((g) => /^G\d+$/.test(g)));
+    const set = new Set(
+      levelSessions.map((s) => s.group).filter((g) => /^G\d+$/.test(g)),
+    );
     return ["All groups", ...Array.from(set).sort()];
   }, [levelSessions]);
 
@@ -160,7 +185,8 @@ export default function TimetablePage() {
   const filtered = useMemo(() => {
     return levelSessions.filter((s) => {
       if (groupFilter !== "All groups" && s.group !== groupFilter) return false;
-      if (subjectFilter !== "All subjects" && s.subject !== subjectFilter) return false;
+      if (subjectFilter !== "All subjects" && s.subject !== subjectFilter)
+        return false;
       if (search) {
         const q = search.toLowerCase();
         if (
@@ -168,19 +194,18 @@ export default function TimetablePage() {
           !s.teacher?.toLowerCase().includes(q) &&
           !s.room?.toLowerCase().includes(q) &&
           !s.group?.toLowerCase().includes(q)
-        ) return false;
+        )
+          return false;
       }
       return true;
     });
   }, [levelSessions, groupFilter, subjectFilter, search]);
 
-  /** Return sessions for a specific cell (dayIdx × slotIdx). */
   const getSessions = (dayIdx, slotIdx) =>
     filtered.filter((s) => s.day === dayIdx && s.slot === slotIdx);
 
   return (
     <div className="main-page">
-
       {/* ── Page header ── */}
       <div className="main-header">
         <div className="main-header-text">
@@ -189,17 +214,18 @@ export default function TimetablePage() {
         </div>
       </div>
 
-      {/* ── Filters ── */}
       <div className="flex flex-col gap-[14px]">
-
-        {/* Row 1: Level tabs + semester buttons */}
         <div className="flex items-end justify-between gap-4">
-          {/* Level pills */}
           <div className="flex items-center gap-[10px]">
             {LEVELS.map((level) => (
               <button
                 key={level}
-                onClick={() => { setActiveLevel(level); setGroupFilter("All groups"); setSubjectFilter("All subjects"); setSearch(""); }}
+                onClick={() => {
+                  setActiveLevel(level);
+                  setGroupFilter("All groups");
+                  setSubjectFilter("All subjects");
+                  setSearch("");
+                }}
                 className={`px-3 py-1.5 text-[14px] rounded-lg border transition-colors leading-[14px] ${
                   activeLevel === level
                     ? "bg-[#EBEFFE] border-[#143888] text-[#143888]"
@@ -211,8 +237,7 @@ export default function TimetablePage() {
             ))}
           </div>
 
-          {/* Semester tabs */}
-          <div className="flex items-center gap-[10px]">
+          <div className=" items-center gap-[10px]">
             <button className="px-3 py-[6px] text-[14px] rounded-lg border bg-[#F8FAFF] border-[#143888] text-[#143888]">
               Semester 1
             </button>
@@ -222,9 +247,7 @@ export default function TimetablePage() {
           </div>
         </div>
 
-        {/* Row 2: Search + Group + Subject filters */}
         <div className="flex items-center gap-[10px]">
-          {/* Search */}
           <div className="flex items-center gap-2 px-3 py-[8px] bg-[#F8FAFF] border border-[#E6EBF0] rounded-lg">
             <SearchIcon />
             <input
@@ -236,7 +259,6 @@ export default function TimetablePage() {
             />
           </div>
 
-          {/* Group dropdown */}
           <div className="relative group">
             <button className="flex items-center gap-2 px-3 py-[8px] bg-[#F8FAFF] border border-[#E2E8F0] rounded-lg text-[14px] text-black">
               {groupFilter}
@@ -255,7 +277,6 @@ export default function TimetablePage() {
             </div>
           </div>
 
-          {/* Subject dropdown */}
           <div className="relative group">
             <button className="flex items-center gap-2 px-3 py-[8px] bg-[#F8FAFF] border border-[#E2E8F0] rounded-lg text-[14px] text-black">
               {subjectFilter}
@@ -276,67 +297,71 @@ export default function TimetablePage() {
         </div>
       </div>
 
-      {/* ── Loading / Error states ── */}
       {loading && (
-        <div className="text-center py-12 text-[14px] text-[#6B7280]">Loading timetable…</div>
+        <div className="text-center py-12 text-[14px] text-[#6B7280]">
+          Loading timetable…
+        </div>
       )}
       {error && (
-        <div className="text-center py-12 text-[14px] text-red-500">{error}</div>
+        <div className="text-center py-12 text-[14px] text-red-500">
+          {error}
+        </div>
       )}
 
       {/* ── Timetable grid ── */}
       {!loading && !error && (
-        <div className="border border-[#E3E8EF] rounded-lg overflow-x-auto bg-white w-full">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "120px repeat(5, minmax(200px, 1fr))",
-              width: "max-content",
-              minWidth: "100%",
-            }}
-          >
-            {/* ── Header row ── */}
-            <div className="p-3 bg-[#F8FAFF] border-b border-r border-[#E3E8EF] text-[14px] text-black">
-              Time
-            </div>
-            {DAYS.map((day) => (
-              <div
-                key={day}
-                className="p-3 bg-[#F8FAFF] border-b border-l border-[#E3E8EF] text-[14px] text-black text-center"
-              >
-                {day}
+        <div className="border overflow-auto border-[#E3E8EF] rounded-lg overflow-x-auto bg-white w-full">
+          <div className="w-full overflow-x-auto">
+            <div
+              className="overflow-x-auto w-fit"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "120px repeat(5, 200px)",
+                // width: "max-content",
+                minWidth: "100%",
+              }}
+            >
+              {/* ── Header row ── */}
+              <div className="p-3 bg-[#F8FAFF] border-b border-r border-[#E3E8EF] text-[14px] text-black">
+                Time
               </div>
-            ))}
-
-            {/* ── Data rows ── */}
-            {TIME_SLOTS.map((slot, slotIdx) => (
-              <Fragment key={slotIdx}>
-                {/* Time label */}
-                <div className="px-3 pt-4 pb-3 border-b border-r border-dashed border-[#E3E8EF] text-[14px] text-[#4A5567]">
-                  {slot}
+              {days.map((day) => (
+                <div
+                  key={day}
+                  className="p-3 bg-[#F8FAFF] border-b border-l border-[#E3E8EF] text-[14px] text-black text-center"
+                >
+                  {day}
                 </div>
+              ))}
 
-                {/* Day cells */}
-                {DAYS.map((_, dayIdx) => {
-                  const cellSessions = getSessions(dayIdx, slotIdx);
-                  return (
-                    <div
-                      key={dayIdx}
-                      className="p-2 border-b border-l border-dashed border-[#E3E8EF] flex flex-col gap-2"
-                    >
-                      {cellSessions.map((session, i) => (
-                        <TimetableBlock key={i} session={session} />
-                      ))}
-                    </div>
-                  );
-                })}
-              </Fragment>
-            ))}
+              {/* ── Data rows ── */}
+              {timeslots.map((slot, slotIdx) => (
+                <Fragment key={slotIdx}>
+                  {/* Time label */}
+                  <div className="px-3 pt-4 pb-3 border-b border-r border-dashed border-[#E3E8EF] text-[14px] text-[#4A5567]">
+                    {slot}
+                  </div>
+
+                  {days.map((_, dayIdx) => {
+                    const cellSessions = getSessions(dayIdx, slotIdx);
+                    return (
+                      <div
+                        key={dayIdx}
+                        className="p-2 border-b border-l border-dashed border-[#E3E8EF] flex flex-col gap-2"
+                      >
+                        {cellSessions.map((session, i) => (
+                          <TimetableBlock key={i} session={session} />
+                        ))}
+                      </div>
+                    );
+                  })}
+                </Fragment>
+              ))}
+            </div>
           </div>
         </div>
       )}
 
-      {/* ── Legend ── */}
       {!loading && !error && (
         <div className="flex items-center gap-7 pb-2">
           <div className="flex items-center gap-[6px]">
@@ -353,7 +378,6 @@ export default function TimetablePage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

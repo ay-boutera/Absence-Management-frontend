@@ -345,7 +345,7 @@ button{
 .main-page {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 21px;
   padding: 24px;
   width: 100%;
 }
@@ -456,10 +456,10 @@ button{
 .stats-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 12rem;
-  flex: 1;               /* fills the 4-column grid equally        */
-  min-width: 180px;      /* prevents cards from getting too narrow */
+  gap: 16px;
+  flex: 1;
+  min-width: 180px;
+  height: 138px;
   padding: 12px 20px;
   background: #ffffff;
   border: 1px solid #e3e8ef;
@@ -479,19 +479,20 @@ button{
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
 }
 
 .stats-card-label {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
   font-weight: 400;
   font-size: 1rem;
   line-height: 20px;
   color: rgba(0, 0, 0, 0.6);
   text-align: right;
-  max-width: 80px;      /* lets long labels wrap like in Figma */
+  max-width: 90px;
 }
 
 /* ── Body: title + value ──────────────────── */
@@ -499,20 +500,20 @@ button{
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-bottom: 2px;
 }
 
 .stats-card-title {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
   font-weight: 400;
   font-size: 1.2rem;
   line-height: 20px;
-  color: #000000;
-  margin: 0;
+  margin: -2px 0 0;
 }
 
 .stats-card-value {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
   font-weight: 600;
   font-size: 1.6rem;
   line-height: 40px;
@@ -606,6 +607,7 @@ button{
   display: flex;
   gap: 25px;
   width: 100%;
+  align-items: flex-start;
 }
 
 @media (max-width: 900px) {
@@ -613,6 +615,67 @@ button{
     flex-direction: column;
   }
 }
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  flex: 1;
+  min-width: 0;
+  padding: 22px 27px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 10px;
+}
+
+.chart-header {
+  align-items: baseline;
+  width: 100%;
+}
+
+.chart-title {
+  /* font-size: 16px; */
+  font-weight: 550;
+  /* color: #000000; */
+  margin: 0;
+  /* white-space: nowrap; */
+  @apply  text-[16px] text-black
+}
+
+.chart-year {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #6f6f6f;
+  letter-spacing: 0.22px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.chart-tooltip {
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chart-tooltip-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6f6f6f;
+  margin: 0 0 2px;
+}
+
+.chart-tooltip-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #143888;
+  margin: 0;
+}
+
 /* ============================================
    Sidebar Styles
    ============================================ */
@@ -678,7 +741,14 @@ button{
   gap: 12px;
   height: 40px;
   padding: 0 10px;
+  width: 100%;
+  /* border: 1px solid ; */
   border-radius: 8px;
+  
+}
+
+.sidebar-link {
+  /* color: #4a5568; */
   text-decoration: none;
   color: #4a5568;
   transition:
@@ -693,14 +763,20 @@ button{
 .sidebar-link:hover {
   background: #f8faff;
   color: #143888;
-  border: 1px solid #e3e8ef;
+  border: 1px solid #E3E8EF;
 
 }
 
 .sidebar-link.active {
   background: #f8faff;
-  border: 1px solid #e3e8ef;
+  border: 1px solid #E3E8EF;
   color: #143888;
+}
+.active {
+  /* background: #f8faff; */
+  /* border: 1px solid #E3E8EF; */
+  /* color: #143888; */
+  @apply bg-[#F8FAFF] text-[#143888] border-1 border-[1px] border-[#E3E8EF]
 }
 
 .sidebar-link-icon {
