@@ -8,11 +8,7 @@ import {
   SortIcon,
 } from "@/components/shared/TableShared";
 
-export function DataTable({ columns = [], data = [] }) {
-  // Normalize columns to objects: { Header, accessor }
-  const normalizedColumns = columns.map((col) =>
-    typeof col === "string" ? { Header: col, accessor: col } : col,
-  );
+
 
 
 export default function DataTable({
@@ -202,4 +198,4 @@ export default function DataTable({
       )}
     </div>
   );
-}}
+}
