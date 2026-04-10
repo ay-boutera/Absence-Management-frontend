@@ -7,12 +7,10 @@ import axios from "axios";
 import { CONFIG, API_ENDPOINTS } from "@/lib/constants";
 
 const api = axios.create({
-  baseURL: CONFIG.API_URL, // http://localhost:8000
-  withCredentials: true,                    // send httpOnly cookies automatically
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+  baseURL: "/api",  // ← was CONFIG.API_URL or the env var
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' },
+})
 
 // ── Response Interceptor ──────────────────────────────
 // If backend returns 401 → try to refresh the token once

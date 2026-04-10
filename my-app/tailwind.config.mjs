@@ -1,9 +1,7 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+const config = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./app/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
+    "./src/app/**/*.{js,jsx,ts,tsx}",
+    "./src/components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -13,10 +11,13 @@ export default {
         warning: "#F6C420",
       },
       fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        "digital-numbers": ["Digital", "monospace"],
         inter: ["Inter", "sans-serif"],
-        digital: ["Digital", "monospace"],
       },
     },
   },
   plugins: [],
 };
+
+export default config;
