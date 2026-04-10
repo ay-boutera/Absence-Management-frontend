@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { logout } from "@/services/authService";
 import { ROLES } from "@/lib/constants";
@@ -121,8 +121,17 @@ const icons = {
   ),
   lessons: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M4 4h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M7 8h6M7 11h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path
+        d="M4 4h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M7 8h6M7 11h4"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   groups: (
@@ -240,14 +249,55 @@ const icons = {
   ),
   import: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M10 3v10m0 0-3-3m3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path
+        d="M10 3v10m0 0-3-3m3 3 3-3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   export: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M10 13V3m0 0-3 3m3-3 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <path
+        d="M10 13V3m0 0-3 3m3-3 3 3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3 14v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  manageData: (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <rect
+        x="2.75"
+        y="3"
+        width="14.5"
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M6 8h8M6 12h8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
     </svg>
   ),
   attendance: (
@@ -376,9 +426,14 @@ const icons = {
   ),
   help: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M7.5 8c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5c0 1.5-1.5 2-2.5 2.5V11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <circle cx="10" cy="14" r="0.75" fill="currentColor"/>
+      <circle cx="10" cy="10" r="7.5" stroke="currentColor" strokeWidth="1.5" />
+      <path
+        d="M7.5 8c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5c0 1.5-1.5 2-2.5 2.5V11"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="10" cy="14" r="0.75" fill="currentColor" />
     </svg>
   ),
   data: (
@@ -533,12 +588,16 @@ const ADMIN_SECTIONS = [
   },
   {
     title: "Manage Data",
-    type: "expandable",
-    icon: "data",
-    sublinks: [
-      { label: "Import / Export", href: "/admin/import" },
-      { label: "Import History", href: "/admin/import-history" },
-      { label: "Salles & Amphi", href: "/admin/salles" },
+    links: [
+      {
+        label: "Manage Data",
+        icon: "data",
+        children: [
+          { label: "Import / Export", href: "/admin/import" },
+          { label: "Import History", href: "/admin/import-history" },
+          { label: "Salles & Amphi", href: "/admin/salles" },
+        ],
+      },
     ],
   },
 ];
@@ -560,35 +619,70 @@ const TEACHER_SECTIONS = [
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export function Sidebar() {
-  const pathname            = usePathname();
-  const router              = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const { role, clearAuth } = useAuthStore();
-  const [expandedSections, setExpandedSections] = useState({});
+  const [expandedMenus, setExpandedMenus] = useState({});
 
-  const sections    = role === ROLES.ADMIN ? ADMIN_SECTIONS    : TEACHER_SECTIONS;
+  const sections = role === ROLES.ADMIN ? ADMIN_SECTIONS : TEACHER_SECTIONS;
   const bottomLinks = role === ROLES.ADMIN ? ADMIN_BOTTOM_LINKS : [];
 
-  const isActive = (href) => {
-    const [targetPath, targetQuery] = href.split("?");
+  const normalizePath = useCallback((path = "") => {
+    if (!path) return "/";
+    const normalized = path.replace(/\/+$/, "");
+    return normalized === "" ? "/" : normalized;
+  }, []);
 
-    if (targetPath === "/admin" || targetPath === "/teacher") {
-      return pathname === targetPath;
-    }
+  const isActive = useCallback(
+    (href) => {
+      const [targetPath, targetQuery] = href.split("?");
+      const normalizedPathname = normalizePath(pathname);
+      const normalizedTargetPath = normalizePath(targetPath);
 
-    if (!targetQuery) {
-      return pathname.startsWith(targetPath);
-    }
+      if (!targetQuery) {
+        return normalizedTargetPath === "/admin" ||
+          normalizedTargetPath === "/teacher"
+          ? normalizedPathname === normalizedTargetPath
+          : normalizedPathname.startsWith(normalizedTargetPath);
+      }
 
-    if (pathname !== targetPath) return false;
+      if (normalizedPathname !== normalizedTargetPath) return false;
 
-    const targetParams = new URLSearchParams(targetQuery);
+      const targetParams = new URLSearchParams(targetQuery);
+      for (const [key, value] of targetParams.entries()) {
+        if (searchParams.get(key) !== value) return false;
+      }
 
-    for (const [key, value] of targetParams.entries()) {
-      if (searchParams.get(key) !== value) return false;
-    }
+      return true;
+    },
+    [normalizePath, pathname, searchParams],
+  );
 
-    return true;
-  };
+  useEffect(() => {
+    setExpandedMenus((prev) => {
+      const next = { ...prev };
+
+      sections.forEach((section) => {
+        section.links.forEach((link) => {
+          if (!Array.isArray(link.children)) return;
+
+          const menuKey = `${section.title}-${link.label}`;
+          const hasActiveChild = link.children.some((child) =>
+            isActive(child.href),
+          );
+
+          if (typeof next[menuKey] === "undefined") {
+            next[menuKey] = hasActiveChild;
+          } else if (hasActiveChild) {
+            next[menuKey] = true;
+          }
+        });
+      });
+
+      return next;
+    });
+  }, [isActive, pathname, sections]);
 
   const handleLogout = async () => {
     try {
@@ -659,129 +753,76 @@ export function Sidebar() {
       
 
       {/* Nav sections */}
-      <nav className="sidebar-nav ">
-        {sections.map((section) => {
-          if (section.type === "expandable") {
-            const isOpen = expandedSections[section.title] ?? false;
-            return (
-              <div key={section.title} className="sidebar-section flex flex-col gap-[16px]">
-                {/* Parent button — always styled per Figma */}
-                <button
-                  onClick={() =>
-                    setExpandedSections((prev) => ({
-                      ...prev,
-                      [section.title]: !prev[section.title],
-                    }))
-                  }
-                  className="w-full flex items-center gap-[12px] px-[10px] rounded-[8px] bg-[#F8FAFF] border border-[#E3E8EF] text-[#143888] transition-colors"
-                  style={{ height: "40px" }}
-                >
-                  <span className="shrink-0 w-[22px] h-[22px] flex items-center justify-center">
-                    {icons[section.icon]}
-                  </span>
-                  <span className="flex-1 text-left text-[14px] font-medium leading-[14px] text-[#143888]">
-                    {section.title}
-                  </span>
-                  <span
-                    className="shrink-0 w-[16px] h-[16px] flex items-center justify-center transition-transform duration-200 text-[#143888]"
-                    style={{ transform: isOpen ? "scaleY(-1)" : "scaleY(1)" }}
-                  >
-                    {icons.chevron}
-                  </span>
-                </button>
+      <nav className="sidebar-nav">
+        {sections.map((section) => (
+          <div key={section.title} className="sidebar-section">
+            <p className="sidebar-section-title">{section.title}</p>
+            {section.links.map((link) => {
+              const menuKey = `${section.title}-${link.label}`;
+              const hasChildren =
+                Array.isArray(link.children) && link.children.length > 0;
 
-                {isOpen && (() => {
-                  const n = section.sublinks.length;
-                  const STRIDE = 36; // 32px link + 4px gap
-                  const svgH = n * 32 + (n - 1) * 4;
-                  const lastY = (n - 1) * STRIDE + 16;
-                  return (
-                    <div className="flex flex-row gap-[7px] mt-3">
-                      {/* Connector SVG column */}
-                      <div className="shrink-0 flex items-start" style={{ width: "27px", paddingLeft: "14px" }}>
-                        <svg
-                          width="13"
-                          height={svgH}
-                          viewBox={`0 0 13 ${svgH}`}
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          {/* Vertical line from top to last connector */}
-                          <line x1="0.5" y1="0" x2="0.5" y2={lastY} stroke="#E3E8EF" strokeWidth="1" />
-                          {/* Rounded-corner branch per sublink */}
-                          {section.sublinks.map((_, i) => {
-                            const cy = i * STRIDE + 16;
-                            return (
-                              <path
-                                key={i}
-                                d={`M 0.5 ${cy - 4} Q 0.5 ${cy} 4.5 ${cy} L 13 ${cy}`}
-                                stroke="#E3E8EF"
-                                strokeWidth="1"
-                                fill="none"
-                              />
-                            );
-                          })}
-                        </svg>
-                      </div>
-
-                      {/* Links column */}
-                      <div className="flex flex-col gap-[4px]" style={{ width: "156px" }}>
-                        {section.sublinks.map((sub) => {
-                          const subActive = isActive(sub.href);
-                          return (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              className={`flex items-center px-[10px] rounded-[8px] text-[14px] font-medium leading-[16px] tracking-[-0.02em] transition-colors
-                                ${
-                                  subActive
-                                    ? "bg-[#F8FAFF] border border-[#E3E8EF] text-[#143888]"
-                                    : "text-[#757575] hover:bg-[#F8FAFF] hover:text-[#143888]"
-                                }`}
-                              style={{ height: "32px" }}
-                            >
-                              {sub.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-            );
-          }
-
-          return (
-            <div
-              key={section.title}
-              className="sidebar-section font-medium text-[10px] leading-3 capitalize text-[#16151c]"
-            >
-              <p className="font-medium text-[10px] leading-3 capitalize text-[#16151c]">
-                {section.title}
-              </p>
-              {section.links.map((link) => {
-                const isActivee = isActive(link.href);
-                return (
-                  <Link
-                    key={`${section.title}-${link.href}-${link.label}`}
-                    href={link.href}
-                    className={`sidebar-link flex items-center gap-3 px-3 py-2 rounded-lg transition-colors
-                    ${
-                      isActivee
-                        ? "bg-[#F8FAFF] text-[#143888] border-1 border-[1px] border-[#E3E8EF]"
-                        : "text-[##4a5568] hover:bg-[#F8FAFF] hover:text-[#143888]"
-                    }`}
-                  >
-                    <span className="sidebar-link-icon">{icons[link.icon]}</span>
-                    <span className="sidebar-link-label">{link.label}</span>
-                    <span className="sidebar-link-chevron">{icons.chevron}</span>
-                  </Link>
+              if (hasChildren) {
+                const hasActiveChild = link.children.some((child) =>
+                  isActive(child.href),
                 );
-              })}
-            </div>
-          );
-        })}
+                const isExpanded = !!expandedMenus[menuKey];
+
+                return (
+                  <div key={menuKey} className="sidebar-submenu-group">
+                    <button
+                      type="button"
+                      className={`sidebar-link sidebar-link-button${hasActiveChild ? " active" : ""}`}
+                      onClick={() =>
+                        setExpandedMenus((prev) => ({
+                          ...prev,
+                          [menuKey]: !prev[menuKey],
+                        }))
+                      }
+                    >
+                      <span className="sidebar-link-icon">
+                        {icons[link.icon]}
+                      </span>
+                      <span className="sidebar-link-label">{link.label}</span>
+                      <span
+                        className={`sidebar-link-chevron${
+                          isExpanded ? " sidebar-link-chevron-rotated" : ""
+                        }`}
+                      >
+                        {icons.chevron}
+                      </span>
+                    </button>
+
+                    {isExpanded && (
+                      <div className="sidebar-sublinks">
+                        {link.children.map((child) => (
+                          <Link
+                            key={`${menuKey}-${child.href}`}
+                            href={child.href}
+                            className={`sidebar-sublink${isActive(child.href) ? " active" : ""}`}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={`${section.title}-${link.href}-${link.label}`}
+                  href={link.href}
+                  className={`sidebar-link${isActive ? " active" : ""}`}
+                >
+                  <span className="sidebar-link-icon">{icons[link.icon]}</span>
+                  <span className="sidebar-link-label">{link.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* Bottom links (Help, etc.) */}
@@ -789,7 +830,7 @@ export function Sidebar() {
         <div className="sidebar-bottom-links">
           {bottomLinks.map((link) => (
             <Link
-              key={link.href}
+              key={`bottom-${link.href}-${link.label}`}
               href={link.href}
               className={`sidebar-link${isActive(link.href) ? " active" : ""}`}
             >

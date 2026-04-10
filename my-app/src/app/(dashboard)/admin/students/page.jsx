@@ -277,7 +277,7 @@ function StudentRow({ student }) {
             cursor: "pointer",
           }}
         >
-          <DotsIcon />
+          {/* <DotsIcon /> */}
         </button>
       </td>
     </tr>
@@ -341,8 +341,8 @@ function Pagination({ page, totalPages, onPage }) {
       {/* Back / Next */}
       <div style={{ display: "flex", gap: 8 }}>
         {[
-          { label: "Back", icon: <IconsChevronLeft />, side: "left" },
-          { label: "Next", icon: <IconsChevronRight />, side: "right" },
+          // { label: "Back", icon: <IconsChevronLeft />, side: "left" },
+          // { label: "Next", icon: <IconsChevronRight />, side: "right" },
         ].map((btn) => (
           <button
             key={btn.label}
@@ -463,280 +463,73 @@ export default function StudentsPage() {
   }, []);
 
   return (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <div
-        style={{
-          padding: 32,
-          display: "flex",
-          flexDirection: "column",
-          gap: 24,
-        }}
-      >
-        {/* Page header */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-          }}
-        >
-          <div>
-            <h1
-              style={{
-                fontFamily: "'Sora', sans-serif",
-                fontSize: 20,
-                fontWeight: 600,
-                color: T.blue2,
-                margin: 0,
-              }}
-            >
-              Students
-            </h1>
-            <p style={{ fontSize: 14, color: T.muted, margin: "3px 0 0" }}>
-              View and manage students
-            </p>
-          </div>
-          <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-            {/* Add new student */}
-            <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "6px 14px",
-                height: 36,
-                border: `1px solid ${T.border}`,
-                borderRadius: 8,
-                background: "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                color: T.blue2,
-                fontFamily: "inherit",
-              }}
-            >
-              Add new student
-              <PlusIcon />
-            </button>
-            {/* Import csv */}
-            {/* <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "6px 14px",
-                height: 36,
-                border: `0.5px solid rgba(0,0,0,0.08)`,
-                borderRadius: 8,
-                background: T.blue2,
-                cursor: "pointer",
-                fontSize: 14,
-                color: "#fff",
-                fontFamily: "inherit",
-              }}
-            >
-              Import csv
-              <ImportIcon />
-            </button> */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <input
-                type="file"
-                accept=".csv"
-                id="csvUpload"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-
-              <label
-                htmlFor="csvUpload"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "6px 14px",
-                  height: 36,
-                  border: `0.5px solid rgba(0,0,0,0.08)`,
-                  borderRadius: 8,
-                  background: T.blue2,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  color: "#fff",
-                }}
-              >
-                Select CSV
-                <ImportIcon />
-              </label>
-
-              <button
-                onClick={handleUploadCSV}
-                style={{
-                  padding: "6px 14px",
-                  height: 36,
-                  borderRadius: 8,
-                  background: "#16a34a",
-                  color: "#fff",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: 14,
-                }}
-              >
-                Upload
-              </button>
-            </div>
-          </div>
+    <div className="main-page">
+      {/* ── Header row ── */}
+      <div className="main-header">
+        <div className="main-header-text">
+          <h2 className="main-title">Students</h2>
+          <p className="main-subtitle">View and manage students</p>
         </div>
 
-        {/* Table card */}
-        <div
-          style={{
-            border: `1.5px solid ${T.border}`,
-            borderRadius: 8,
-            background: "#fff",
-            overflow: "hidden",
-          }}
-        >
-          {/* Toolbar */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "12px 16px",
-              height: 60,
-              background: T.bg,
-              borderBottom: `1px solid ${T.border}`,
-            }}
-          >
-            {/* Total */}
-            <div
-              style={{ display: "flex", alignItems: "center", gap: 8, flex: 1 }}
+        <div className="flex gap-4">
+          <button className="main-add-btn" onClick={() => setShowModal(true)}>
+            Add New Student
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="11"
+              height="11"
+              viewBox="0 0 11 11"
+              fill="none"
             >
-              <div
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 6,
-                  border: `1px solid ${T.border}`,
-                  background: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <StudentsIcon />
-              </div>
-              <span style={{ fontSize: 16, color: T.muted }}>
-                Total Students : <strong style={{ color: T.text }}>1285</strong>
-              </span>
-            </div>
-
-            {/* Right controls */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              {/* Search */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 12px",
-                  width: 310,
-                  height: 36,
-                  border: `1px solid #E5E9F0`,
-                  borderRadius: 8,
-                  background: "#fff",
-                }}
-              >
-                <SearchIcon />
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by id or name"
-                  style={{
-                    border: "none",
-                    outline: "none",
-                    background: "transparent",
-                    fontSize: 14,
-                    color: T.muted,
-                    fontFamily: "inherit",
-                    width: "100%",
-                  }}
-                />
-              </div>
-              {/* Filter */}
-              <button
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "8px 12px",
-                  height: 36,
-                  width: 78,
-                  border: `1px solid ${T.border}`,
-                  borderRadius: 8,
-                  background: "#fff",
-                  cursor: "pointer",
-                  fontSize: 14,
-                  color: T.text,
-                  fontFamily: "inherit",
-                  justifyContent: "center",
-                }}
-              >
-                <FilterIcon />
-                Filter
-              </button>
-              {/* Sort */}
-              <button
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "8px 12px",
-                  height: 36,
-                  width: 77,
-                  border: `1px solid ${T.border}`,
-                  borderRadius: 8,
-                  background: "#fff",
-                  cursor: "pointer",
-                  fontSize: 14,
-                  color: T.text,
-                  fontFamily: "inherit",
-                  justifyContent: "center",
-                }}
-              >
-                <SortIcon />
-                Sort
-              </button>
-            </div>
-          </div>
-
-          {/* Column headers */}
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr
-                style={{ borderBottom: `1px solid #E6EBF0`, background: T.bg }}
-              >
-                <th style={{ ...thStyle, width: 260 }}>Name</th>
-                <th style={thStyle}>Student ID</th>
-                <th style={thStyle}>Year</th>
-                <th style={thStyle}>Group</th>
-                <th style={thStyle}>Absence</th>
-                <th style={thStyle}>Status</th>
-                <th style={{ ...thStyle, width: 69 }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((s) => (
-                <StudentRow key={s.id} student={s} />
-              ))}
-            </tbody>
-          </table>
-
-          {/* Pagination */}
-          <Pagination page={page} totalPages={10} onPage={setPage} />
+              <path
+                d="M5.16667 0.5V9.83333M0.5 5.16667H9.83333"
+                stroke="#143888"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <button className="main-export-btn">
+            Import CSV
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M11.652 6.007C11.657 6.007 11.662 6.007 11.667 6.007C13.324 6.007 14.667 7.353 14.667 9.013C14.667 10.56 13.5 11.834 12 12M11.652 6.007C11.662 5.897 11.667 5.786 11.667 5.673C11.667 3.645 10.025 2 8 2C6.082 2 4.508 3.475 4.347 5.355M11.652 6.007C11.584 6.765 11.286 7.456 10.829 8.011M4.347 5.355C2.656 5.516 1.333 6.943 1.333 8.679C1.333 10.295 2.479 11.642 4 11.952M4.347 5.355C4.452 5.345 4.559 5.339 4.667 5.339C5.417 5.339 6.11 5.588 6.667 6.007"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M8 8.667L8 14M8 8.667C7.533 8.667 6.661 9.996 6.333 10.333M8 8.667C8.467 8.667 9.339 9.996 9.667 10.333"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="error-message" style={{ marginBottom: "20px" }}>
+          {error}
+        </div>
+      )}
+
+      {/* Students Table */}
+      {loading ? (
+        <div className="border border-[#e3e8ef] rounded-xl px-4 py-6 text-[14px] text-[#4a5567] bg-white">
+          Loading students...
+        </div>
+      ) : (<div>
+        {/* <AdminStudentsTable students={students} /> */}
+        </div>
+     ) }
     </div>
   );
 }
+
+
 
 const FilterIcon = () => {
   return (

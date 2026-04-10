@@ -1,20 +1,12 @@
 "use client";
 
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// AdminTeachersTable.jsx
-// ============================================
 
-import { useMemo, useState } from "react";
-
-const PAGE_SIZE = 7;
 import DataTable from "@/components/shared/DataTable";
-import {
-  Avatar,
-  IconDots,
-} from "@/components/shared/TableShared";
+import { Avatar, IconDots } from "@/components/shared/TableShared";
+import useDashboardTable from "@/hooks/useDashboardTable";
 
 const COLUMNS = ["Name", "Role", "Subjects", "Groups", "Action"];
+const PAGE_SIZE = 7;
 
 function TeacherRow({ teacher }) {
   return (
@@ -79,32 +71,20 @@ function normalizeTeacher(raw, index) {
 }
 
 export default function AdminTeachersTable({ teachers = [] }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const normalizedTeachers = useMemo(
-    () => teachers.map((t, i) => normalizeTeacher(t, i)),
-    [teachers],
-  );
-
-  const filteredTeachers = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return normalizedTeachers;
-    return normalizedTeachers.filter((t) =>
-      [t.name, t.email, t.role, t.subject, t.groups]
-        .some((v) => String(v).toLowerCase().includes(query)),
-    );
-  }, [normalizedTeachers, searchQuery]);
-
-  const handleSearch = (val) => {
-    setSearchQuery(val);
-    setCurrentPage(1);
-  };
-
-  const pagedTeachers = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return filteredTeachers.slice(start, start + PAGE_SIZE);
-  }, [filteredTeachers, currentPage]);
+  const {
+    searchQuery,
+    handleSearch,
+    page,
+    setPage,
+    normalizedItems: normalizedTeachers,
+    pagedItems: pagedTeachers,
+    totalCount,
+  } = useDashboardTable({
+    items: teachers,
+    normalizeItem: normalizeTeacher,
+    searchFields: ["name", "email", "role", "subject", "groups"],
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <DataTable
@@ -112,18 +92,17 @@ export default function AdminTeachersTable({ teachers = [] }) {
       count={normalizedTeachers.length}
       searchQuery={searchQuery}
       onSearch={handleSearch}
-      placeholder="Search by id or name"
+      placeholder="Search name, role, subject, groups..."
       columns={COLUMNS}
       tableClass="admin-teachers-table"
       headerClass="admin-teachers-table__header-row"
+      footerClass="admin-teachers-table__footer"
       emptyMessage="No teachers found."
-      pagination={{
-        currentPage,
-        totalItems: filteredTeachers.length,
-        pageSize: PAGE_SIZE,
-        onPageChange: setCurrentPage,
-        entityName: "teachers",
-      }}
+      rowLabel="teachers"
+      page={page}
+      pageSize={PAGE_SIZE}
+      totalCount={totalCount}
+      onPageChange={setPage}
     >
       {pagedTeachers.map((teacher) => (
         <TeacherRow key={teacher.id} teacher={teacher} />

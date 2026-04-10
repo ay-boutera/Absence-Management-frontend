@@ -13,10 +13,13 @@ export default {
         warning: "#F6C420",
       },
       fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        "digital-numbers": ["Digital", "monospace"],
         inter: ["Inter", "sans-serif"],
-        digital: ["Digital", "monospace"],
       },
     },
   },
   plugins: [],
 };
+
+// export default config;

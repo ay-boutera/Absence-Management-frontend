@@ -1,603 +1,96 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { Plus, Upload, GraduationCap, MoreVertical } from "lucide-react";
-
-
-const T = {
-  blue2: "#143888",
-  text: "#030712",
-  muted: "#4A5567",
-  border: "#E3E8EF",
-  bg: "#F8FAFF",
-  safe: { bg: "#E7F6EF", text: "#069855" },
-  warning: { bg: "#FFEDED", text: "#D62525" },
-  exclu: { bg: "#ECECEC", text: "#000000" },
-};
-const MOCK_TEACHERS = [
-  { id: "1", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["AI", "Data Structures", "Algorithms"], groups: ["1CP-G3", "1CS-G2", "2CP-G1"] },
-  { id: "2", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["AI", "Data Structures"], groups: ["1CS-G2"] },
-  { id: "3", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["AI", "Algorithms"], groups: ["1CP-G3", "2CP-G1"] },
-  { id: "4", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["AI", "Data Structures"], groups: ["1CP-G3", "2CP-G1"] },
-  { id: "5", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["Algorithms"], groups: ["1CS-G2"] },
-  { id: "6", name: "Dr. Bouhafs Rim", email: "r.bouhafs@esi-sba.dz", role: "Director", subjects: ["AI", "Algorithms"], groups: ["1CP-G3", "1CS-G2"] },
-];
-
-const AVATAR_COLORS = [
-  ["bg-blue-100", "text-blue-800"],
-  ["bg-pink-100", "text-pink-800"],
-  ["bg-emerald-100", "text-emerald-800"],
-  ["bg-amber-100", "text-amber-800"],
-  ["bg-violet-100", "text-violet-800"],
-  ["bg-rose-100", "text-rose-800"],
-];
-
-function Pagination({ page, totalPages, onPage }) {
-  const pages = [1, 2, 3, 4, 5, "...", 10];
-  return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "12px 16px",
-        borderTop: `1px solid ${T.border}`,
-      }}
-    >
-      {/* Showing */}
-      <div style={{ display: "flex", gap: 6, fontSize: 14, color: T.muted }}>
-        <span>Showing</span>
-        <span style={{ color: T.text }}>1 to 7 of 120</span>
-        <span>students</span>
-      </div>
-
-      {/* Pages */}
-      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-        {pages.map((p, i) =>
-          p === "..." ? (
-            <span
-              key={i}
-              style={{ padding: "0 4px", fontSize: 12, color: T.muted }}
-            >
-              ...
-            </span>
-          ) : (
-            <button
-              key={i}
-              onClick={() => onPage(p)}
-              style={{
-                width: 24,
-                height: 24,
-                borderRadius: 4,
-                border: p === page ? `1px solid ${T.blue2}` : "none",
-                background: "transparent",
-                fontSize: 12,
-                cursor: "pointer",
-                color: T.text,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "inherit",
-              }}
-            >
-              {p}
-            </button>
-          ),
-        )}
-      </div>
-
-      {/* Back / Next */}
-      <div style={{ display: "flex", gap: 8 }}>
-        {[
-          { label: "Back", icon: <IconsChevronLeft />, side: "left" },
-          { label: "Next", icon: <IconsChevronRight />, side: "right" },
-        ].map((btn) => (
-          <button
-            key={btn.label}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "8px 12px",
-              border: `1px solid ${T.border}`,
-              borderRadius: 6,
-              background: "#fff",
-              cursor: "pointer",
-              fontSize: 14,
-              color: T.text,
-              fontFamily: "inherit",
-              boxShadow: "0 1px 1px rgba(0,0,0,0.04)",
-            }}
-          >
-            {btn.side === "left" && btn.icon}
-            {btn.label}
-            {btn.side === "right" && btn.icon}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
-function TableToolbar({
-  icon,
-  totalLabel,
-  totalCount,
-  search,
-  onSearchChange,
-  searchPlaceholder = "Search by id or name",
-}) {
-  return (
-    <div className="flex items-center justify-between px-4 py-3 border-b border-[#E3E8EF] bg-[#F8FAFF]">
-      <div className="flex items-center gap-2 text-muted-foreground">
-        <div style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 6,
-                  border: `1px solid ${T.border}`,
-                  background: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-        <HatIcon /> </div>
-        <span className="text-sm font-medium text-foreground">
-          {totalLabel} :{" "}
-          <span className="font-semibold">{totalCount}</span>
-        </span>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <div className="relative">
-          <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "8px 12px",
-                  width: 310,
-                  height: 36,
-                  border: `1px solid #E5E9F0`,
-                  borderRadius: 8,
-                  background: "#fff",
-                }}
-              >
-                <SearchIcon />
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search by id or name"
-                  style={{
-                    border: "none",
-                    outline: "none",
-                    background: "transparent",
-                    fontSize: 14,
-                    color: T.muted,
-                    fontFamily: "inherit",
-                    width: "100%",
-                  }}
-                />
-              </div>
-         
-        </div>
-
-        <button className="flex items-center gap-1.5 px-3 h-9 text-sm border border-[#E3E8EF] rounded-lg hover:bg-muted transition-colors text-foreground">
-          {/* <SlidersHorizontal size={14} />  */}
-          Filter
-        </button>
-
-        <button className="flex items-center gap-1.5 px-3 h-9 text-sm border border-[#E3E8EF] rounded-lg hover:bg-muted transition-colors text-foreground">
-          <SortIcon size={14} /> 
-          Sort
-        </button>
-      </div>
-    </div>
-  );
-}
-
-const IconsChevronLeft = () => {
-  return (
-    <div>
-      <svg
-        width="5"
-        height="9"
-        viewBox="0 0 5 9"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M4.09998 7.59998L0.599976 4.09998L4.09998 0.599976"
-          stroke="#4A5567"
-          stroke-width="1.2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </div>
-  );
-};
-
-const IconsChevronRight = () => {
-  return (
-    <div>
-      <svg
-        width="5"
-        height="9"
-        viewBox="0 0 5 9"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0.599976 7.59998L4.09998 4.09998L0.599976 0.599976"
-          stroke="#4A5567"
-          stroke-width="1.2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </div>
-  );
-};
-function TeacherAvatar({ teacher }) {
-  const idx = parseInt(teacher.id) % AVATAR_COLORS.length;
-  const [bg, fg] = AVATAR_COLORS[idx];
-
-  const initials = teacher.name
-    .split(" ")
-    .slice(-2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-
-  return (
-    <div
-      className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold ${bg} ${fg}`}
-    >
-      {initials}
-    </div>
-  );
-}
-
-function Badge({ children }) {
-  return (
-    <div
-      style={{
-        boxSizing: "border-box",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "3px 11px",
-        gap: "10px",
-        border: "0.8px solid rgba(0, 0, 0, 0.08)",
-        borderRadius: "60px",
-        fontFamily: "Poppins, sans-serif",
-      }}
-    >
-      <span
-        style={{
-          fontWeight: 400,
-          fontSize: "12px",
-          lineHeight: "20px",
-          textAlign: "center",
-          letterSpacing: "-0.02em",
-          color: "#000000",
-        }}
-      >
-        {children}
-      </span>
-    </div>
-  );
-}
-
-
-export default function TeachersPage() {
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+import { useState, useEffect } from "react";
+import { getAllTeachers } from "@/services/accountsService";
+import AdminTeachersTable from "@/components/dashboard/AdminTeachersTable";
+function TeachersPage() {
+  // ── State ─────────────────────────────────────
   const [teachers, setTeachers] = useState([]);
-  const perPage = 7;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [, setShowModal] = useState(false);
 
-  //   t3 csv
-  const [csvFile, setCsvFile] = useState(null);
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setCsvFile(file);
-    }
-  };
-
-
+  // ── Fetch Teachers ───────────────────────────────
   const fetchTeachers = async () => {
-      try {
-        setLoading(true);
-        const data = await getAllTeachers();
-        setTeachers(data);
-        setError("");
-      } catch (err) {
-        setError("Failed to load teachers");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  const handleUploadCSV = async () => {
-    if (!csvFile) return;
-
-    setLoading(true);
-
     try {
-      const formData = new FormData();
-      formData.append("file", csvFile);
-
-      const res = await fetch("http://localhost:8000/api/v1/import/teachers", {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
-
-      const data = await res.json().catch(() => null);
-
-      if (!res.ok) {
-        throw new Error(data?.detail || "Upload failed");
-      }
-
-      alert("CSV uploaded successfully");
-      fetchTeachers();
+      setLoading(true);
+      const data = await getAllTeachers();
+      setTeachers(data);
+      setError("");
     } catch (err) {
+      setError("Failed to load teachers");
       console.error(err);
-      alert(err.message);
     } finally {
       setLoading(false);
     }
   };
-  //   t3 csv
 
-  const filtered = useMemo(() => {
-    if (!search) return MOCK_TEACHERS;
-    const q = search.toLowerCase();
-    return MOCK_TEACHERS.filter(
-      (t) =>
-        t.name.toLowerCase().includes(q) ||
-        t.email.toLowerCase().includes(q)
-    );
-  }, [search]);
-  
-
-  const totalPages = Math.ceil(filtered.length / perPage) || 1;
-  const paged = filtered.slice((page - 1) * perPage, page * perPage);
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
   return (
-    <div className="m-12">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        
-        <div>
-            <h1
-              style={{
-                fontFamily: "'Sora', sans-serif",
-                fontSize: 20,
-                fontWeight: 600,
-                color: T.blue2,
-                margin: 0,
-              }}
-            >
-              Teachers
-            </h1>
-            <p style={{ fontSize: 14, color: T.muted, margin: "3px 0 0" }}>
-              View and manage teachers
-            </p>
-          </div>
-          <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-           
-            <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "6px 14px",
-                height: 36,
-                border: `1px solid ${T.border}`,
-                borderRadius: 8,
-                background: "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                color: T.blue2,
-                fontFamily: "inherit",
-              }}
-            >
-              Add new teacher
-              <PlusIcon />
-            </button>
-            {/* Import csv */}
-            {/* <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                padding: "6px 14px",
-                height: 36,
-                border: `0.5px solid rgba(0,0,0,0.08)`,
-                borderRadius: 8,
-                background: T.blue2,
-                cursor: "pointer",
-                fontSize: 14,
-                color: "#fff",
-                fontFamily: "inherit",
-              }}
-            >
-              Import csv
-              <ImportIcon />
-            </button> */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <input
-                type="file"
-                accept=".csv"
-                id="csvUpload"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-
-              <label
-                htmlFor="csvUpload"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  padding: "6px 14px",
-                  height: 36,
-                  border: `0.5px solid rgba(0,0,0,0.08)`,
-                  borderRadius: 8,
-                  background: T.blue2,
-                  cursor: "pointer",
-                  fontSize: 14,
-                  color: "#fff",
-                }}
-              >
-                Select CSV
-                <ImportIcon />
-              </label>
-
-              <button
-                onClick={handleUploadCSV}
-                style={{
-                  padding: "6px 14px",
-                  height: 36,
-                  borderRadius: 8,
-                  background: "#16a34a",
-                  color: "#fff",
-                  border: "none",
-                  cursor: "pointer",
-                  fontSize: 14,
-                }}
-              >
-                Upload
-              </button>
-            </div>
-          </div>
-
-        
-      </div>
-
-
-      {/* Table card */}
-      <div className="bg-card rounded-xl border border-[#E3E8EF]">
-        <TableToolbar
-          icon={<GraduationCap size={18} />}
-          totalLabel="Total teachers"
-          totalCount={26}
-          search={search}
-          onSearchChange={setSearch}
-        />
-
-        <div className="overflow-x-auto ">
-          <table className="w-full ">
-            <thead> 
-              <tr className="border-b border-[#E3E8EF] bg-[#F8FAFF]">
-                {["Name", "Role", "Subjects", "Groups", "Action"].map((h) => (
-                  <th
-                    key={h}
-                    className="px-4 py-3 text-left text-xs font-normal text-muted-foreground whitespace-nowrap"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {paged.map((t) => (
-                <tr
-                  key={t.id}
-                  className="border-b border-[#E3E8EF] last:border-0 hover:bg-muted/30 transition-colors"
-                >
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <TeacherAvatar teacher={t} />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">
-                          {t.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {t.email}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="px-4 py-3 text-sm text-foreground">
-                    {t.role}
-                  </td>
-
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap gap-1">
-                      {t.subjects.slice(0, 3).map((s) => (
-                        <Badge
-                          key={s}
-                          variant="secondary"
-                          className="text-xs font-normal"
-                        >
-                          {s}
-                        </Badge>
-                      ))}
-                      {t.subjects.length > 3 && (
-                        <Badge variant="secondary" className="text-xs font-normal">
-                          ...
-                        </Badge>
-                      )}
-                    </div>
-                  </td>
-
-                  <td className="px-4 py-3">
-  <div className="flex flex-wrap gap-1">
-    {t.groups.map((g) => (
-      <div
-        key={g}
-        style={{
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "3px 11px",
-          border: "0.8px solid rgba(0, 0, 0, 0.08)",
-          borderRadius: "60px",
-          fontFamily: "Poppins, sans-serif",
-        }}
-      >
-        <span
-          style={{
-            fontWeight: 400,
-            fontSize: "12px",
-            lineHeight: "20px",
-            textAlign: "center",
-            letterSpacing: "-0.02em",
-            color: "#000000",
-          }}
-        >
-          {g}
-        </span>
-      </div>
-    ))}
-  </div>
-</td>
-
-                  <td className="px-4 py-3">
-                    <button className="p-1 rounded hover:bg-muted transition-colors text-muted-foreground">
-                      <MoreVertical size={16} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="main-page">
+      {/* ── Header row ── */}
+      <div className="main-header">
+        <div className="main-header-text">
+          <h2 className="main-title">Teachers</h2>
+          <p className="main-subtitle">View and manage teachers</p>
         </div>
 
-        <Pagination
-  page={page}
-  totalPages={totalPages}
-  onPage={setPage}
-/>
+        <div className="flex gap-4">
+          <button className="main-add-btn" onClick={() => setShowModal(true)}>
+            Add New Teacher
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="11"
+              height="11"
+              viewBox="0 0 11 11"
+              fill="none"
+            >
+              <path
+                d="M5.16667 0.5V9.83333M0.5 5.16667H9.83333"
+                stroke="#143888"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          <button className="main-export-btn">
+            Import CSV
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path
+                d="M11.652 6.007C11.657 6.007 11.662 6.007 11.667 6.007C13.324 6.007 14.667 7.353 14.667 9.013C14.667 10.56 13.5 11.834 12 12M11.652 6.007C11.662 5.897 11.667 5.786 11.667 5.673C11.667 3.645 10.025 2 8 2C6.082 2 4.508 3.475 4.347 5.355M11.652 6.007C11.584 6.765 11.286 7.456 10.829 8.011M4.347 5.355C2.656 5.516 1.333 6.943 1.333 8.679C1.333 10.295 2.479 11.642 4 11.952M4.347 5.355C4.452 5.345 4.559 5.339 4.667 5.339C5.417 5.339 6.11 5.588 6.667 6.007"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M8 8.667L8 14M8 8.667C7.533 8.667 6.661 9.996 6.333 10.333M8 8.667C8.467 8.667 9.339 9.996 9.667 10.333"
+                stroke="white"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="error-message" style={{ marginBottom: "20px" }}>
+          {error}
+        </div>
+      )}
+
+      {/* Teachers Table */}
+      {loading ? (
+        <div className="border border-[#e3e8ef] rounded-xl px-4 py-6 text-[14px] text-[#4a5567] bg-white">
+          Loading teachers...
+        </div>
+      ) : (
+        <AdminTeachersTable teachers={teachers} />
+      )}
     </div>
   );
 }
@@ -799,3 +292,4 @@ const HatIcon = () => {
 };
 
 
+export default TeachersPage;

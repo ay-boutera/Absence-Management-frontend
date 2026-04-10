@@ -1,12 +1,7 @@
 "use client";
 
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// AdminStudentsTable.jsx
-// ============================================
-
-import { useMemo, useState } from "react";
 import DataTable from "@/components/shared/DataTable";
+import useDashboardTable from "@/hooks/useDashboardTable";
 import {
   Avatar,
   StatusBadge,
@@ -14,7 +9,15 @@ import {
   IconDots,
 } from "@/components/shared/TableShared";
 
-const COLUMNS = ["Name", "Student ID", "Year", "Group", "Absence", "Status", "Action"];
+const COLUMNS = [
+  "Name",
+  "Student ID",
+  "Year",
+  "Group",
+  "Absence",
+  "Status",
+  "Action",
+];
 const PAGE_SIZE = 7;
 
 function StudentRow({ student }) {
@@ -84,33 +87,20 @@ function normalizeStudent(raw, index) {
 }
 
 export default function AdminStudentsTable({ students = [] }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const normalizedStudents = useMemo(
-    () => students.map((s, i) => normalizeStudent(s, i)),
-    [students],
-  );
-
-  const filteredStudents = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
-    if (!query) return normalizedStudents;
-    return normalizedStudents.filter((s) =>
-      [s.name, s.email, String(s.studentId), String(s.group), String(s.year)]
-        .some((v) => v.toLowerCase().includes(query)),
-    );
-  }, [normalizedStudents, searchQuery]);
-
-  // Reset to page 1 when filter changes
-  const handleSearch = (val) => {
-    setSearchQuery(val);
-    setCurrentPage(1);
-  };
-
-  const pagedStudents = useMemo(() => {
-    const start = (currentPage - 1) * PAGE_SIZE;
-    return filteredStudents.slice(start, start + PAGE_SIZE);
-  }, [filteredStudents, currentPage]);
+  const {
+    searchQuery,
+    handleSearch,
+    page,
+    setPage,
+    normalizedItems: normalizedStudents,
+    pagedItems: pagedStudents,
+    totalCount,
+  } = useDashboardTable({
+    items: students,
+    normalizeItem: normalizeStudent,
+    searchFields: ["name", "email", "studentId", "group", "year"],
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <DataTable
@@ -118,18 +108,17 @@ export default function AdminStudentsTable({ students = [] }) {
       count={normalizedStudents.length}
       searchQuery={searchQuery}
       onSearch={handleSearch}
-      placeholder="Search by id or name"
+      placeholder="Search name, id, year, group..."
       columns={COLUMNS}
       tableClass="admin-students-table"
       headerClass="admin-students-table__header-row"
+      footerClass="admin-students-table__footer"
       emptyMessage="No students found."
-      pagination={{
-        currentPage,
-        totalItems: filteredStudents.length,
-        pageSize: PAGE_SIZE,
-        onPageChange: setCurrentPage,
-        entityName: "students",
-      }}
+      rowLabel="students"
+      page={page}
+      pageSize={PAGE_SIZE}
+      totalCount={totalCount}
+      onPageChange={setPage}
     >
       {pagedStudents.map((student) => (
         <StudentRow key={student.id} student={student} />

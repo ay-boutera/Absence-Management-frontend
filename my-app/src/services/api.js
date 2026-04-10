@@ -2,7 +2,7 @@ import axios from "axios";
 import { CONFIG, API_ENDPOINTS } from "@/lib/constants";
 
 const api = axios.create({
-  baseURL: "/api",  
+  baseURL: "/api",  // ← was CONFIG.API_URL or the env var
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })
