@@ -1,8 +1,3 @@
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// tableShared.jsx — Shared table atoms
-// ============================================
-
 export function IconGroup() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -87,7 +82,7 @@ export function Avatar({ name, fallback = "?", color = "#e2e8f0" }) {
 
   return (
     <div
-      className="w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-gray-600 shrink-0"
+      className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-gray-600 shrink-0"
       style={{ backgroundColor: color }}
     >
       {initials}
@@ -142,16 +137,16 @@ export function StatusBadge({ status }) {
         display: "inline-flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "2px 8px",
+        padding: "0 8px",
         height: 24,
         borderRadius: 4,
         background: style.bg,
         color: style.color,
-        border: `1px solid ${style.border}`,
         fontFamily: "Inter, sans-serif",
         fontWeight: 400,
         fontSize: 12,
-        letterSpacing: "-0.24px",
+        lineHeight: "20px",
+        letterSpacing: "-0.02em",
         whiteSpace: "nowrap",
       }}
     >
@@ -165,7 +160,7 @@ export function StatusBadge({ status }) {
 export function YearBadge({ value, className = "", style }) {
   return (
     <span
-      className={`inline-flex items-center rounded-md border border-[#dbe3ff] bg-[#eef3ff] px-2 py-0.5 text-[14px] font-medium text-[#143888] ${className}`.trim()}
+      className={`inline-flex items-center rounded-full border border-[#dbe3ff] bg-[#eef3ff] px-2 py-0.5 text-[11px] font-medium text-[#143888] ${className}`.trim()}
       style={style}
     >
       {value || "—"}

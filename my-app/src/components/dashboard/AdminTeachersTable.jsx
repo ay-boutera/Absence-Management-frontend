@@ -1,9 +1,5 @@
 "use client";
 
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// AdminTeachersTable.jsx
-// ============================================
 
 import DataTable from "@/components/shared/DataTable";
 import { Avatar, IconDots } from "@/components/shared/TableShared";

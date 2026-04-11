@@ -1,87 +1,16 @@
-"use client";
-
 // ============================================
 // AMS — ESI Sidi Bel Abbès
 // DataTable.jsx — Shared table shell
 // ============================================
 
+"use client";
 import {
-  IconGroup,
   IconSearch,
   FilterIcon,
   SortIcon,
 } from "@/components/shared/TableShared";
-import { useLayoutEffect, useRef, useState } from "react";
 
-// ── Pagination helpers ──────────────────────────────────────────────────────
 
-function buildPageList(current, total) {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
-  const pages = [];
-  if (current <= 4) {
-    pages.push(1, 2, 3, 4, 5, "…", total);
-  } else if (current >= total - 3) {
-    pages.push(1, "…", total - 4, total - 3, total - 2, total - 1, total);
-  } else {
-    pages.push(1, "…", current - 1, current, current + 1, "…", total);
-  }
-  return pages;
-}
-
-function ChevronLeft() {
-  return (
-    <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden>
-      <path
-        d="M6 1L1.5 5.5L6 10"
-        stroke="#030712"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function ChevronRight() {
-  return (
-    <svg width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden>
-      <path
-        d="M1 1L5.5 5.5L1 10"
-        stroke="#030712"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-// ── Component ───────────────────────────────────────────────────────────────
-
-/**
- * DataTable — shared table container used by Admin/Session tables.
- *
- * Props:
- *  - icon            JSX       custom icon for toolbar (defaults to IconGroup)
- *  - title           string    e.g. "Total Students"
- *  - count           number    total record count (for toolbar display)
- *  - searchQuery     string
- *  - onSearch        fn(value)
- *  - placeholder     string    search input placeholder
- *  - columns         string[]  column header labels
- *  - children        ReactNode the rendered rows
- *  - emptyMessage    string
- *  - extraTools      ReactNode extra buttons appended after Sort (optional)
- *  - tableClass      string    BEM modifier class on the root div
- *  - headerClass     string    BEM class for the header row div
- *  - footerClass     string    optional class appended to pagination footer
- *  ── Pagination ──
- *  - rowLabel        string    e.g. "students" — shown in "Showing X to Y of Z students"
- *  - page            number    current 1-based page (omit to hide pagination)
- *  - pageSize        number    rows per page (default 7)
- *  - totalCount      number    total records from API
- *  - onPageChange    fn(page)
- */
 export default function DataTable({
   icon,
   title,
@@ -99,73 +28,33 @@ export default function DataTable({
   extraTools,
   tableClass = "",
   headerClass = "admin-data-table__header-row",
-  footerClass = "",
-  // pagination
-  rowLabel = "results",
-  page,
-  pageSize = 7,
-  totalCount,
-  onPageChange,
+  pagination,
 }) {
-  const hasPagination =
-    typeof page === "number" &&
-    typeof totalCount === "number" &&
-    typeof onPageChange === "function";
+  const showPagination = !!pagination;
+  const { currentPage = 1, totalItems = 0, pageSize = 7, onPageChange, entityName = "items" } =
+    pagination ?? {};
 
-  const totalPages = hasPagination
-    ? Math.max(1, Math.ceil(totalCount / pageSize))
-    : 1;
-  const from = hasPagination && totalCount > 0 ? (page - 1) * pageSize + 1 : 0;
-  const to = hasPagination ? Math.min(page * pageSize, totalCount) : 0;
-  const pageList = hasPagination ? buildPageList(page, totalPages) : [];
-  const bodyRef = useRef(null);
-  const [fullPageBodyHeight, setFullPageBodyHeight] = useState(0);
-  const [currentRowsHeight, setCurrentRowsHeight] = useState(0);
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+  const from = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
+  const to = Math.min(currentPage * pageSize, totalItems);
 
-  const visibleRowCount = Array.isArray(children)
-    ? children.length
-    : children
-      ? 1
-      : 0;
-
-  useLayoutEffect(() => {
-    if (!hasPagination) return;
-
-    const bodyEl = bodyRef.current;
-    if (!bodyEl) return;
-
-    const rowElements = Array.from(bodyEl.children).filter((el) => {
-      return (
-        !el.classList.contains("admin-data-table__rows-filler") &&
-        !el.classList.contains("admin-data-table__empty")
-      );
-    });
-
-    const measuredRowsHeight = Math.ceil(
-      rowElements.reduce(
-        (sum, el) => sum + el.getBoundingClientRect().height,
-        0,
-      ),
-    );
-
-    if (measuredRowsHeight !== currentRowsHeight) {
-      setCurrentRowsHeight(measuredRowsHeight);
+  function buildPageNumbers() {
+    const pages = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+      return pages;
     }
-
-    if (visibleRowCount > 0 && measuredRowsHeight > 0) {
-      const estimatedFullPageHeight =
-        visibleRowCount === pageSize
-          ? measuredRowsHeight
-          : Math.ceil((measuredRowsHeight / visibleRowCount) * pageSize);
-
-      setFullPageBodyHeight((prev) => Math.max(prev, estimatedFullPageHeight));
+    const show = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(
+      (p) => p >= 1 && p <= totalPages,
+    ));
+    const sorted = Array.from(show).sort((a, b) => a - b);
+    const result = [];
+    for (let i = 0; i < sorted.length; i++) {
+      if (i > 0 && sorted[i] - sorted[i - 1] > 1) result.push("...");
+      result.push(sorted[i]);
     }
-  }, [hasPagination, page, pageSize, visibleRowCount, currentRowsHeight]);
-
-  const fillerHeight =
-    hasPagination && visibleRowCount > 0 && visibleRowCount < pageSize
-      ? Math.max(0, fullPageBodyHeight - currentRowsHeight)
-      : 0;
+    return result;
+  }
 
   return (
     <div className={`admin-data-table ${tableClass}`}>
@@ -175,7 +64,11 @@ export default function DataTable({
           <div className="admin-data-table__toolbar">
             <div className="admin-data-table__title-wrap">
               <div className="admin-data-table__title-icon">
-                {icon ?? <IconGroup />}
+                {icon ?? (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.9775 2.66671C12.2708 2.66671 13.3108 3.71337 13.3108 5.00004C13.3108 6.26004 12.3108 7.28671 11.0642 7.33337C11.0108 7.32671 10.9508 7.32671 10.8908 7.33337M12.2642 13.3334C12.7442 13.2334 13.1975 13.04 13.5708 12.7534C14.6108 11.9734 14.6108 10.6867 13.5708 9.90671C13.2042 9.62671 12.7575 9.44004 12.2842 9.33337M6.14416 7.24671C6.0775 7.24004 5.9975 7.24004 5.92416 7.24671C4.3375 7.19337 3.0775 5.89337 3.0775 4.29337C3.0775 2.66004 4.3975 1.33337 6.0375 1.33337C7.67083 1.33337 8.9975 2.66004 8.9975 4.29337C8.99083 5.89337 7.73083 7.19337 6.14416 7.24671ZM2.81083 9.70671C1.1975 10.7867 1.1975 12.5467 2.81083 13.62C4.64416 14.8467 7.65083 14.8467 9.48416 13.62C11.0975 12.54 11.0975 10.78 9.48416 9.70671C7.6575 8.48671 4.65083 8.48671 2.81083 9.70671Z" stroke="black" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                )}
               </div>
               <div className="admin-data-table__title-content">
                 <span className="admin-data-table__title">{title} :</span>
@@ -232,7 +125,7 @@ export default function DataTable({
                       : ""
                   }`}
                 >
-                  {col}
+                  {col.label}
                 </span>
               ))}
             </div>
@@ -240,83 +133,62 @@ export default function DataTable({
         </>
       )}
 
-      <div className="admin-data-table__body" ref={bodyRef}>
-        {/* ── Rows ── */}
-        {children}
+      {/* ── Rows ── */}
+      {children}
 
-        {fillerHeight > 0 && (
-          <span
-            className="admin-data-table__rows-filler"
-            style={{ height: `${fillerHeight}px`, display: "block" }}
-            aria-hidden="true"
-          />
-        )}
-
-        {/* ── Empty state ── */}
-        {(!children || (Array.isArray(children) && children.length === 0)) && (
-          <div className="admin-data-table__empty">{emptyMessage}</div>
-        )}
-      </div>
+      {/* ── Empty state ── */}
+      {(!children || (Array.isArray(children) && children.length === 0)) && (
+        <div className="h-16 flex items-center justify-center text-[13px] text-[#6b7280]">
+          {emptyMessage}
+        </div>
+      )}
 
       {/* ── Pagination footer ── */}
-      {hasPagination && (
-        <div
-          className={`admin-data-table__footer${footerClass ? ` ${footerClass}` : ""}`}
-        >
-          {/* Left: showing info */}
-          <p className="admin-data-table__footer-info">
-            <span className="admin-data-table__footer-label">Showing </span>
-            <span className="admin-data-table__footer-range">
-              {from} to {to} of {totalCount}
-            </span>
-            <span className="admin-data-table__footer-label"> {rowLabel}</span>
-          </p>
+      {showPagination && (
+        <div className="admin-data-table__pagination-footer">
+          <span className="admin-data-table__pagination-info">
+            Showing&nbsp;
+            <strong>{from} to {to}</strong>
+            &nbsp;of {totalItems} {entityName}
+          </span>
 
-          {/* Center: page numbers */}
-          <div className="admin-data-table__page-numbers">
-            {pageList.map((p, i) =>
-              p === "…" ? (
-                <span
-                  key={`ellipsis-${i}`}
-                  className="admin-data-table__page-ellipsis"
-                >
+          <div className="admin-data-table__pagination-center">
+            {buildPageNumbers().map((page, i) =>
+              page === "..." ? (
+                <span key={`ellipsis-${i}`} className="admin-data-table__page-btn">
                   ...
                 </span>
               ) : (
                 <button
-                  key={p}
+                  key={page}
                   type="button"
+                  onClick={() => onPageChange?.(page)}
                   className={`admin-data-table__page-btn${
-                    p === page ? " admin-data-table__page-btn--active" : ""
+                    page === currentPage ? " admin-data-table__page-btn--active" : ""
                   }`}
-                  onClick={() => onPageChange(p)}
-                  aria-current={p === page ? "page" : undefined}
                 >
-                  {p}
+                  {page}
                 </button>
               ),
             )}
           </div>
 
-          {/* Right: Back / Next */}
-          <div className="admin-data-table__footer-nav">
+          <div className="admin-data-table__pagination-nav">
             <button
               type="button"
               className="admin-data-table__nav-btn"
-              disabled={page <= 1}
-              onClick={() => onPageChange(page - 1)}
+              onClick={() => onPageChange?.(currentPage - 1)}
+              disabled={currentPage <= 1}
             >
-              <ChevronLeft />
-              Back
+              &lsaquo; Back
             </button>
             <button
               type="button"
               className="admin-data-table__nav-btn"
-              disabled={page >= totalPages}
-              onClick={() => onPageChange(page + 1)}
+              onClick={() => onPageChange?.(currentPage + 1)}
+              disabled={currentPage >= totalPages}
             >
-              Next
-              <ChevronRight />
+              Next &rsaquo;
             </button>
           </div>
         </div>

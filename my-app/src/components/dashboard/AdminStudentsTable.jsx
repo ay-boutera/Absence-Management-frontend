@@ -1,10 +1,5 @@
 "use client";
 
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// AdminStudentsTable.jsx
-// ============================================
-
 import DataTable from "@/components/shared/DataTable";
 import useDashboardTable from "@/hooks/useDashboardTable";
 import {

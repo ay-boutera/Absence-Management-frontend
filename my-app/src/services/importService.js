@@ -9,7 +9,7 @@ const postImportFile = async (endpoint, file) => {
 
   const response = await api.post(endpoint, formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": undefined, // let the browser set multipart/form-data + boundary
     },
     validateStatus: (status) => IMPORT_RESPONSE_STATUS.has(status),
   });

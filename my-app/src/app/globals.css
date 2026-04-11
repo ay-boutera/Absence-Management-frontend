@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 /* ── Custom fonts ─────────────────────────── */
@@ -278,43 +277,13 @@ button {
 }
 
 /* ============================================
-   DASHBOARD LAYOUT
-   ============================================ */
-
-.dashboard-layout {
-  display: flex;
-  min-height: 100vh;
-  background: #ffffff;
-}
-
-.dashboard-main {
-  display: flex;
-  flex-direction: column;
-  margin-left: 22rem;
-  width: calc(100% - 22rem);
-  min-height: 100vh;
-}
-
-.dashboard-content {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-}
-.header-title-table {
-  font-size: 1.2rem;
-  font-weight: 500;
-  font-family: "Inter", sans-serif;
-  color: #4a5567;
-}
-
-/* ============================================
    DASHBOARD PAGE
    ============================================ */
 
 .main-page {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 21px;
   padding: 24px;
   width: 100%;
 }
@@ -343,7 +312,7 @@ button {
 }
 
 .main-title {
-  font-size: 2rem;
+  font-size: 20px;
   font-family: "Inter", sans-serif;
   font-weight: 600;
   color: #143888;
@@ -362,15 +331,15 @@ button {
 .main-export-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 40px;
-  padding: 0 20px;
+  gap: 12px;
+  height: 36px;
+  padding: 6px 14px;
   background: #143888;
   color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   flex-shrink: 0;
   transition: background 0.15s ease;
 }
@@ -378,20 +347,29 @@ button {
 .main-export-btn:hover {
   background: #0f2d6e;
 }
+
+.main-export-btn svg {
+  margin-left: 2px;
+}
+
 .main-add-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 40px;
-  padding: 0 20px;
-  background: #f8faff;
+  height: 36px;
+  padding: 6px 14px;
+  background: #ffffff;
   color: #143888;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid #e3e8ef;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   flex-shrink: 0;
   transition: background 0.15s ease;
+}
+
+.main-add-btn:hover {
+  background: #f8faff;
 }
 
 .justifications-actions {
@@ -454,6 +432,7 @@ button {
   background: #069855;
   color: #ffffff;
 }
+
 /* ============================================
    STATS CARDS
    ============================================ */
@@ -468,10 +447,10 @@ button {
 .stats-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 16px;
   flex: 1;
   min-width: 180px;
-  height: 12rem;
+  height: 138px;
   padding: 12px 20px;
   background: #ffffff;
   border: 1px solid #e3e8ef;
@@ -488,37 +467,37 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
 }
 
 .stats-card-label {
-  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.6);
   line-height: 20px;
   text-align: right;
-  max-width: 80px;
+  max-width: 90px;
 }
 
 .stats-card-body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-bottom: 2px;
 }
 
 .stats-card-title {
-  font-size: 1.2rem;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
   font-weight: 400;
-  color: #000000;
-  line-height: 20px;
-  margin: 0;
+  margin: -2px 0 0;
 }
 
 .stats-card-value {
-  font-size: 1.6rem;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
   font-weight: 600;
   color: #000000;
   line-height: 40px;
@@ -533,6 +512,7 @@ button {
   display: flex;
   gap: 25px;
   width: 100%;
+  align-items: flex-start;
 }
 
 @media (max-width: 900px) {
@@ -563,7 +543,6 @@ button {
   font-weight: 600;
   color: #000000;
   margin: 0;
-  white-space: nowrap;
 }
 
 .chart-year {
@@ -607,15 +586,13 @@ button {
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 22rem;
+  width: 15rem;
   height: 100vh;
-  padding: 1.5rem 2rem;
   background: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
-  position: fixed;
-  left: 0;
-  top: 0;
+  position: sticky;
   z-index: 20;
+  @apply px-[24px]
 }
 
 .sidebar-nav {
@@ -655,7 +632,6 @@ button {
   height: 40px;
   padding: 0 10px;
   width: 100%;
-  border: 1px solid transparent;
   border-radius: 8px;
 }
 
@@ -678,14 +654,17 @@ button {
 .sidebar-link:hover {
   background: #f8faff;
   color: #143888;
-  border: 1px solid #e3e8ef;
-
+  border: 1px solid #E3E8EF;
 }
 
 .sidebar-link.active {
   background: #f8faff;
-  border: 1px solid #e3e8ef;
+  border: 1px solid #E3E8EF;
   color: #143888;
+}
+
+.active {
+  @apply bg-[#F8FAFF] text-[#143888] border-1 border-[1px] border-[#E3E8EF]
 }
 
 .sidebar-link-icon {
@@ -715,8 +694,8 @@ button {
 
 .sidebar-link-label {
   flex: 1;
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 20px;
   color: inherit;
   white-space: nowrap;
@@ -842,7 +821,6 @@ button {
   height: 5rem;
   padding: 0 2.5rem;
   background: #ffffff;
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.06); */
   flex-shrink: 0;
   gap: 16px;
 }
@@ -857,10 +835,9 @@ button {
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 32rem;
-  height: 2.5rem;
-  padding: 0 16px;
-  background: #f7f7f7;
+  width: 25rem;
+  padding: 6px 12px;
+  background-color: #f8faff;
   border: 1px solid #e6ebf0;
   border-radius: 6px;
 }
@@ -937,114 +914,10 @@ button {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-  user-select: none;
 }
 
 /* ============================================
-   UNAUTHORIZED PAGE
-   ============================================ */
-
-.unauthorized-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
-  background: #ffffff;
-}
-
-.unauthorized-card {
-  width: 100%;
-  max-width: 34rem;
-  padding: 2rem;
-  background: #ffffff;
-  border: 1px solid #e3e8ef;
-  border-radius: 16px;
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
-  text-align: center;
-}
-
-.unauthorized-eyebrow {
-  margin: 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #e53e3e;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.unauthorized-title {
-  margin: 0.6rem 0 0;
-  font-size: 2rem;
-  font-weight: 600;
-  color: #143888;
-  line-height: 1.2;
-}
-
-.unauthorized-subtitle {
-  margin: 0.8rem auto 0;
-  max-width: 28rem;
-  font-size: 1rem;
-  color: #4a5568;
-  line-height: 1.6;
-}
-
-.unauthorized-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.75rem;
-}
-
-.unauthorized-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 9rem;
-  height: 2.8rem;
-  padding: 0 1rem;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.unauthorized-btn-primary {
-  background: #143888;
-  color: #ffffff;
-  border: 1px solid #143888;
-}
-
-.unauthorized-btn-primary:hover {
-  background: #0f2d6e;
-  border-color: #0f2d6e;
-}
-
-.unauthorized-btn-secondary {
-  background: #ffffff;
-  color: #4a5568;
-  border: 1px solid #d7deea;
-}
-
-.unauthorized-btn-secondary:hover {
-  background: #f8faff;
-  color: #143888;
-  border-color: #cdd8ea;
-}
-
-/* ============================================
-   SESSION CARD  — Figma node 292:4693
+   SESSION CARD
    ============================================ */
 
 /* ── Card shell ── */
@@ -1175,7 +1048,7 @@ button {
   border-color: #c5d0e0;
 }
 
-/* ── Overlay (backdrop-blur dropdown) — node 346:14419 ── */
+/* ── Overlay (backdrop-blur dropdown) ── */
 .sc-overlay {
   position: absolute;
   inset: 0;
@@ -1254,10 +1127,9 @@ button {
 }
 
 /* ============================================
-   SESSIONS PAGE  —
+   SESSIONS PAGE
    ============================================ */
 
-/* ── Cards grid ── */
 .sessions-page__grid {
   display: flex;
   flex-wrap: wrap;
@@ -1270,7 +1142,6 @@ button {
   max-width: calc(33.333% - 15px);
 }
 
-/* ── Responsive ── */
 @media (max-width: 900px) {
   .sessions-page__grid > .session-card {
     flex: 1 0 calc(50% - 22px);
@@ -1336,8 +1207,8 @@ button {
 }
 
 .admin-data-table__title {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   font-family: "Inter", sans-serif;
   color: #4a5567;
 }
@@ -1476,90 +1347,36 @@ button {
   background: #f9fafb;
 }
 
-/* ============================================
-   ADMIN STUDENTS TABLE (specific)
-   ============================================ */
-
-.admin-students-table__header-row,
-.admin-students-table__row {
-  display: grid;
-  grid-template-columns: 2.2fr 1.15fr 0.9fr 0.9fr 0.9fr 1fr 64px;
-  align-items: center;
-  padding: 0 16px;
-}
-
-.admin-students-table__footer,
-.admin-teachers-table__footer,
-.admin-groups-table__footer,
-.admin-justifications-table__footer,
-.admin-import-history-table__footer {
-  background: #ffffff;
-}
-
-.admin-students-table__footer .admin-data-table__footer-info,
-.admin-teachers-table__footer .admin-data-table__footer-info,
-.admin-groups-table__footer .admin-data-table__footer-info,
-.admin-justifications-table__footer .admin-data-table__footer-info,
-.admin-import-history-table__footer .admin-data-table__footer-info {
-  font-size: 13px;
-  color: #4a5567;
-}
-
-.admin-students-table__footer .admin-data-table__footer-range,
-.admin-teachers-table__footer .admin-data-table__footer-range,
-.admin-groups-table__footer .admin-data-table__footer-range,
-.admin-justifications-table__footer .admin-data-table__footer-range,
-.admin-import-history-table__footer .admin-data-table__footer-range {
-  color: #030712;
-  font-weight: 500;
-}
-
-/* ============================================
-   DATA TABLE — PAGINATION FOOTER
-   ============================================ */
-
-.admin-data-table__empty {
-  height: 64px;
+/* ── Pagination ── */
+.admin-data-table__pagination-footer {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.admin-data-table__footer {
-  display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 16px;
-  border-top: 1px solid #e3e8ef;
-  background: #ffffff;
-  border-radius: 0 0 12px 12px;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 12px 16px;
+  height: 56px;
 }
 
-/* "Showing 1 to 7 of 120 students" */
-.admin-data-table__footer-info {
-  font-size: 13px;
+.admin-data-table__pagination-info {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
   font-family: "Inter", sans-serif;
-  white-space: nowrap;
-}
-
-.admin-data-table__footer-label {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
   color: #4a5567;
 }
 
-.admin-data-table__footer-range {
-  color: #030712;
-  font-weight: 500;
+.admin-data-table__pagination-info strong {
+  color: #000000;
+  font-weight: 400;
 }
 
-/* Page number buttons */
-.admin-data-table__page-numbers {
+.admin-data-table__pagination-center {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .admin-data-table__page-btn {
@@ -1591,18 +1408,7 @@ button {
   background: transparent;
 }
 
-.admin-data-table__page-ellipsis {
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: #4a5567;
-}
-
-/* Back / Next buttons */
-.admin-data-table__footer-nav {
+.admin-data-table__pagination-nav {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1637,9 +1443,27 @@ button {
   cursor: not-allowed;
 }
 
+/* ── Empty state ── */
+.admin-data-table__empty {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #6b7280;
+}
+
 /* ============================================
-   ADMIN TEACHERS TABLE (specific)
+   TABLE-SPECIFIC LAYOUTS
    ============================================ */
+
+.admin-students-table__header-row,
+.admin-students-table__row {
+  display: grid;
+  grid-template-columns: 2.2fr 1.15fr 0.9fr 0.9fr 0.9fr 1fr 64px;
+  align-items: center;
+  padding: 0 16px;
+}
 
 .admin-teachers-table__header-row,
 .admin-teachers-table__row {
@@ -1649,21 +1473,13 @@ button {
   padding: 0 16px;
 }
 
-/* ============================================
-   ADMIN GROUPS TABLE (fixed)
-   ============================================ */
-
 .admin-groups-table__header-row,
 .admin-groups-table__row {
-  display: grid; /* ✅ FIX */
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr 2fr 1.2fr 1.2fr 64px;
   align-items: center;
   padding: 0 16px;
 }
-
-/* ============================================
-   ADMIN JUSTIFICATIONS TABLE (specific)
-   ============================================ */
 
 .admin-justifications-table__header-row,
 .admin-justifications-table__row {
@@ -1679,10 +1495,6 @@ button {
   grid-template-columns: 1.4fr 2fr 1fr 0.7fr 0.8fr 0.8fr 1fr;
   align-items: center;
   padding: 0 16px;
-}
-
-.admin-justifications-table__header-row .admin-data-table__header-cell--action {
-  text-align: left;
 }
 
 .admin-students-table__header-row,
@@ -1721,10 +1533,39 @@ button {
   background: #fbfcff;
 }
 
+.admin-justifications-table__header-row .admin-data-table__header-cell--action,
 .admin-import-history-table__header-row .admin-data-table__header-cell--action {
   text-align: left;
 }
 
+/* ── Footer shared ── */
+.admin-students-table__footer,
+.admin-teachers-table__footer,
+.admin-groups-table__footer,
+.admin-justifications-table__footer,
+.admin-import-history-table__footer {
+  background: #ffffff;
+}
+
+.admin-students-table__footer .admin-data-table__footer-info,
+.admin-teachers-table__footer .admin-data-table__footer-info,
+.admin-groups-table__footer .admin-data-table__footer-info,
+.admin-justifications-table__footer .admin-data-table__footer-info,
+.admin-import-history-table__footer .admin-data-table__footer-info {
+  font-size: 13px;
+  color: #4a5567;
+}
+
+.admin-students-table__footer .admin-data-table__footer-range,
+.admin-teachers-table__footer .admin-data-table__footer-range,
+.admin-groups-table__footer .admin-data-table__footer-range,
+.admin-justifications-table__footer .admin-data-table__footer-range,
+.admin-import-history-table__footer .admin-data-table__footer-range {
+  color: #030712;
+  font-weight: 500;
+}
+
+/* ── Import history status ── */
 .admin-import-history-table__status {
   display: inline-flex;
   align-items: center;
@@ -1747,6 +1588,7 @@ button {
   color: #d62525;
 }
 
+/* ── Justifications ── */
 .admin-justifications-table__row .admin-data-table__cell--action {
   justify-content: flex-start;
 }
@@ -1836,6 +1678,10 @@ button {
   font-size: 18px;
   line-height: 1;
 }
+
+/* ============================================
+   ADMIN GROUPS VIEW TOGGLE & CARDS
+   ============================================ */
 
 .admin-groups-table__view-toggle {
   display: inline-flex;
@@ -1933,7 +1779,7 @@ button {
   align-items: center;
   gap: 4px;
   height: 30px;
-  padding: 2 8px;
+  padding: 2px 8px;
   border: 1px solid #e3e8ef;
   border-radius: 6px;
   background: #ffffff;
@@ -1949,15 +1795,7 @@ button {
   .admin-groups-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-}
 
-@media (max-width: 768px) {
-  .admin-groups-card-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 1200px) {
   .admin-data-table__toolbar {
     align-items: flex-start;
   }
@@ -1970,6 +1808,110 @@ button {
     flex: 1;
     min-width: 230px;
   }
+}
+
+@media (max-width: 768px) {
+  .admin-groups-card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   UNAUTHORIZED PAGE
+   ============================================ */
+
+.unauthorized-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: #ffffff;
+}
+
+.unauthorized-card {
+  width: 100%;
+  max-width: 34rem;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #e3e8ef;
+  border-radius: 16px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.unauthorized-eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e53e3e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.unauthorized-title {
+  margin: 0.6rem 0 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #143888;
+  line-height: 1.2;
+}
+
+.unauthorized-subtitle {
+  margin: 0.8rem auto 0;
+  max-width: 28rem;
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.unauthorized-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.unauthorized-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 9rem;
+  height: 2.8rem;
+  padding: 0 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.unauthorized-btn-primary {
+  background: #143888;
+  color: #ffffff;
+  border: 1px solid #143888;
+}
+
+.unauthorized-btn-primary:hover {
+  background: #0f2d6e;
+  border-color: #0f2d6e;
+}
+
+.unauthorized-btn-secondary {
+  background: #ffffff;
+  color: #4a5568;
+  border: 1px solid #d7deea;
+}
+
+.unauthorized-btn-secondary:hover {
+  background: #f8faff;
+  color: #143888;
+  border-color: #cdd8ea;
 }
 
 /* ============================================
@@ -2029,7 +1971,6 @@ button {
   font-size: 16px;
   font-weight: 500;
   color: #4a5567;
-  margin: 0;
 }
 
 .import-option-card.selected .import-option-title {
@@ -2085,10 +2026,6 @@ button {
 
 .import-upload-btn:hover {
   background: #f9fafb;
-}
-
-.main-export-btn svg {
-  margin-left: 2px;
 }
 
 .import-success-area {
@@ -2475,4 +2412,114 @@ button {
   .change-password {
     width: 100%;
   }
+}
+
+/* ── Exam Absences page ───────────────────────────────────────────────────── */
+
+/* Filter tabs container */
+.exam-abs__tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Individual tab button */
+.exam-abs__tab {
+  height: 39px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid #E3E8EF;
+  background: #FFFFFF;
+  color: #999999;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.exam-abs__tab--active {
+  background: #EBEFFE;
+  border: 1px solid #143888;
+  color: #143888;
+}
+
+/* Schedule exams button */
+.exam-abs__schedule-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #143888;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.exam-abs__schedule-btn:hover {
+  background: #0f2d6e;
+}
+
+/* Charts row */
+.exam-abs__charts-row {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+}
+
+.exam-abs__charts-row .chart-card:first-child {
+  flex: 0 0 624px;
+  min-width: 0;
+}
+
+/* Absence rate card */
+.exam-abs__rate-card {
+  flex: 0 0 306px !important;
+  min-width: 0;
+  height: 289px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Table header row */
+.exam-abs__table-header {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 80px;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  background: #F9FAFB;
+  border-bottom: 1px solid #E3E8EF;
+  border-radius: 8px 8px 0 0;
+}
+
+/* Table data row */
+.exam-abs__table-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 80px;
+  align-items: center;
+  height: 64px;
+  padding: 0 16px;
+  border-bottom: 1px solid #E3E8EF;
+}
+
+.exam-abs__table-row:last-child {
+  border-bottom: none;
+}
+
+/* Rate card title/value */
+.exam-abs__rate-title {
+  font-size: 14px !important;
+}
+
+.exam-abs__rate-value {
+  font-size: 13px;
+  color: #4A5567;
+  white-space: nowrap;
 }

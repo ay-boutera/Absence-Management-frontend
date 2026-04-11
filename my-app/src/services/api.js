@@ -7,10 +7,6 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-// ── Response Interceptor ──────────────────────────────
-// If backend returns 401 → try to refresh the token once
-// If refresh fails → redirect to login
-
 let isRefreshing = false;
 let failedQueue = [];
 api.interceptors.request.use((config) => {
