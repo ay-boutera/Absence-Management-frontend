@@ -15,7 +15,7 @@
 
 /* ── Base ─────────────────────────────────── */
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 button {
@@ -678,11 +678,13 @@ button {
 .sidebar-link:hover {
   background: #f8faff;
   color: #143888;
+  border: 1px solid #e3e8ef;
+
 }
 
 .sidebar-link.active {
   background: #f8faff;
-  border-color: #e3e8ef;
+  border: 1px solid #e3e8ef;
   color: #143888;
 }
 
@@ -720,6 +722,18 @@ button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+}
+.sidebar-link-label2 {
+  flex: 1;
+  font-size: 14px;
+  font-weight: regular;
+  line-height: 20px;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
 }
 
 .sidebar-link.active .sidebar-link-label {
@@ -826,9 +840,9 @@ button {
   align-items: center;
   justify-content: space-between;
   height: 5rem;
-  padding: 0 4rem;
+  padding: 0 2.5rem;
   background: #ffffff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.06); */
   flex-shrink: 0;
   gap: 16px;
 }
@@ -836,7 +850,7 @@ button {
 .navbar-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .navbar-search {

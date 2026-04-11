@@ -32,7 +32,7 @@ export default function AuthLayout({ children }) {
         <div className="mb-12">
           {!isForgetPassWord && (
             <p className="text-center inline-flex flex-wrap justify-center items-center gap-6">
-              <span className="text-[#143888] font-poppins text-5xl font-semibold whitespace-nowrap">
+              <span className="text-[#143888] font-inter text-5xl font-semibold whitespace-nowrap">
                 Welcome to{"  "}
               </span>
               <span className="text-[#143888] font-digital text-3xl font-semibold whitespace-nowrap">
@@ -43,7 +43,7 @@ export default function AuthLayout({ children }) {
         </div>
       </div>
 
-      {/* Child content (LoginForm, ResetPasswordForm, etc.) */}
+     
       {children}
     </div>
   );

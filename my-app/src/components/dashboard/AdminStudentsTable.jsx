@@ -14,15 +14,7 @@ import {
   IconDots,
 } from "@/components/shared/TableShared";
 
-const COLUMNS = [
-  "Name",
-  "Student ID",
-  "Year",
-  "Group",
-  "Absence",
-  "Status",
-  "Action",
-];
+const COLUMNS = ["Name", "Student ID", "Year", "Group", "Absence", "Status", "Action"];
 const PAGE_SIZE = 7;
 
 function StudentRow({ student }) {

@@ -1,8 +1,3 @@
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// services/api.js — Axios Instance
-// ============================================
-
 import axios from "axios";
 import { CONFIG, API_ENDPOINTS } from "@/lib/constants";
 
@@ -49,7 +44,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // If 401 and not already retried and not the refresh endpoint itself
+    
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -68,7 +63,7 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        // Ask backend to refresh — cookie is sent automatically
+        
         await api.post(API_ENDPOINTS.REFRESH_TOKEN);
         processQueue(null);
         return api(originalRequest); // retry original request
