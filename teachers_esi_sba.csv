@@ -1,67 +1,68 @@
-matricule;last_name;first_name;email;grade
-;ACED;Mohammed Reda;mr.aced@esi-sba.dz;Maître Assistant A
-;ALLAL;Lamia;l.allal@esi-sba.dz;Maître de conférences B
-;AMAR BENSABER;Djamel;d.amarbensaber@esi-sba.dz;Professeur
-;AMRANE;Abdelkader;a.amrane@esi-sba.dz;Maître de conférences B
-;AZZA;Mohammed;m.azza@esi-sba.dz;Maître de conférences B
-;BEDJAOUI;Mohammed;m.bedjaoui@esi-sba.dz;Maître de conférences B
-;BEKKOUCHE;Mohammed;m.bekkouche@esi-sba.dz;Maître de conférences B
-;BENDAOUD;Fayssal;f.bendaoud@esi-sba.dz;Maître de conférences A
-;BENDELLA;Mohammed Salih;ms.bendella@esi-sba.dz;Maître assistant B
-;BENSENANE;Hamdan;h.bensenane@esi-sba.dz;Maître de conférences A
-;BENSLIMANE;Sidi Mohammed;sm.benslimane@esi-sba.dz;Professeur
-;CHAIB;Souleyman;s.chaib@esi-sba.dz;Maître de conférences B
-;DIF;Nassima;n.dif@esi-sba.dz;Maître de conférences B
-;ELOUALI;Nadia;n.elouali@esi-sba.dz;Maître de conférences A
-;FERROUI;Ramzi;r.ferroui@esi-sba.dz;Maître de conférences A
-;FETITAH;Omar;o.fetitah@esi-sba.dz;Maître assistant B
-;KAZI TANI;Mohammed Yassine;my.kazitani@esi-sba.dz;Maître de conférences A
-;KECHAR;Mohamed;m.kechar@esi-sba.dz;Maître de conférences A
-;KESKES;Nabil;n.keskes@esi-sba.dz;Professeur
-;KHALDI;Belkacem;b.khaldi@esi-sba.dz;Maître de conférences A
-;KHALDI;Miloud;m.khaldiml@esi-sba.dz;Maître de conférences B
-;KIES;Nadia;n.kies@esi-sba.dz;Professeure
-;LEHIRECHE;Nesrine;n.lehireche@esi-sba.dz;Maître assistant B
-;LOUHAB;Zouaoui;z.louhab@esi-sba.dz;Maître assistant B
-;MAHAMMED;Nadir;n.mahammed@esi-sba.dz;Maître de conférences A
-;MALKI;Abdelhamid;a.malki@esi-sba.dz;Maître de conférences A
-;MALKI;Mimoun;m.malkimm@esi-sba.dz;Professeur
-;MECHAB;Wardia Chahinez;wc.mechab@esi-sba.dz;Maître de conférences B
-;MEKRI;Zouaoui;z.mekri@esi-sba.dz;Maître de conférences B
-;MESSABIHI;Nafissa;n.messabihi@esi-sba.dz;Maître de conférences B
-;RAHMOUN;Abdellatif;a.rahmoun@esi-sba.dz;Professeur
-;SAIDI;Mohammed Elfatih;me.saidi@esi-sba.dz;Maître Assistant A
-;SEBA;Djillali;d.seba@esi-sba.dz;Maître assistant B
-;SERHANE;Oussama;o.serhane@esi-sba.dz;Maître assistant B
-;SI MOHAMED;Nasreddine;n.simohamed@esi-sba.dz;Maître Assistant A
-;ANANI;Djihed;d.anani@esi-sba.dz;Maître de conférences B
-;AWAD;Samir;s.awad@esi-sba.dz;Maître assistant B
-;BABA AHMED;Manel;m.babaahmed@esi-sba.dz;Maître assistant B
-;BAGHLI;Asmaa;a.baghli@esi-sba.dz;Maître assistant A
-;BELABBAS;Imene;i.belabbas@esi-sba.dz;Maître assistant B
-;BELALIA;Amina;a.belalia@esi-sba.dz;Maître de conférences B
-;BELMEKKI;Ghizlene Amira;ga.belmekki@esi-sba.dz;Maître assistant B
-;BENCHERIF;Khayra;k.bencherif@esi-sba.dz;Maître de conférences B
-;BEZZAOUCHA;Fatima Souad;fs.bezzaoucha@esi-sba.dz;Maître assistant B
-;BOUAZZAOUI;Fatima;f.bouazzaoui@esi-sba.dz;Maître de conférences B
-;BOULENOIR;Zouaouia;z.boulenoir@esi-sba.dz;Maître de conférences B
-;BOUSMAHA;Rabab;r.bousmaha@esi-sba.dz;Maître assistant B
-;CHIKH;Asma;a.chikh@esi-sba.dz;Maître assistant B
-;HELAL;Nacera;n.helal@esi-sba.dz;Maître de conférences A
-;IRATNI;Naïma;n.iratni@esi-sba.dz;Maître assistant B
-;KLOUCHE;Badia;b.klouche@esi-sba.dz;Maître de conférences B
-;LOUHAB;Hayat;h.louhab@esi-sba.dz;Maître assistant
-;MAMI;Hind;h.mami@esi-sba.dz;Maître Assistant A
-;MAMINE;Sana;s.mamine@esi-sba.dz;Maître assistant B
-;MEZRAR;Samiha;s.mezrar@esi-sba.dz;Maître assistant B
-;NACERI;Amina;a.naceri@esi-sba.dz;Maître de conférences B
-;NAOUM;Hanae;h.naoum@esi-sba.dz;Maître de conférences B
-;NEGGAZ;Imène;i.neggaz@esi-sba.dz;Maître assistant B
-;NEMDILI;Amel Kahina;ak.nemdili@esi-sba.dz;Maître assistant B
-;SAIDI;Imene;i.saidiim@esi-sba.dz;Maître de conférences B
-;SAIL;Karima;k.sail@esi-sba.dz;Maître de conférences B
-;SEKKAL;Noussaiba;n.sekkal@esi-sba.dz;Maître de conférences B
-;SMAHAT;Mohamed;m.smahat@esi-sba.dz;Maître Assistant A
-;SOUYAH;Amina;a.souyah@esi-sba.dz;Maître de conférences B
-;TAOULI;Amina;a.taouliamn@esi-sba.dz;Maître assistant B
-;YOUCEFI;Samia;s.youcefi@esi-sba.dz;Maître de conférences B
+matricule,last_name,first_name,email,grade
+,ACED,Mohammed Reda,mr.aced@esi-sba.dz,Maître Assistant A
+,ALLAL,Lamia,l.allal@esi-sba.dz,Maître de conférences B
+,AMAR BENSABER,Djamel,d.amarbensaber@esi-sba.dz,Professeur
+,AMRANE,Abdelkader,a.amrane@esi-sba.dz,Maître de conférences B
+,AZZA,Mohammed,m.azza@esi-sba.dz,Maître de conférences B
+,BEDJAOUI,Mohammed,m.bedjaoui@esi-sba.dz,Maître de conférences B
+,BEKKOUCHE,Mohammed,m.bekkouche@esi-sba.dz,Maître de conférences B
+,BENDAOUD,Fayssal,f.bendaoud@esi-sba.dz,Maître de conférences A
+,BENDELLA,Mohammed Salih,ms.bendella@esi-sba.dz,Maître assistant B
+,BENSENANE,Hamdan,h.bensenane@esi-sba.dz,Maître de conférences A
+,BENSLIMANE,Sidi Mohammed,sm.benslimane@esi-sba.dz,Professeur
+,CHAIB,Souleyman,s.chaib@esi-sba.dz,Maître de conférences B
+,DIF,Nassima,n.dif@esi-sba.dz,Maître de conférences B
+,ELOUALI,Nadia,n.elouali@esi-sba.dz,Maître de conférences A
+,FERROUI,Ramzi,r.ferroui@esi-sba.dz,Maître de conférences A
+,FETITAH,Omar,o.fetitah@esi-sba.dz,Maître assistant B
+,KAZI TANI,Mohammed Yassine,my.kazitani@esi-sba.dz,Maître de conférences A
+,KECHAR,Mohamed,m.kechar@esi-sba.dz,Maître de conférences A
+,KESKES,Nabil,n.keskes@esi-sba.dz,Professeur
+,KHALDI,Belkacem,b.khaldi@esi-sba.dz,Maître de conférences A
+,KHALDI,Miloud,m.khaldiml@esi-sba.dz,Maître de conférences B
+,KIES,Nadia,n.kies@esi-sba.dz,Professeure
+,LEHIRECHE,Nesrine,n.lehireche@esi-sba.dz,Maître assistant B
+,LOUHAB,Zouaoui,z.louhab@esi-sba.dz,Maître assistant B
+,MAHAMMED,Nadir,n.mahammed@esi-sba.dz,Maître de conférences A
+,MALKI,Abdelhamid,a.malki@esi-sba.dz,Maître de conférences A
+,MALKI,Mimoun,m.malkimm@esi-sba.dz,Professeur
+,MECHAB,Wardia Chahinez,wc.mechab@esi-sba.dz,Maître de conférences B
+,MEKRI,Zouaoui,z.mekri@esi-sba.dz,Maître de conférences B
+,MESSABIHI,Nafissa,n.messabihi@esi-sba.dz,Maître de conférences B
+,RAHMOUN,Abdellatif,a.rahmoun@esi-sba.dz,Professeur
+,SAIDI,Mohammed Elfatih,me.saidi@esi-sba.dz,Maître Assistant A
+,SEBA,Djillali,d.seba@esi-sba.dz,Maître assistant B
+,SERHANE,Oussama,o.serhane@esi-sba.dz,Maître assistant B
+,SI MOHAMED,Nasreddine,n.simohamed@esi-sba.dz,Maître Assistant A
+,ANANI,Djihed,d.anani@esi-sba.dz,Maître de conférences B
+,AWAD,Samir,s.awad@esi-sba.dz,Maître assistant B
+,BABA AHMED,Manel,m.babaahmed@esi-sba.dz,Maître assistant B
+,BAGHLI,Asmaa,a.baghli@esi-sba.dz,Maître assistant A
+,BELABBAS,Imene,i.belabbas@esi-sba.dz,Maître assistant B
+,BELALIA,Amina,a.belalia@esi-sba.dz,Maître de conférences B
+,BELMEKKI,Ghizlene Amira,ga.belmekki@esi-sba.dz,Maître assistant B
+,BENCHERIF,Khaira,k.bencherif@esi-sba.dz,Maître de conférences B
+,BEZZAOUCHA,Fatima Souad,fs.bezzaoucha@esi-sba.dz,Maître assistant B
+,BOUAZZAOUI,Fatima,f.bouazzaoui@esi-sba.dz,Maître de conférences B
+,BOULENOIR,Zouaouia,z.boulenoir@esi-sba.dz,Maître de conférences B
+,BOUSMAHA,Rabab,r.bousmaha@esi-sba.dz,Maître assistant B
+,CHIKH,Asma,a.chikh@esi-sba.dz,Maître assistant B
+,HELAL,Nacera,n.helal@esi-sba.dz,Maître de conférences A
+,IRATNI,Naïma,n.iratni@esi-sba.dz,Maître assistant B
+,KLOUCHE,Badia,b.klouche@esi-sba.dz,Maître de conférences B
+,LOUHAB,Hayat,h.louhab@esi-sba.dz,Maître assistant
+,MAMI,Hind,h.mami@esi-sba.dz,Maître Assistant A
+,MAMINE,Sana,s.mamine@esi-sba.dz,Maître assistant B
+,MEZRAR,Samiha,s.mezrar@esi-sba.dz,Maître assistant B
+,NACERI,Amina,a.naceri@esi-sba.dz,Maître de conférences B
+,NAOUM,Hanae,h.naoum@esi-sba.dz,Maître de conférences B
+,NEGGAZ,Imène,i.neggaz@esi-sba.dz,Maître assistant B
+,NEMDILI,Amel Kahina,ak.nemdili@esi-sba.dz,Maître assistant B
+,SAIDI,Imene,i.saidiim@esi-sba.dz,Maître de conférences B
+,SAIL,Karima,k.sail@esi-sba.dz,Maître de conférences B
+,SEKKAL,Noussaiba,n.sekkal@esi-sba.dz,Maître de conférences B
+,SMAHAT,Mohamed,m.smahat@esi-sba.dz,Maître Assistant A
+,SOUYAH,Amina,a.souyah@esi-sba.dz,Maître de conférences B
+,TAOULI,Amina,a.taouliamn@esi-sba.dz,Maître assistant B
+,YOUCEFI,Samia,s.youcefi@esi-sba.dz,Maître de conférences B
+```

@@ -575,18 +575,6 @@ const ADMIN_SECTIONS = [
     ],
   },
   {
-    title: "System",
-    links: [
-      {
-        label: "Notifications",
-        href: "/admin/notifications",
-        icon: "notifications",
-      },
-      { label: "Settings", href: "/admin/settings", icon: "settings" },
-      { label: "Audit Log", href: "/admin/audit", icon: "audit" },
-    ],
-  },
-  {
     title: "Manage Data",
     links: [
       {
@@ -600,6 +588,19 @@ const ADMIN_SECTIONS = [
       },
     ],
   },
+  {
+    title: "System",
+    links: [
+      {
+        label: "Notifications",
+        href: "/admin/notifications",
+        icon: "notifications",
+      },
+      { label: "Settings", href: "/admin/settings", icon: "settings" },
+      { label: "Audit Log", href: "/admin/audit", icon: "audit" },
+    ],
+  },
+  
 ];
 
 const ADMIN_BOTTOM_LINKS = [
@@ -755,8 +756,8 @@ export function Sidebar() {
       {/* Nav sections */}
       <nav className="sidebar-nav">
         {sections.map((section) => (
-          <div key={section.title} className="sidebar-section">
-            <p className="sidebar-section-title">{section.title}</p>
+          <div key={section.title} className="sidebar-section ">
+            <p className="font-medium text-[10px] leading-3 capitalize text-[#16151c] ">{section.title}</p>
             {section.links.map((link) => {
               const menuKey = `${section.title}-${link.label}`;
               const hasChildren =
@@ -814,7 +815,7 @@ export function Sidebar() {
                 <Link
                   key={`${section.title}-${link.href}-${link.label}`}
                   href={link.href}
-                  className={`sidebar-link${isActive ? " active" : ""}`}
+                  className={`sidebar-link${isActive(link.href) ? " active" : ""}`}
                 >
                   <span className="sidebar-link-icon">{icons[link.icon]}</span>
                   <span className="sidebar-link-label">{link.label}</span>

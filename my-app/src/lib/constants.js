@@ -45,6 +45,6 @@ export const API_ENDPOINTS = {
   USER_ME: "/v1/accounts/me",
   IMPORT_STUDENTS: "/v1/import/students",
   IMPORT_TEACHERS: "/v1/import/teachers",
-  IMPORT_SESSIONS: "/v1/import/sessions",
+  IMPORT_SESSIONS: "/v1/import/planning",
   IMPORT_EXPORT_HISTORY: "/v1/import-export/history",
 };
