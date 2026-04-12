@@ -582,7 +582,7 @@ const ADMIN_SECTIONS = [
         icon: "data",
         children: [
           { label: "Import / Export", href: "/admin/import" },
-          { label: "Import History", href: "/admin/import-history" },
+          { label: "Import History", href: "/admin/import/history" },
           { label: "Salles & Amphi", href: "/admin/salles" },
         ],
       },

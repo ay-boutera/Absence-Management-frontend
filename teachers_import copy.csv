@@ -1,0 +1,67 @@
+employee_id,email,first_name,last_name,phone,subjects,groups
+mr.aced,mr.aced@esi-sba.dz,Mohammed Reda,ACED,,ARCH1|MLA|ECON,1CP-G8
+l.allal,l.allal@esi-sba.dz,Lamia,ALLAL,,MLA,1CP-G4
+d.amarbensaber,d.amarbensaber@esi-sba.dz,Djamel,AMAR BENSABER,,THP|TDM|SYST1,1CS-G3|2CP-G6|1CP-G2
+a.amrane,a.amrane@esi-sba.dz,Abdelkader,AMRANE,,SYST2,1CP-G8
+m.azza,m.azza@esi-sba.dz,Mohammed,AZZA,,ARCH1|TDM2|PRST2,2CS-G1|1CS-G5|1CS-G2
+m.bedjaoui,m.bedjaoui@esi-sba.dz,Mohammed,BEDJAOUI,,MCSI|ANAD,2CP-G1
+m.bekkouche,m.bekkouche@esi-sba.dz,Mohammed,BEKKOUCHE,,IRIAD,2CP-G6
+f.bendaoud,f.bendaoud@esi-sba.dz,Fayssal,BENDAOUD,,ARCH2|SYST2,2CS-G3|2CP-G3
+ms.bendella,ms.bendella@esi-sba.dz,Mohammed Salih,BENDELLA,,BDDA,1CP-G4
+h.bensenane,h.bensenane@esi-sba.dz,Hamdan,BENSENANE,,AUSI|BDD,2CS-G4|1CP-G2
+sm.benslimane,sm.benslimane@esi-sba.dz,Sidi Mohammed,BENSLIMANE,,SYSR|ALG3|BDDA,1CP-G3|1CS-G2
+s.chaib,s.chaib@esi-sba.dz,Souleyman,CHAIB,,BDM|TALN,3CS-G2|2CP-G4|1CS-G3
+n.dif,n.dif@esi-sba.dz,Nassima,DIF,,LOGM,1CP-G2|1CS-G6|1CP-G8
+n.elouali,n.elouali@esi-sba.dz,Nadia,ELOUALI,,SIAD|ALSDD,3CS-G2
+r.ferroui,r.ferroui@esi-sba.dz,Ramzi,FERROUI,,ECON,2CP-G7|1CS-G5
+o.fetitah,o.fetitah@esi-sba.dz,Omar,FETITAH,,ASI|ANAL4,1CP-G7
+my.kazitani,my.kazitani@esi-sba.dz,Mohammed Yassine,KAZI TANI,,IRIAD|IMR|CRP,1CP-G3|1CS-G4
+m.kechar,m.kechar@esi-sba.dz,Mohamed,KECHAR,,SYSR|ML|ANG3,1CP-G6
+n.keskes,n.keskes@esi-sba.dz,Nabil,KESKES,,COM|CRM,2CS-G1|1CS-G2
+b.khaldi,b.khaldi@esi-sba.dz,Belkacem,KHALDI,,SEC,3CS-G1|2CS-G3|1CP-G2
+m.khaldiml,m.khaldiml@esi-sba.dz,Miloud,KHALDI,,PRJS,2CP-G3
+n.kies,n.kies@esi-sba.dz,Nadia,KIES,,LOGM|SYST2,1CS-G3|2CS-G1
+n.lehireche,n.lehireche@esi-sba.dz,Nesrine,LEHIRECHE,,EMM|SCI,2CP-G5
+z.louhab,z.louhab@esi-sba.dz,Zouaoui,LOUHAB,,ANG2|BDD|ANAL2,1CP-G8|2CS-G2
+n.mahammed,n.mahammed@esi-sba.dz,Nadir,MAHAMMED,,BDD|MPSI|AL,2CP-G6|1CS-G3|2CP-G5
+a.malki,a.malki@esi-sba.dz,Abdelhamid,MALKI,,ANAL2|SSR,2CP-G8
+m.malkimm,m.malkimm@esi-sba.dz,Mimoun,MALKI,,SIC,1CP-G4
+wc.mechab,wc.mechab@esi-sba.dz,Wardia Chahinez,MECHAB,,ELEF2,2CS-G4|1CS-G6|2CP-G6
+z.mekri,z.mekri@esi-sba.dz,Zouaoui,MEKRI,,COFI|BDDA|AQUA,2CP-G7
+n.messabihi,n.messabihi@esi-sba.dz,Nafissa,MESSABIHI,,TDM1|SIC|ANAL1,1CS-G6|2CS-G2
+a.rahmoun,a.rahmoun@esi-sba.dz,Abdellatif,RAHMOUN,,TALN,1CS-G2|2CS-G3|2CP-G1
+me.saidi,me.saidi@esi-sba.dz,Mohammed Elfatih,SAIDI,,ALG2|PROJ|IHM,1CP-G6|2CP-G7
+d.seba,d.seba@esi-sba.dz,Djillali,SEBA,,SIGA,2CS-G2|2CP-G1|1CS-G1
+o.serhane,o.serhane@esi-sba.dz,Oussama,SERHANE,,TOIA,1CP-G4|3CS-G2|1CS-G5
+n.simohamed,n.simohamed@esi-sba.dz,Nasreddine,SI MOHAMED,,SPE|AUSI,1CP-G7|1CP-G5|2CP-G4
+d.anani,d.anani@esi-sba.dz,Djihed,ANANI,,PDJ,1CS-G1|1CP-G1|1CS-G4
+s.awad,s.awad@esi-sba.dz,Samir,AWAD,,ANG1|ALG2,2CP-G4|3CS-G1
+m.babaahmed,m.babaahmed@esi-sba.dz,Manel,BABA AHMED,,LANG1|ANAL3,1CS-G3
+a.baghli,a.baghli@esi-sba.dz,Asmaa,BAGHLI,,ML,2CP-G8
+i.belabbas,i.belabbas@esi-sba.dz,Imene,BELABBAS,,OPT,1CP-G5|1CS-G6|2CP-G8
+a.belalia,a.belalia@esi-sba.dz,Amina,BELALIA,,BDD|SYSE|SIG,1CS-G4
+ga.belmekki,ga.belmekki@esi-sba.dz,Ghizlene Amira,BELMEKKI,,TDM|MSS,2CS-G2
+k.bencherif,k.bencherif@esi-sba.dz,Khaira,BENCHERIF,,MA|RES1|CPROJ,1CS-G6
+fs.bezzaoucha,fs.bezzaoucha@esi-sba.dz,Fatima Souad,BEZZAOUCHA,,IPLS|TICO|SYS2,2CP-G7|1CP-G4
+f.bouazzaoui,f.bouazzaoui@esi-sba.dz,Fatima,BOUAZZAOUI,,LOGM,2CP-G3
+z.boulenoir,z.boulenoir@esi-sba.dz,Zouaouia,BOULENOIR,,TDM1,1CP-G8|1CS-G3|1CP-G1
+r.bousmaha,r.bousmaha@esi-sba.dz,Rabab,BOUSMAHA,,BI,1CP-G2|1CP-G8|1CP-G3
+a.chikh,a.chikh@esi-sba.dz,Asma,CHIKH,,MECA,1CS-G1|1CP-G8
+n.helal,n.helal@esi-sba.dz,Nacera,HELAL,,RESA|SYST2,1CS-G2|1CP-G5|2CS-G2
+n.iratni,n.iratni@esi-sba.dz,Naïma,IRATNI,,PDC|ANG3|PFE,2CP-G8|2CS-G4|2CP-G6
+b.klouche,b.klouche@esi-sba.dz,Badia,KLOUCHE,,TEE,1CS-G6
+h.louhab,h.louhab@esi-sba.dz,Hayat,LOUHAB,,FASI|ENTP,2CP-G7|3CS-G2
+h.mami,h.mami@esi-sba.dz,Hind,MAMI,,IMN|EMM|CRP,1CP-G4
+s.mamine,s.mamine@esi-sba.dz,Sana,MAMINE,,ML,2CP-G3|2CS-G4
+s.mezrar,s.mezrar@esi-sba.dz,Samiha,MEZRAR,,PRJP,1CP-G7
+a.naceri,a.naceri@esi-sba.dz,Amina,NACERI,,ANAL2|FASI|POO,2CP-G1|2CP-G7
+h.naoum,h.naoum@esi-sba.dz,Hanae,NAOUM,,IPLS,2CS-G4
+i.neggaz,i.neggaz@esi-sba.dz,Imène,NEGGAZ,,ELEF1|EMM|TDM,3CS-G1
+ak.nemdili,ak.nemdili@esi-sba.dz,Amel Kahina,NEMDILI,,MSS,3CS-G2
+i.saidiim,i.saidiim@esi-sba.dz,Imene,SAIDI,,ENTP,2CP-G8
+k.sail,k.sail@esi-sba.dz,Karima,SAIL,,SIC|CPROJ,1CP-G2
+n.sekkal,n.sekkal@esi-sba.dz,Noussaiba,SEKKAL,,ALG1,2CP-G5|2CP-G1
+m.smahat,m.smahat@esi-sba.dz,Mohamed,SMAHAT,,FASI|IRIAD,2CS-G2|2CS-G4
+a.souyah,a.souyah@esi-sba.dz,Amina,SOUYAH,,MA|RESA|ARCH2,1CP-G7|2CP-G2|1CP-G2
+a.taouliamn,a.taouliamn@esi-sba.dz,Amina,TAOULI,,TDM|LANG1|MPSI,2CP-G3|1CP-G2|1CS-G3
+s.youcefi,s.youcefi@esi-sba.dz,Samia,YOUCEFI,,URSI|SIAD,1CS-G1|1CP-G6|1CP-G2

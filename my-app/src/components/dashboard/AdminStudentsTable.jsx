@@ -104,13 +104,14 @@ export default function AdminStudentsTable({ students = [] }) {
       columns={COLUMNS}
       tableClass="admin-students-table"
       headerClass="admin-students-table__header-row"
-      footerClass="admin-students-table__footer"
       emptyMessage="No students found."
-      rowLabel="students"
-      page={page}
-      pageSize={PAGE_SIZE}
-      totalCount={totalCount}
-      onPageChange={setPage}
+      pagination={{
+        currentPage: page,
+        totalItems: totalCount,
+        pageSize: PAGE_SIZE,
+        onPageChange: setPage,
+        entityName: "students",
+      }}
     >
       {pagedStudents.map((student) => (
         <StudentRow key={student.id} student={student} />

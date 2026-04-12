@@ -1,0 +1,50 @@
+year,section,speciality,semester,day,time_start,time_end,type,subject,teacher,room,group
+
+# ─── DIMANCHE ───────────────────────────────────────────────
+1CS,,,S2,Dimanche,08:00,09:30,Cours,Architecture évoluée,BENSENANE,Amphi. D,
+1CS,,,S2,Dimanche,09:30,11:00,TD,Architecture évoluée,BENSENANE,SALLE 01,G1
+1CS,,,S2,Dimanche,09:30,11:00,TD,Architecture évoluée,MEBARKI,SALLE 02,G2
+1CS,,,S2,Dimanche,11:00,12:30,TD,Architecture évoluée,BENSENANE,SALLE 01,G3
+1CS,,,S2,Dimanche,11:00,12:30,TD,Architecture évoluée,MEBARKI,SALLE 02,G4
+1CS,,,S2,Dimanche,14:00,15:30,TD,Architecture évoluée,BENSENANE,SALLE 01,G5
+1CS,,,S2,Dimanche,14:00,15:30,TD,Architecture évoluée,MEBARKI,SALLE 02,G6
+
+# ─── LUNDI ──────────────────────────────────────────────────
+1CS,,,S2,Lundi,08:00,09:30,Cours,Systèmes d'exploitation,MEDDAH,Amphi. D,
+1CS,,,S2,Lundi,09:30,11:00,TP,Systèmes d'exploitation,MEDDAH,SALLE TP01,G1
+1CS,,,S2,Lundi,09:30,11:00,TP,Systèmes d'exploitation,KARA,SALLE TP02,G2
+1CS,,,S2,Lundi,11:00,12:30,TP,Systèmes d'exploitation,MEDDAH,SALLE TP01,G3
+1CS,,,S2,Lundi,11:00,12:30,TP,Systèmes d'exploitation,KARA,SALLE TP02,G4
+1CS,,,S2,Lundi,14:00,15:30,TP,Systèmes d'exploitation,MEDDAH,SALLE TP01,G5
+1CS,,,S2,Lundi,14:00,15:30,TP,Systèmes d'exploitation,KARA,SALLE TP02,G6
+
+# ─── MARDI ──────────────────────────────────────────────────
+1CS,,,S2,Mardi,08:00,09:30,Cours,Algorithmique avancée,BENSALEM,Amphi. D,
+1CS,,,S2,Mardi,09:30,11:00,TD,Algorithmique avancée,BENSALEM,SALLE 03,G1
+1CS,,,S2,Mardi,09:30,11:00,TD,Algorithmique avancée,HADJILA,SALLE 04,G2
+1CS,,,S2,Mardi,11:00,12:30,TD,Algorithmique avancée,BENSALEM,SALLE 03,G3
+1CS,,,S2,Mardi,11:00,12:30,TD,Algorithmique avancée,HADJILA,SALLE 04,G4
+1CS,,,S2,Mardi,14:00,15:30,Cours,Probabilités & Statistiques,ZERARI,Amphi. D,
+1CS,,,S2,Mardi,14:00,15:30,TD,Algorithmique avancée,BENSALEM,SALLE 03,G5
+1CS,,,S2,Mardi,14:00,15:30,TD,Algorithmique avancée,HADJILA,SALLE 04,G6
+
+# ─── MERCREDI ───────────────────────────────────────────────
+1CS,,,S2,Mercredi,08:00,09:30,Cours,Réseaux informatiques,TOUATI,Amphi. D,
+1CS,,,S2,Mercredi,09:30,11:00,TD/TP,Réseaux informatiques,TOUATI,SALLE TP03,G1
+1CS,,,S2,Mercredi,09:30,11:00,TD/TP,Réseaux informatiques,BENALI,SALLE TP04,G2
+1CS,,,S2,Mercredi,11:00,12:30,TD/TP,Réseaux informatiques,TOUATI,SALLE TP03,G3
+1CS,,,S2,Mercredi,11:00,12:30,TD/TP,Réseaux informatiques,BENALI,SALLE TP04,G4
+1CS,,,S2,Mercredi,14:00,15:30,TD/TP,Réseaux informatiques,TOUATI,SALLE TP03,G5
+1CS,,,S2,Mercredi,14:00,15:30,TD/TP,Réseaux informatiques,BENALI,SALLE TP04,G6
+
+# ─── JEUDI ──────────────────────────────────────────────────
+1CS,,,S2,Jeudi,08:00,09:30,Cours,Bases de données,KHALDI,Amphi. D,
+1CS,,,S2,Jeudi,09:30,11:00,TD,Probabilités & Statistiques,ZERARI,SALLE 05,G1
+1CS,,,S2,Jeudi,09:30,11:00,TD,Probabilités & Statistiques,SAADI,SALLE 06,G2
+1CS,,,S2,Jeudi,09:30,11:00,TP,Bases de données,KHALDI,SALLE TP05,G3
+1CS,,,S2,Jeudi,11:00,12:30,TD,Probabilités & Statistiques,ZERARI,SALLE 05,G3
+1CS,,,S2,Jeudi,11:00,12:30,TD,Probabilités & Statistiques,SAADI,SALLE 06,G4
+1CS,,,S2,Jeudi,11:00,12:30,TP,Bases de données,KHALDI,SALLE TP05,G5
+1CS,,,S2,Jeudi,14:00,15:30,TD,Probabilités & Statistiques,ZERARI,SALLE 05,G5
+1CS,,,S2,Jeudi,14:00,15:30,TD,Probabilités & Statistiques,SAADI,SALLE 06,G6
+1CS,,,S2,Jeudi,14:00,15:30,TP,Bases de données,KHALDI,SALLE TP05,G1

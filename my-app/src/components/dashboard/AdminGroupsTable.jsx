@@ -406,10 +406,13 @@ export default function AdminGroupsTable({ groups = [] }) {
       headerClass="admin-groups-table__header-row"
       footerClass="admin-groups-table__footer"
       rowLabel="groups"
-      page={!isCardView ? page : undefined}
-      pageSize={PAGE_SIZE}
-      totalCount={!isCardView ? totalCount : undefined}
-      onPageChange={!isCardView ? setPage : undefined}
+      pagination={!isCardView ? {
+        currentPage: page,
+        totalItems: totalCount,
+        pageSize: PAGE_SIZE,
+        onPageChange: setPage,
+        entityName: "groups",
+      } : undefined}
       emptyMessage="No groups found."
       extraTools={viewToggle}
     >

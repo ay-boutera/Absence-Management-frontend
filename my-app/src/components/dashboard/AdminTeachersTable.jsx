@@ -96,13 +96,14 @@ export default function AdminTeachersTable({ teachers = [] }) {
       columns={COLUMNS}
       tableClass="admin-teachers-table"
       headerClass="admin-teachers-table__header-row"
-      footerClass="admin-teachers-table__footer"
       emptyMessage="No teachers found."
-      rowLabel="teachers"
-      page={page}
-      pageSize={PAGE_SIZE}
-      totalCount={totalCount}
-      onPageChange={setPage}
+      pagination={{
+        currentPage: page,
+        totalItems: totalCount,
+        pageSize: PAGE_SIZE,
+        onPageChange: setPage,
+        entityName: "teachers",
+      }}
     >
       {pagedTeachers.map((teacher) => (
         <TeacherRow key={teacher.id} teacher={teacher} />

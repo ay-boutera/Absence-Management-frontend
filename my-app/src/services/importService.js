@@ -9,12 +9,12 @@ const postImportFile = async (endpoint, file) => {
 
   const response = await api.post(endpoint, formData, {
     headers: {
-      "Content-Type": undefined, // let the browser set multipart/form-data + boundary
+      "Content-Type": "multipart/form-data",
     },
     validateStatus: (status) => IMPORT_RESPONSE_STATUS.has(status),
   });
 
-  return response.data;
+  return { data: response.data, status: response.status };
 };
 
 export const importStudents = async (file) => {
@@ -25,8 +25,8 @@ export const importTeachers = async (file) => {
   return postImportFile(API_ENDPOINTS.IMPORT_TEACHERS, file);
 };
 
-export const importSessions = async (file) => {
-  return postImportFile(API_ENDPOINTS.IMPORT_SESSIONS, file);
+export const importTimetable = async (file) => {
+  return postImportFile(API_ENDPOINTS.IMPORT_TIMETABLE, file);
 };
 
 export const getImportExportHistory = async ({

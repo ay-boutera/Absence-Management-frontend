@@ -1218,6 +1218,7 @@ button {
   font-weight: 600;
   font-family: "Inter", sans-serif;
   color: #030712;
+  @apply font-normal text-[16px] leading-[9.375%] text-gray-950
 }
 
 .admin-data-table__tools {
@@ -1239,6 +1240,7 @@ button {
   background: #ffffff;
   border: 1px solid #e3e8ef;
   border-radius: 8px;
+  
 }
 
 .admin-data-table__search-input {
@@ -1246,8 +1248,12 @@ button {
   border: none;
   background: transparent;
   outline: none;
-  font-size: 16px;
   color: #111827;
+  /* font-family: Inter; */
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+/* color: #4a5567; */
 }
 
 .admin-data-table__search-input::placeholder {
@@ -1266,10 +1272,11 @@ button {
   border-radius: 8px;
   background: #ffffff;
   color: #111827;
-  font-size: 16px;
+  font-size: 14px;
   transition:
     background-color 0.15s ease,
     border-color 0.15s ease;
+    
 }
 
 .admin-data-table__control-btn:hover {
@@ -1278,9 +1285,12 @@ button {
 }
 
 .admin-data-table__header-cell {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4a5567;
+  font-size: 12px;
+  font-weight: 400;
+  color: #374151;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  @apply font-normal text-[12px] leading-[12.5%] text-[#4a5567]
 }
 
 .admin-data-table__header-cell--action {
@@ -1804,10 +1814,7 @@ button {
     width: 100%;
   }
 
-  .admin-data-table__search {
-    flex: 1;
-    min-width: 230px;
-  }
+ 
 }
 
 @media (max-width: 768px) {

@@ -115,7 +115,7 @@ export function Navbar() {
         </div>
         <div className="navbar-avatar ml-2" aria-hidden="true">
           <Image
-            src="/profile.png"
+            src="/keskes-nabil.png"
             width={47}
             height={47}
             alt={fullName || "Profile"}
