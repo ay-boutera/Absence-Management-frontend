@@ -2,12 +2,13 @@
 
 // ============================================
 // AMS — ESI Sidi Bel Abbès
-// AdminStudentsTable.jsx
+// AdminGroupsTable.jsx
 // ============================================
 
 import { useMemo, useState } from "react";
 import DataTable from "@/components/shared/DataTable";
 import { YearBadge, IconDots } from "@/components/shared/TableShared";
+import useDashboardTable from "@/hooks/useDashboardTable";
 
 const YEAR_THEME = {
   CP1: {
@@ -144,7 +145,7 @@ const COLUMNS = [
   "abcence rate",
   "Action",
 ];
-
+const PAGE_SIZE = 7;
 function GroupRow({ group }) {
   const theme = getYearTheme(group.year);
 
@@ -218,9 +219,25 @@ function GroupCard({ group }) {
       </div>
 
       <div className="admin-groups-card__stats">
-        <span>{group.studentCount ?? "—"} student</span>
-        <span>{group.sectionCount ?? 1} section</span>
-        <span>{group.groupCount ?? "—"} group</span>
+        <p>
+          {" "}
+          <span className="text-md font-semibold ">
+            {group.studentCount ?? "—"}{" "}
+          </span>{" "}
+          students
+        </p>
+        <p>
+          <span className="text-md font-semibold ">
+            {group.sectionCount ?? 1}{" "}
+          </span>
+          section{" "}
+        </p>
+        <p>
+          <span className="text-md font-semibold">
+            {group.groupCount ?? "—"}{" "}
+          </span>
+          group
+        </p>
       </div>
 
       <div className="admin-groups-card__chips">
@@ -322,10 +339,18 @@ function mergeGroupsByYear(groups) {
 export default function AdminGroupsTable({ groups = [] }) {
   const [viewMode, setViewMode] = useState("list");
 
-  const normalizedGroups = useMemo(
-    () => groups.map((g, i) => normalizeGroup(g, i)),
-    [groups],
-  );
+  const {
+    page,
+    setPage,
+    normalizedItems: normalizedGroups,
+    pagedItems: pagedGroups,
+    totalCount,
+  } = useDashboardTable({
+    items: groups,
+    normalizeItem: normalizeGroup,
+    pageSize: PAGE_SIZE,
+    enableSearch: false,
+  });
 
   const mergedYearGroups = useMemo(
     () => mergeGroupsByYear(normalizedGroups),
@@ -344,7 +369,10 @@ export default function AdminGroupsTable({ groups = [] }) {
         role="tab"
         aria-selected={!isCardView}
         className={`admin-groups-table__view-btn ${!isCardView ? "is-active" : ""}`}
-        onClick={() => setViewMode("list")}
+        onClick={() => {
+          setViewMode("list");
+          setPage(1);
+        }}
       >
         <ListViewIcon />
         List View
@@ -354,7 +382,10 @@ export default function AdminGroupsTable({ groups = [] }) {
         role="tab"
         aria-selected={isCardView}
         className={`admin-groups-table__view-btn ${isCardView ? "is-active" : ""}`}
-        onClick={() => setViewMode("card")}
+        onClick={() => {
+          setViewMode("card");
+          setPage(1);
+        }}
       >
         <CardViewIcon />
         Card View
@@ -373,6 +404,15 @@ export default function AdminGroupsTable({ groups = [] }) {
       columns={COLUMNS}
       tableClass="admin-groups-table"
       headerClass="admin-groups-table__header-row"
+      footerClass="admin-groups-table__footer"
+      rowLabel="groups"
+      pagination={!isCardView ? {
+        currentPage: page,
+        totalItems: totalCount,
+        pageSize: PAGE_SIZE,
+        onPageChange: setPage,
+        entityName: "groups",
+      } : undefined}
       emptyMessage="No groups found."
       extraTools={viewToggle}
     >
@@ -383,9 +423,7 @@ export default function AdminGroupsTable({ groups = [] }) {
           ))}
         </div>
       ) : (
-        normalizedGroups.map((group) => (
-          <GroupRow key={group.id} group={group} />
-        ))
+        pagedGroups.map((group) => <GroupRow key={group.id} group={group} />)
       )}
     </DataTable>
   );

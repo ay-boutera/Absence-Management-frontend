@@ -1,0 +1,119 @@
+code,titre,annee,has_td,has_tp
+ALG1,Algèbre 1,1CP,1,0
+ANAL1,Analyse mathématique 1,1CP,1,0
+ANG1,Anglais 1,1CP,1,0
+ARCH1,Architectures des ordinateurs 1,1CP,1,0
+BW,Bureautique et Web,1CP,1,0
+ELECT,Eléctricité,1CP,1,0
+ELEF1,Electronique fondamentale 1,1CP,1,0
+LANG1,Langue anglaise 1,1CP,1,0
+LOGM,Logique Mathématique,1CP,1,0
+MECA,Mécanique du point,1CP,1,0
+PRST1,Probabilités et statistiques,1CP,1,0
+SYST1,Introduction au Système d'exploitation 1,1CP,1,0
+TEE,Technique d'expression écrite,1CP,1,0
+TEO,Techniques d'expression orale,1CP,1,0
+ALG2,Algèbre 2,2CP,1,0
+ALG3,Algèbre 3,2CP,1,0
+ALSDS,Algorithmique et Structures de Données Statiques,2CP,1,0
+ANAL2,Analyse 2,2CP,1,0
+ANG2,Anglais 2,2CP,1,0
+ARCH2,Architecture des ordinateurs 2,2CP,1,0
+ELEF2,Electronique fondamentale 2,2CP,1,0
+LANG2,Langue anglaise 2,2CP,1,0
+OOE,Optique et Ondes éléctromagnétiques,2CP,1,0
+POO,Programmation Orientée Objet,2CP,1,0
+PRJP,Projet Pluridisciplinaire,2CP,1,0
+PRST2,Probabilités et Statistiques 2,2CP,1,0
+SFSD,Structure Fichiers et Structures de Données,2CP,1,0
+SYST2,Introduction aux systèmes d'exploitation 2,2CP,1,0
+TSG,Traitement de Signal,2CP,1,0
+ALSDD,Algorithmique et Structure de données dynamique,1CS,1,0
+ANAL3,Analyse 3,1CS,1,0
+ANG3,Anglais 3,1CS,1,0
+ANUM,Analyse Numérique,1CS,1,0
+BDD,Bases de données,1CS,1,0
+COM,Compilation,1CS,1,0
+ECON,Economie,1CS,0,0
+IGL,Introduction au génie logiciel,1CS,1,0
+PROJ,Projet,1CS,1,0
+PYT,Langage de programmation Python,1CS,1,0
+RES1,Réseaux 1,1CS,1,0
+RO,Recherche Opérationnelle graphes et algorithmes,1CS,1,0
+SEC,Introduction à la sécurité informatique,1CS,1,0
+SINF,Introduction aux systèmes d'information,1CS,1,0
+SYS1,Systèmes d'exploitation 1,1CS,1,0
+TPRO,Théorie de la Programmation,1CS,1,0
+ANAL4,Analyse 4,2CS,1,0
+ARCH,Architecture,2CS,1,0
+ASI,Analyse des Systèmes d'Information,2CS,1,0
+BDDA,SGBD et Bases de Données avancées,2CS,1,0
+COFI,Comptabilité et Finances,2CS,1,0
+COMM,Communication Digitale,2CS,1,0
+CPROJ,Conduite de projets,2CS,1,0
+ENTP,Entreprenariat et création d'entreprise,2CS,1,0
+FAS,File d'attente et Simulation,2CS,1,0
+FASI,Files d'attente et simulations,2CS,1,0
+IHM,Interaction Homme Machine,2CS,1,0
+IPLS,Ingénierie des protocoles et logiciels sécurisés,2CS,1,0
+MCSI,Méthodologies d'analyse et conception de systèmes d'information,2CS,1,0
+OGL,Outils de Génie Logiciel,2CS,1,0
+ORG,Analyse des organisations,2CS,1,0
+PDC,Patrons de conception,2CS,1,0
+RES2,Réseaux 2,2CS,1,0
+RESA,Réseaux Avancés,2CS,1,0
+SCI,Systèmes Communicants et Intelligents,2CS,1,0
+SPE,Stage Pratique en Entreprise,2CS,1,0
+SSR,Sécurité Systèmes et Réseaux,2CS,1,0
+SYS2,Système d'exploitation 2,2CS,1,0
+SYSE,Systèmes Embarqués,2CS,1,0
+SYSR,Systèmes Répartis,2CS,1,0
+TDM,Techniques de Développement Mobile,2CS,1,0
+TDM1,Technologies de Développement Mobile 1,2CS,1,0
+TDM2,Technologies de Développement Mobile 2,2CS,1,0
+TDW,Techniques de Développement Web,2CS,1,0
+VCL,Virtualisation et Cloud,2CS,1,0
+AL,Architectures Logicielles,3CS,1,0
+ANAD,Analyse et fouille de données,3CS,1,0
+AQUA,Assurance qualité,3CS,0,0
+AUSI,Audit de systèmes d'information,3CS,1,0
+BDA,Bases de données avancées,3CS,1,0
+BDM,Big data mining,3CS,1,0
+BI,Business Intelligence,3CS,1,0
+CRM,Gestion de la Relation Client,3CS,1,0
+CRP,Complexité et Résolution de Problème,3CS,1,0
+EMM,Elaboration du mémoire de Master,3CS,1,0
+GPS,Gestion de projets scientifiques,3CS,1,0
+HPC,Calcul Intensif,3CS,1,0
+IMN,Images Numériques,3CS,1,0
+IMR,Initiation à la méthodologie de recherche,3CS,1,0
+INFOVIS,Visualisation de l'information,3CS,1,0
+IRIAD,Informatique Répartie et Intelligence Artificielle distribuée,3CS,1,0
+IVR,Innovation et valorisation de la recherche,3CS,1,0
+MA,Méthodes Agiles,3CS,0,0
+MASD,Mathématiques avancées pour la science de données,3CS,1,0
+ML,Machine learning,3CS,1,0
+MLA,Machine learning avancé,3CS,1,0
+MPSI,Management du changement dans les projets de systèmes d'information,3CS,1,0
+MSS,Modèles Stochastiques et Simulation,3CS,1,0
+MSSI,Ingénierie et management de la sécurité des systèmes d'information,3CS,1,0
+OPT,Optimisation Combinatoire,3CS,1,0
+PDJ,Python et Développement Web Full Stack avec Django,3CS,1,0
+PFE,Elaboration du Mémoire d'Ingénieur,3CS,1,0
+PGI,Progiciels de gestion intégrée,3CS,1,0
+PMSS,Processus Modèles et Simulation Stochastiques,3CS,1,0
+PRJS,Projet de spécialité,3CS,1,0
+QL,Qualité Logicielle,3CS,1,0
+RCR,Représentation des Connaissances et Raisonnement,3CS,1,0
+RDCR,Recherche documentaire et communication de recherche,3CS,1,0
+RV,Réalité Virtuelle,3CS,1,0
+SGOV,Smart Government,3CS,1,0
+SIAD,Système d'information d'aide à la décision méthodes et outils,3CS,1,0
+SIC,Systèmes d'information coopératifs,3CS,1,0
+SIG,Systèmes d'Information Géographiques,3CS,1,0
+SIGA,Systèmes d'Information Géographiques Avancés,3CS,1,0
+TALN,Traitement automatique du langage naturel,3CS,1,0
+THP,Théorie des langages de programmation et applications,3CS,1,0
+TICO,Technologies de l'information et de la communication en organisation,3CS,1,0
+TOIA,Techniques d'optimisation et Intelligence Artificielle,3CS,1,0
+URSI,Urbanisation des systèmes d'information,3CS,1,0

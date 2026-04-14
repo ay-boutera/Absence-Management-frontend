@@ -5,33 +5,34 @@
 
 // ── Icons (inline SVG, colour set by icon background) ────────────────────────
 const StudentsIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 20 20" fill="none">
-    <path d="M15 6.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke="#4361ee" strokeWidth="1.5"/>
-    <path d="M17 14c0-2.21-2.239-4-5-4s-5 1.79-5 4" stroke="#4361ee" strokeWidth="1.5" strokeLinecap="round"/>
-    <circle cx="5.5" cy="7.5" r="2" stroke="#4361ee" strokeWidth="1.5"/>
-    <path d="M3 14c0-1.657 1.119-2.8 2.5-3.2" stroke="#4361ee" strokeWidth="1.5" strokeLinecap="round"/>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M15 6.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke="#143888" strokeWidth="1.5"/>
+    <path d="M17 14c0-2.21-2.239-4-5-4s-5 1.79-5 4" stroke="#143888" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="5.5" cy="7.5" r="2" stroke="#143888" strokeWidth="1.5"/>
+    <path d="M3 14c0-1.657 1.119-2.8 2.5-3.2" stroke="#143888" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
 const AbsenceIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 20 20" fill="none">
-    <path d="M3 15l4-5 3.5 2.5 3-4.5 3 4" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M3 17h14" stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round"/>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M3 15l4-5 3.5 2.5 3-4.5 3 4" stroke="#069855" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M3 17h14" stroke="#069855" strokeWidth="1.5" strokeLinecap="round"/>
   </svg>
 );
 
 const WarningIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 20 20" fill="none">
-    <path d="M10 3L18 17H2L10 3Z" stroke="#f59e0b" strokeWidth="1.5" strokeLinejoin="round"/>
-    <path d="M10 9v3.5" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round"/>
-    <circle cx="10" cy="14.5" r="0.75" fill="#f59e0b"/>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M10 2.5L18.5 17H1.5L10 2.5Z" stroke="#F6C420" strokeWidth="1.5" strokeLinejoin="round"/>
+    <path d="M10 8v4" stroke="#F6C420" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="10" cy="14" r="0.75" fill="#F6C420" stroke="#F6C420" strokeWidth="0.5"/>
   </svg>
 );
 
 const ExclusionIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 20 20" fill="none">
-    <rect x="3" y="3" width="14" height="14" rx="3" stroke="#ef4444" strokeWidth="1.5"/>
-    <path d="M7.5 10h5" stroke="#ef4444" strokeWidth="1.5" strokeLinecap="round"/>
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <rect x="2.5" y="2.5" width="15" height="15" rx="3" stroke="#D62525" strokeWidth="1.5"/>
+    <path d="M10 6.5v4" stroke="#D62525" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="10" cy="13.5" r="0.75" fill="#D62525" stroke="#D62525" strokeWidth="0.5"/>
   </svg>
 );
 
@@ -51,7 +52,7 @@ export function StatsCard({ icon, iconBg, label, title, value }) {
         <div className="stats-card-icon" style={{ background: iconBg }}>
           {icon}
         </div>
-        <span className="stats-card-label">{label}</span>
+        <span className="stats-card-label w-[56px]">{label}</span>
       </div>
       <div className="stats-card-body">
         <p className="stats-card-title">{title}</p>

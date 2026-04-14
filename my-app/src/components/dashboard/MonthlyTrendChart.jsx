@@ -69,8 +69,11 @@ export function MonthlyTrendChart({ data = DEFAULT_DATA, year = 2026 }) {
       <div className="chart-header">
         <h3 className="chart-title">Monthly Absence Trends</h3>
         <div className="chart-year">
-          <span>{year}</span>
-          <CalendarIcon />
+          <span className="font-medium text-[14px] leading-[9.285713945116315%] text-[#6f6f6f]">{year}</span>
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.625 9.375H9.375M13.125 5H1.875M10 1.25V3.125M5 1.25V3.125M4.875 13.75H10.125C11.1751 13.75 11.7001 13.75 12.1012 13.5456C12.454 13.3659 12.7409 13.079 12.9206 12.7262C13.125 12.3251 13.125 11.8001 13.125 10.75V5.5C13.125 4.4499 13.125 3.92485 12.9206 3.52377C12.7409 3.17096 12.454 2.88413 12.1012 2.70436C11.7001 2.5 11.1751 2.5 10.125 2.5H4.875C3.8249 2.5 3.29985 2.5 2.89877 2.70436C2.54596 2.88413 2.25913 3.17096 2.07936 3.52377C1.875 3.92485 1.875 4.4499 1.875 5.5V10.75C1.875 11.8001 1.875 12.3251 2.07936 12.7262C2.25913 13.079 2.54596 13.3659 2.89877 13.5456C3.29985 13.75 3.8249 13.75 4.875 13.75Z" stroke="#6F6F6F" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
         </div>
       </div>
 
@@ -78,7 +81,7 @@ export function MonthlyTrendChart({ data = DEFAULT_DATA, year = 2026 }) {
       <ResponsiveContainer width="100%" height={220}>
         <LineChart
           data={data}
-          margin={{ top: 8, right: 8, left: -18, bottom: 0 }}
+          margin={{ top: 8, right: 8, left: -38, bottom: 0 }}
         >
           <CartesianGrid
             vertical={false}

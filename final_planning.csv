@@ -1,0 +1,32 @@
+year,section,speciality,semester,day,time_start,time_end,type,subject,teacher,room,group
+
+# 1CP - Prépa, Section A (promotion-wide Cours)
+1CP,A,,S2,Dimanche,08:00,09:30,Cours,Algorithmique,BENALI,Amphi. A,
+
+# 1CP - Prépa, Section A, group TD
+1CP,A,,S2,Dimanche,09:30,11:00,TD,Algorithmique,BENALI,SALLE 01,G1
+
+# 2CP - Prépa, Section B
+2CP,B,,S2,Lundi,08:00,09:30,Cours,Probabilités,KAMEL,Amphi. B,
+
+# 1CS - no section, no speciality, promotion-wide Cours
+1CS,,,S2,Dimanche,08:00,09:30,Cours,Architecture évoluée,BENSENANE,Amphi. D,
+
+# 1CS - group TD
+1CS,,,S2,Dimanche,09:30,11:00,TD,Architecture évoluée,BENSENANE,SALLE TP07,G1
+
+# 2CS - speciality-wide Cours (no group)
+2CS,,ISI,S2,Dimanche,08:00,09:30,Cours,Modeling and simulation,KHALDI B,Amphi. E,
+
+# 2CS - speciality group session
+2CS,,ISI,S2,Dimanche,09:30,11:00,TD/TP,Modeling and simulation,KHALDI B,SALLE TP10,G1
+
+# 2CS - another speciality same timeslot
+2CS,,SIW,S2,Dimanche,08:00,09:30,TP,Tech. & dév. Mobile,ELOUALI,SALLE TP06,G1
+
+# 2CS - Cours/TD/TP combined session
+2CS,,ISI,S2,Lundi,09:30,11:00,Cours/TD/TP,Systèmes répartis,CHEIKH,SALLE TP10,G1
+
+# 2CS - CyS speciality
+2CS,,CyS,S2,Dimanche,08:00,09:30,Cours,Cybersecurity,BENDELLA,SALLE A1,
+2CS,,CyS,S2,Lundi,09:30,11:00,TD/TP,Cybersecurity,BENDELLA,SALLE TP11,G2

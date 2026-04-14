@@ -1,465 +1,771 @@
 "use client";
-import { useState, useRef } from "react";
-import AdminStudentsTable from "@/components/dashboard/AdminStudentsTable";
 
-const IMPORT_TYPES = [
-  {
-    key: "students",
-    label: "List of students",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-      </svg>
-    ),
-    description: "Import from Progres — CSV file with columns: matricule, name, first name, email, year, group",
-    endpoint: "/api/v1/import/students",
-  },
-  {
-    key: "teachers",
-    label: "List of teachers",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-        <path d="M12 12v5"/><path d="M8 12v5"/><path d="M16 12v5"/>
-        <path d="M2 7l10-4 10 4"/>
-      </svg>
-    ),
-    description: "Import from Progres — CSV file with columns: matricule, name, first name, email, year, group",
-    endpoint: "/api/v1/import/teachers",
-  },
-  {
-    key: "sessions",
-    label: "Session planning",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-        <line x1="16" y1="2" x2="16" y2="6"/>
-        <line x1="8" y1="2" x2="8" y2="6"/>
-        <line x1="3" y1="10" x2="21" y2="10"/>
-      </svg>
-    ),
-    description: "Import from Progres — CSV file with columns: date, star_time, fin_time, module, teacher, room, group",
-    endpoint: "/api/v1/import/planning",
-  },
+import { useState, useRef, useCallback } from "react";
+import ImportButton from "@/components/dashboard/ImportButton";
+import ImportErrorReportModal from "@/components/dashboard/ImportErrorReportModal";
+import ExportAbsencesButton from "@/components/dashboard/ExportAbsencesButton";
+import CriticalErrorNotification from "@/components/import/CriticalErrorNotification";
+import DataTable from "@/components/shared/DataTable";
+import { Avatar, IconDots } from "@/components/shared/TableShared";
+import * as importService from "@/services/importService";
+
+// ── CSV parser ───────────────────────────────────────────────────────────────
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(Boolean);
+  if (lines.length < 2) return { headers: [], rows: [] };
+
+  const sep = lines[0].includes(";") ? ";" : ",";
+  const headers = lines[0].split(sep).map((h) => h.trim().toLowerCase());
+
+  const rows = lines.slice(1).map((line) => {
+    const cells = line.split(sep);
+    return Object.fromEntries(
+      headers.map((h, i) => [h, cells[i]?.trim() ?? ""]),
+    );
+  });
+
+  return { headers, rows };
+}
+
+// ── Avatar color pool ────────────────────────────────────────────────────────
+const AVATAR_COLORS = [
+  "#dbeafe",
+  "#fce7f3",
+  "#dcfce7",
+  "#fef9c3",
+  "#ede9fe",
+  "#fee2e2",
+  "#d1fae5",
+  "#e0f2fe",
 ];
+const avatarColor = (i) => AVATAR_COLORS[i % AVATAR_COLORS.length];
 
-const DotsIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-    <circle cx="12" cy="5" r="1.5"/>
-    <circle cx="12" cy="12" r="1.5"/>
-    <circle cx="12" cy="19" r="1.5"/>
-  </svg>
-);
+// ── Per-import-type config ───────────────────────────────────────────────────
+const PREVIEW_CONFIG = {
+  0: {
+    label: "students",
+    columns: [
+      "Student",
+      "Matricule",
+      "Field",
+      "Level",
+      "Group",
+      "Email",
+      "Action",
+    ],
+    renderRow: (row, i) => (
+      <div key={i} className="import-preview-table__row">
+        <span className="admin-data-table__cell admin-data-table__cell--name">
+          <div className="admin-data-table__name-wrap">
+            <Avatar
+              name={`${row.prenom ?? ""} ${row.nom ?? ""}`}
+              color={avatarColor(i)}
+            />
+            <span className="admin-data-table__name">
+              {row.prenom ?? "—"} {row.nom ?? "—"}
+            </span>
+          </div>
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.matricule ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.filiere ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.niveau ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.groupe ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.email ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__cell--action">
+          <button
+            type="button"
+            className="admin-data-table__action-btn"
+            aria-label="Row actions"
+          >
+            <IconDots />
+          </button>
+        </span>
+      </div>
+    ),
+  },
+  1: {
+    label: "teachers",
+    columns: ["Teacher", "ID", "Email", "Grade", "Department", "Action"],
+    renderRow: (row, i) => (
+      <div key={i} className="import-preview-table__row">
+        <span className="admin-data-table__cell admin-data-table__cell--name">
+          <div className="admin-data-table__name-wrap">
+            <Avatar
+              name={`${row.prenom ?? ""} ${row.nom ?? ""}`}
+              color={avatarColor(i)}
+            />
+            <span className="admin-data-table__name">
+              {row.prenom ?? "—"} {row.nom ?? "—"}
+            </span>
+          </div>
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.id_enseignant ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.email ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.grade ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__text-cell">
+          {row.departement ?? "—"}
+        </span>
+        <span className="admin-data-table__cell admin-data-table__cell--action">
+          <button
+            type="button"
+            className="admin-data-table__action-btn"
+            aria-label="Row actions"
+          >
+            <IconDots />
+          </button>
+        </span>
+      </div>
+    ),
+  },
+  2: {
+    label: "timetable",
+    columns: [
+      "Year",
+      "Section / Speciality",
+      "Semester",
+      "Day",
+      "Time",
+      "Type",
+      "Subject",
+      "Teacher",
+      "Room",
+      "Group",
+      "Action",
+    ],
+    renderRow: (row, i) => {
+      const sectionOrSpeciality =
+        row.speciality && row.speciality.trim()
+          ? row.speciality.trim()
+          : row.section && row.section.trim()
+            ? `Section ${row.section.trim()}`
+            : "—";
 
-// ── Error Modal (unchanged) ────────────────────────────────────────────────────
-function ErrorModal({ fileName, errorData, onClose }) {
-  const isRowErrors = Array.isArray(errorData) && errorData.length > 0;
-  const errorCount  = isRowErrors ? errorData.length : 1;
-  const today       = new Date().toLocaleDateString("fr-FR");
+      const time =
+        row.time_start && row.time_end
+          ? `${row.time_start} – ${row.time_end}`
+          : row.time_start || "—";
+
+      const TYPE_COLORS = {
+        Cours: { bg: "#dbeafe", color: "#1d4ed8" },
+        TD: { bg: "#dcfce7", color: "#15803d" },
+        TP: { bg: "#fef9c3", color: "#a16207" },
+        "TD/TP": { bg: "#ede9fe", color: "#6d28d9" },
+        "Cours/TP": { bg: "#e0f2fe", color: "#0369a1" },
+        "Cours/TD/TP": { bg: "#fce7f3", color: "#be185d" },
+      };
+      const typeStyle = TYPE_COLORS[row.type] ?? {
+        bg: "#f1f5f9",
+        color: "#475569",
+      };
+
+      return (
+        <div key={i} className="import-preview-table__row">
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.year ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {sectionOrSpeciality}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.semester ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.day ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {time}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            <span
+              style={{
+                display: "inline-block",
+                padding: "2px 8px",
+                borderRadius: 4,
+                fontSize: 12,
+                fontWeight: 600,
+                background: typeStyle.bg,
+                color: typeStyle.color,
+              }}
+            >
+              {row.type ?? "—"}
+            </span>
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.subject ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.teacher ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.room ?? "—"}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__text-cell">
+            {row.group && row.group.trim() ? (
+              row.group.trim()
+            ) : (
+              <span
+                style={{ color: "#94a3b8", fontStyle: "italic", fontSize: 12 }}
+              >
+                All
+              </span>
+            )}
+          </span>
+          <span className="admin-data-table__cell admin-data-table__cell--action">
+            <button
+              type="button"
+              className="admin-data-table__action-btn"
+              aria-label="Row actions"
+            >
+              <IconDots />
+            </button>
+          </span>
+        </div>
+      );
+    },
+  },
+};
+
+// ── Preview table ────────────────────────────────────────────────────────────
+const PAGE_SIZE = 7;
+
+function PreviewTable({ rows, importType }) {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const config = PREVIEW_CONFIG[importType];
+  if (!config || !rows.length) return null;
+
+  const filtered = search
+    ? rows.filter((r) =>
+        Object.values(r).some((v) =>
+          String(v).toLowerCase().includes(search.toLowerCase()),
+        ),
+      )
+    : rows;
+
+  const pageRows = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" onClick={onClose}>
-      <div className="w-217.25 bg-white border border-black/10 shadow-[0_0_7px_rgba(0,0,0,0.07)] rounded-[18px] p-6 flex flex-col gap-9 tracking-wide" onClick={(e) => e.stopPropagation()}>
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-normal text-[#D62525]">Errors occurred !</h2>
-          <button onClick={onClose} className="w-6 h-6 flex items-center justify-center text-gray-500 hover:text-black">✕</button>
-        </div>
-        <div className="flex flex-col gap-[30px]">
-          <div className="border border-[#E3E8EF] rounded-lg overflow-hidden">
-            <div className="flex justify-between items-center px-4 py-[14px] border-b border-[#E3E8EF]">
-              <span className="text-l font-medium text-[#D62525]">Import Errors Report</span>
-              <button className="w-6 h-6 border border-[#E3E8EF] rounded flex items-center justify-center"><DotsIcon /></button>
-            </div>
-            <div className="flex justify-between px-4 py-[14px] text-[14px] font-thin">
-              <div className="flex gap-1"><span className="text-[#D62525]">File:</span><span className="text-[#4A5567]">{fileName}</span></div>
-              <div className="flex gap-1"><span className="text-[#D62525]">Errors found:</span><span className="text-[#4A5567]">{errorCount}</span></div>
-              <div className="flex gap-1"><span className="text-[#D62525]">Date:</span><span className="text-[#4A5567]">{today}</span></div>
-            </div>
-          </div>
-          <div className="border border-[#E3E8EF] rounded-lg overflow-hidden">
-            <div className="flex justify-between items-center px-4 py-[14px] border-b border-[#E3E8EF]">
-              <span className="text-[16px] font-me text-[#D62525]">Error Details</span>
-              <button className="w-6 h-6 border border-[#E3E8EF] rounded flex items-center justify-center"><DotsIcon /></button>
-            </div>
-            {isRowErrors ? (
-              <table className="w-full text-[15px]">
-                <thead className="bg-black/5 border-b border-[#E6EBF0]">
-                  <tr>
-                    {["Row","Field","Error Type","Description"].map((h) => (
-                      <th key={h} className="text-left px-4 py-3 text-[#4A5567] font-light capitalize tracking-wide">{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="[&>tr>td]:py-4">
-                  {errorData.map((err, i) => (
-                    <tr key={i} className="border-b border-[#E3E8EF] hover:bg-black/5 transition">
-                      <td className="px-4 text-[#D62525] font-light capitalize">{err.line ?? i + 1}</td>
-                      <td className="px-4 text-[#D62525] font-light capitalize">{err.field ?? "—"}</td>
-                      <td className="px-4 text-[#D62525] font-light capitalize">{err.error_type ?? err.type ?? "Error"}</td>
-                      <td className="px-4 text-[#D62525] font-light capitalize leading-relaxed">{err.reason ?? err.description ?? "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <div className="px-4 py-3 text-[14px] text-[#D62525]">
-                {String(errorData).split(",").map((msg, i) => (
-                  <div key={i} className="flex gap-2"><span>•</span><span>{msg.trim()}</span></div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+    <div style={{ marginTop: 24 }}>
+      <DataTable
+        title={`Preview — ${config.label}`}
+        count={filtered.length}
+        searchQuery={search}
+        onSearch={(v) => {
+          setSearch(v);
+          setPage(1);
+        }}
+        placeholder={`Search ${config.label}…`}
+        columns={config.columns}
+        tableClass={`import-preview-table import-preview-table--${config.label}`}
+        headerClass="import-preview-table__header-row"
+        footerClass="import-preview-table__footer"
+        emptyMessage={`No ${config.label} match your search.`}
+        rowLabel={config.label}
+        page={page}
+        pageSize={PAGE_SIZE}
+        totalCount={filtered.length}
+        onPageChange={setPage}
+      >
+        {pageRows.map((row, i) =>
+          config.renderRow(row, (page - 1) * PAGE_SIZE + i),
+        )}
+      </DataTable>
     </div>
   );
 }
 
-// ── Auth note ─────────────────────────────────────────────────────────────────
-// The backend uses HttpOnly cookies (access_token, refresh_token, csrf_token).
-// The browser sends them automatically on every same-origin request — no
-// Authorization header needed. We just need credentials: "include" on fetch.
+// ── Page ─────────────────────────────────────────────────────────────────────
+export default function ImportPage() {
+  const [selectedOption, setSelectedOption] = useState(0);
+  const [file, setFile] = useState(null);
+  const [previewRows, setPreviewRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [importResult, setImportResult] = useState(null);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [criticalError, setCriticalError] = useState(false);
+  const fileInputRef = useRef(null);
 
+  const options = [
+    {
+      id: 0,
+      title: "List of students",
+      description:
+        "Import from Progres — CSV file with columns: matricule, nom, prenom, filiere, niveau, groupe, email",
+      icon: (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.8405 3.39929C13.1978 3.39929 14.2893 4.49774 14.2893 5.84806C14.2893 7.17039 13.2398 8.24784 11.9315 8.29682C11.8755 8.28982 11.8125 8.28982 11.7496 8.29682M13.1908 14.5936C13.6946 14.4887 14.1704 14.2858 14.5622 13.9849C15.6536 13.1664 15.6536 11.816 14.5622 10.9975C14.1773 10.7036 13.7086 10.5077 13.2118 10.3958M6.76809 8.20587C6.69813 8.19887 6.61417 8.19887 6.53721 8.20587C4.87205 8.14989 3.54972 6.78558 3.54972 5.10643C3.54972 3.3923 4.93502 2 6.65615 2C8.37028 2 9.76258 3.3923 9.76258 5.10643C9.75558 6.78558 8.43325 8.14989 6.76809 8.20587ZM3.26986 10.7876C1.57671 11.921 1.57671 13.7681 3.26986 14.8945C5.19389 16.1818 8.34929 16.1818 10.2733 14.8945C11.9665 13.7611 11.9665 11.914 10.2733 10.7876C8.35629 9.50721 5.20088 9.50721 3.26986 10.7876Z"
+            stroke="CurrentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: 1,
+      title: "List of teachers",
+      description:
+        "Import from Progres — UTF-8 CSV (comma-delimited) with columns: id_enseignant, nom, prenom, email, grade, departement",
+      icon: (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M4.79456 8.25L4.97839 12.4724C4.98207 12.557 4.99121 12.6416 5.01571 12.7226C5.09144 12.973 5.23101 13.2004 5.44396 13.3533C7.11005 14.5489 11.4666 14.5489 13.1326 13.3533C13.3456 13.2004 13.4852 12.973 13.5609 12.7226C13.5854 12.6416 13.5945 12.557 13.5982 12.4724L13.782 8.25M15.6541 7.125V12.375M15.6541 12.375C15.0601 13.4597 14.7975 14.0409 14.5307 15C14.4728 15.3413 14.5188 15.5132 14.754 15.6659C14.8495 15.728 14.9643 15.75 15.0782 15.75H16.2185C16.3397 15.75 16.4621 15.7247 16.5619 15.6559C16.7805 15.5051 16.8368 15.3397 16.7775 15C16.5437 14.1094 16.2458 13.5006 15.6541 12.375ZM1.79907 6C1.79907 7.00633 7.87026 9.75 9.28864 9.75C10.707 9.75 16.7782 7.00633 16.7782 6C16.7782 4.99366 10.707 2.25 9.28864 2.25C7.87026 2.25 1.79907 4.99366 1.79907 6Z"
+            stroke="CurrentColor"
+            // stroke-opacity="0.6"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ),
+    },
+    {
+      id: 2,
+      title: "Session planning",
+      description:
+        "Import timetable — CSV with columns: year, section, speciality, semester, day, time_start, time_end, type, subject, teacher, room, group",
+      icon: (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M11.7 2.25V4.95M6.30005 2.25V4.95"
+            stroke="black"
+            // stroke-opacity="0.6"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M9.67505 3.6001H8.32505C5.77946 3.6001 4.50667 3.6001 3.71586 4.39091C2.92505 5.18172 2.92505 6.45451 2.92505 9.0001V10.3501C2.92505 12.8957 2.92505 14.1685 3.71586 14.9593C4.50667 15.7501 5.77946 15.7501 8.32505 15.7501H9.67505C12.2206 15.7501 13.4934 15.7501 14.2842 14.9593C15.075 14.1685 15.075 12.8957 15.075 10.3501V9.0001C15.075 6.45451 15.075 5.18172 14.2842 4.39091C13.4934 3.6001 12.2206 3.6001 9.67505 3.6001Z"
+            stroke="CurrentColor"
+            // stroke-opacity="0.6"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M2.92505 7.6499H15.075"
+            stroke="CurrentColor"
+            // stroke-opacity="0.6"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      ),
+    },
+  ];
 
-// ── Main Page ──────────────────────────────────────────────────────────────────
-function ImportPage() {
-  const [activeTab, setActiveTab]           = useState("import");
-  const [selected, setSelected]             = useState("students");
-  const [file, setFile]                     = useState(null);
-  const [loading, setLoading]               = useState(false);
-  const [errorData, setErrorData]           = useState(null);
-  const [showModal, setShowModal]           = useState(false);
-  const [dragOver, setDragOver]             = useState(false);
-  const [newStudents, setNewStudents]       = useState([]);          // re-fetched & filtered
-  const [showPreview, setShowPreview]       = useState(false);
-  const [uploadedFileName, setUploadedFileName] = useState("");
-  const [uploadedEmails, setUploadedEmails]         = useState([]);
-  const [submitting, setSubmitting]                 = useState(false);
-  const inputRef = useRef(null);
+  // ── helpers ────────────────────────────────────────────────────────────────
 
-  const reset = () => {
+  const resetAll = () => {
     setFile(null);
-    setErrorData(null);
-    setShowModal(false);
-    setNewStudents([]);
-    setShowPreview(false);
-    setUploadedFileName("");
-    setUploadedEmails([]);
-  };
-
-  const handleSelect = (key) => { setSelected(key); reset(); };
-
-  // ── File picked: parse matricules immediately so we have them ready ────────
-  const handleSubmit = async () => {
-    try {
-      setSubmitting(true);
-      // The import already saved the students. Submit & save confirms and
-      // triggers the welcome email with matricule as password on the backend.
-      // TODO: call your confirm/notify endpoint here if you have one, e.g.:
-      // await fetch("/api/v1/import/students/notify", { method: "POST", credentials: "include" });
-      reset();
-    } finally {
-      setSubmitting(false);
-    }
+    setPreviewRows([]);
+    setError(null);
+    setSuccess(false);
+    setShowErrorModal(false);
+    setCriticalError(false);
   };
 
   const handleFileChange = async (e) => {
-    const f = e.target.files[0];
-    if (!f) return;
-    setFile(f);
-    setErrorData(null);
-    setShowPreview(false);
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
 
-    // Parse emails from CSV to filter results after upload
-    try {
-      const text = await f.text();
-      const lines = text.split("\n").filter(Boolean);
-      if (lines.length < 2) { setUploadedEmails([]); return; }
-      const sep = lines[0].includes(";") ? ";" : ",";
-      const headers = lines[0].split(sep).map((h) => h.trim().toLowerCase());
-      const emailIdx = headers.findIndex((h) => h === "email");
-      if (emailIdx === -1) { setUploadedEmails([]); return; }
-      const emails = lines.slice(1)
-        .map((l) => l.split(sep)[emailIdx]?.trim().toLowerCase())
-        .filter(Boolean);
-      setUploadedEmails(emails);
-      console.log("Parsed emails from CSV:", emails);
-    } catch {
-      setUploadedEmails([]);
-    }
-  };
+    setFile(selectedFile);
+    setError(null);
+    setSuccess(false);
+    setShowErrorModal(false);
+    setCriticalError(false);
 
-  const handleDrop = (e) => {
-    e.preventDefault(); setDragOver(false);
-    const f = e.dataTransfer.files[0];
-    if (f && f.name.endsWith(".csv")) handleFileChange({ target: { files: [f] } });
-  };
-
-  // Fetch all students and keep only those whose email is in the CSV
-  const fetchAndFilterStudents = async (emails) => {
-    try {
-      const res = await fetch("/api/v1/accounts/students", { credentials: "include" });
-      const data = await res.json();
-      const all = Array.isArray(data) ? data : [];
-
-      if (!emails.length) {
-        setNewStudents(all);
-        return;
+    if (PREVIEW_CONFIG[selectedOption]) {
+      try {
+        const text = await selectedFile.text();
+        const { rows } = parseCSV(text);
+        setPreviewRows(rows);
+      } catch {
+        setPreviewRows([]);
       }
-
-      const emailSet = new Set(emails.map((e) => e.toLowerCase()));
-      const filtered = all.filter((s) =>
-        emailSet.has((s?.email ?? "").toLowerCase())
-      );
-
-      console.log(`Matched ${filtered.length} of ${all.length} students by email.`);
-      setNewStudents(filtered);
-    } catch (err) {
-      console.error("Failed to fetch students:", err);
-      setNewStudents([]);
+    } else {
+      setPreviewRows([]);
     }
   };
 
-  // ── Upload ─────────────────────────────────────────────────────────────────
-  const handleUpload = async () => {
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const normalizeImportResult = (payload, fallbackFileName) => {
+    if (!payload || typeof payload !== "object") {
+      return {
+        message: "",
+        imported: 0,
+        errors: 0,
+        error_report: [],
+        history_id: null,
+        file_name: fallbackFileName || "uploaded_file.csv",
+        date: new Date().toLocaleDateString("en-GB"),
+      };
+    }
+
+    const errorReport = Array.isArray(payload.error_report)
+      ? payload.error_report
+      : Array.isArray(payload.errors_report)
+        ? payload.errors_report
+        : Array.isArray(payload.report)
+          ? payload.report
+          : Array.isArray(payload.errors)
+            ? payload.errors
+            : [];
+
+    const resolveNumeric = (...values) => {
+      for (const value of values) {
+        if (typeof value === "number" && Number.isFinite(value)) return value;
+        if (typeof value === "string" && value.trim() !== "") {
+          const parsed = Number(value);
+          if (Number.isFinite(parsed)) return parsed;
+        }
+      }
+      return null;
+    };
+
+    const numericErrors = resolveNumeric(
+      payload.error_count,
+      payload.failed,
+      Array.isArray(payload.errors) ? payload.errors.length : null,
+      errorReport.length,
+    );
+
+    const created = resolveNumeric(payload.created, payload.inserted, 0) ?? 0;
+    const updated = resolveNumeric(payload.updated, 0) ?? 0;
+    const imported =
+      resolveNumeric(
+        payload.imported,
+        payload.imported_count,
+        payload.success,
+        payload.processed,
+      ) ?? created + updated;
+    const errors = numericErrors ?? 0;
+
+    return {
+      ...payload,
+      message: payload.message || payload.detail || "",
+      imported,
+      errors,
+      created,
+      updated,
+      error_report: errorReport,
+      history_id: payload.history_id || payload.historyId || null,
+      file_name:
+        payload.file_name ||
+        payload.filename ||
+        payload.file ||
+        fallbackFileName ||
+        "uploaded_file.csv",
+      date: payload.date || new Date().toLocaleDateString("en-GB"),
+    };
+  };
+
+  const handleSubmit = async () => {
     if (!file) return;
-    const endpoint = IMPORT_TYPES.find((t) => t.key === selected)?.endpoint;
+
+    setLoading(true);
+    setError(null);
+    setSuccess(false);
+    setShowErrorModal(false);
+    setCriticalError(false);
+
     try {
-      setLoading(true); setErrorData(null); setShowModal(false);
+      const { data: result, status: httpStatus } =
+        selectedOption === 0
+          ? await importService.importStudents(file)
+          : selectedOption === 1
+            ? await importService.importTeachers(file)
+            : await importService.importTimetable(file);
 
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch(endpoint, {
-        method: "POST",
-        credentials: "include",
-        body: formData,
-      });
-      const data = await response.json();
-      console.log("Upload response:", data);
+      const normalizedResult = normalizeImportResult(result, file.name);
+      setImportResult(normalizedResult);
 
-      if (!response.ok || (data.errors !== undefined && data.errors > 0)) {
-        if (Array.isArray(data.error_report) && data.error_report.length > 0) setErrorData(data.error_report);
-        else if (data.detail) setErrorData(data.detail);
-        else setErrorData("An unknown error occurred.");
-        setShowModal(true);
+      if (httpStatus !== 200 && httpStatus !== 201) {
+        setSuccess(false);
+        setCriticalError(false);
+        setError(
+          normalizedResult.message ||
+            (normalizedResult.errors > 0
+              ? `Found ${normalizedResult.errors} errors. Please review the error report before retrying.`
+              : "Import failed. Please check the file format."),
+        );
+        if (
+          normalizedResult.error_report.length > 0 ||
+          normalizedResult.errors > 0
+        ) {
+          setShowErrorModal(true);
+        }
+        setFile(null);
+        setPreviewRows([]);
         return;
       }
 
-      // ✅ Success — fetch students created since just before we sent the request
-      setUploadedFileName(file.name);
-      setFile(null);
-
-      if (selected === "students") {
-        await fetchAndFilterStudents(uploadedEmails);
+      if (normalizedResult.errors > 0) {
+        setSuccess(false);
+        setCriticalError(false);
+        setError(
+          normalizedResult.message ||
+            (normalizedResult.imported > 0
+              ? `Imported ${normalizedResult.imported} rows with ${normalizedResult.errors} errors. Please review the error report.`
+              : `Found ${normalizedResult.errors} errors. Please review the error report before retrying.`),
+        );
+        setShowErrorModal(true);
+      } else {
+        setSuccess(true);
+        setCriticalError(false);
+        setError(null);
       }
 
-      setShowPreview(true);
+      setFile(null);
+      setPreviewRows([]);
     } catch (err) {
-      setErrorData(err.message || "Failed to upload CSV.");
-      setShowModal(true);
+      console.error("Import failed:", err);
+      const status = err?.response?.status;
+      const normalizedResult = normalizeImportResult(
+        err.response?.data,
+        file?.name,
+      );
+      const detail = err.response?.data?.detail;
+      const hasErrorReport =
+        normalizedResult.errors > 0 || normalizedResult.error_report.length > 0;
+      const isSystemFailure = (!status || status >= 500) && !hasErrorReport;
+
+      if (isSystemFailure) {
+        setCriticalError(true);
+        setImportResult(null);
+        setShowErrorModal(false);
+        setError(null);
+        return;
+      }
+
+      if (
+        normalizedResult.errors > 0 ||
+        normalizedResult.error_report.length > 0
+      ) {
+        setCriticalError(false);
+        setImportResult(normalizedResult);
+        setError(
+          normalizedResult.message ||
+            (normalizedResult.imported > 0
+              ? `Imported ${normalizedResult.imported} rows with ${normalizedResult.errors || normalizedResult.error_report.length} errors. Please review the error report.`
+              : `Found ${normalizedResult.errors || normalizedResult.error_report.length} errors. Please review the error report.`),
+        );
+        setShowErrorModal(true);
+      } else {
+        setCriticalError(false);
+        setError(
+          normalizedResult.message ||
+            (typeof detail === "string"
+              ? detail
+              : "Failed to import data. Please check the file format."),
+        );
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  // ── render ─────────────────────────────────────────────────────────────────
+
   return (
-    <>
-      {showModal && (
-        <ErrorModal
-          fileName={file?.name ?? uploadedFileName ?? "uploaded_file.csv"}
-          errorData={errorData}
-          onClose={() => setShowModal(false)}
+    <div className="main-page">
+      {/* ── Header ── */}
+      <div className="main-header">
+        <div className="main-header-text">
+          <h2 className="main-title">Import / Export</h2>
+          <p className="main-subtitle">
+            Import the data from Progres (CSV) and export the absence reports.
+          </p>
+        </div>
+
+        <ExportAbsencesButton />
+      </div>
+
+      <div className="import-container">
+        {/* ── Type selector ── */}
+        <div className="import-options-grid">
+          {options.map((opt) => (
+            <ImportButton
+              key={opt.id}
+              icon={opt.icon}
+              title={opt.title}
+              description={opt.description}
+              isSelected={selectedOption === opt.id}
+              onClick={() => {
+                setSelectedOption(opt.id);
+                resetAll();
+              }}
+            />
+          ))}
+        </div>
+
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept=".csv"
+          style={{ display: "none" }}
         />
-      )}
 
-      <input ref={inputRef} type="file" accept=".csv" className="hidden" onChange={handleFileChange} />
-
-      <div className="flex flex-col gap-[30px] p-8 min-h-screen bg-white tracking-wide">
-
-        {/* ── Header ── */}
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-[22px] font-medium text-[#143888] m-0 leading-snug">Import / Export</h2>
-            <p className="text-[13px] font-light text-gray-550 m-0 mt-1">
-              Import the data from Progres (CSV) and export the absence reports.
+        {/* ── Upload / ready / success area ── */}
+        {!file && !success ? (
+          <div className="import-upload-area">
+            <h3 className="import-upload-title">Upload a CSV file</h3>
+            <p className="import-upload-subtitle">
+              {selectedOption === 2
+                ? "Select a UTF-8 .csv file — columns: year, section, speciality, semester, day, time_start, time_end, type, subject, teacher, room, group"
+                : "Select a UTF-8 .csv file separated by commas (,)"}
             </p>
-          </div>
-          <div className="flex gap-2 shrink-0">
-            <button
-              onClick={() => setActiveTab("export")}
-              className={`px-2 py-1.75 rounded-lg text-[13px] font-normal border transition-colors ${
-                activeTab === "export"
-                  ? "border-[#143888] text-[#143888] bg-[#f0f4ff]"
-                  : "border-[#143888] text-white bg-[#143888] hover:border-gray-300"
-              }`}
-            >
-              Export data
+            <button className="import-upload-btn" onClick={handleUploadClick}>
+              Upload
             </button>
           </div>
-        </div>
-
-        {/* ── Panel ── */}
-        <div className="flex flex-col gap-4 bg-white border border-gray-200 rounded-2xl p-5">
-
-          {/* Type cards */}
-          <div className="grid grid-cols-3 gap-4">
-            {IMPORT_TYPES.map((t) => (
-              <div
-                key={t.key}
-                onClick={() => handleSelect(t.key)}
-                className={`flex flex-col gap-2 border rounded-xl p-4 cursor-pointer transition-all ${
-                  selected === t.key
-                    ? "border-[#143888] bg-[#f0f4ff]"
-                    : "border-gray-200 bg-white hover:border-gray-300"
-                }`}
+        ) : success ? (
+          <div className="import-success-area">
+            <h3 className="import-success-title">Imported successfully</h3>
+            <p className="import-success-subtitle" style={{ color: "#10b981" }}>
+              The data has been processed and saved.
+            </p>
+            <button
+              className="import-upload-btn"
+              onClick={() => setSuccess(false)}
+            >
+              Import another file
+            </button>
+            <div style={{ marginTop: 16, color: "#10b981", fontSize: 14 }}>
+              Successfully imported <strong>{importResult?.imported}</strong>{" "}
+              rows.
+            </div>
+          </div>
+        ) : (
+          <div className="import-success-area">
+            <h3 className="import-success-title">Ready to import</h3>
+            <p className="import-success-file">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <div className={`flex items-center gap-2 font-medium text-[16px] tracking-wide ${
-                  selected === t.key ? "text-[#143888]" : "text-[#000000]/60"
-                }`}>
-                  {t.icon}{t.label}
-                </div>
-                <p className={`text-[13px] font-light ${
-                  selected === t.key ? "text-gray-400" : "text-[#4A5567]/60"
-                }`}>
-                  {t.description}
-                </p>
-              </div>
-            ))}
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+              {file.name}
+            </p>
+            <button className="import-upload-btn" onClick={handleUploadClick}>
+              Change file
+            </button>
           </div>
+        )}
+      </div>
 
-          {/* ── Drop zone ── */}
-          <div
-            onClick={() => !showPreview && inputRef.current?.click()}
-            onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={handleDrop}
-            className={`relative flex flex-col gap-4 border-2 border-dashed rounded-xl px-6 py-5 transition-all select-none ${
-              showPreview
-                ? "border-green-600 bg-white cursor-default"
-                : dragOver
-                ? "border-[#143888] bg-blue-50 cursor-pointer"
-                : file
-                ? "border-gray-300 bg-white cursor-pointer"
-                : "border-gray-200 bg-white hover:border-[#143888] hover:bg-blue-50/20 cursor-pointer"
-            }`}
-          >
-            {!showPreview ? (
-              /* BEFORE upload */
-              <>
-                <div>
-                  <p className="text-[16px] font-medium text-gray-800 m-0">Upload a CSV file</p>
-                  <p className="text-[14px] text-[#4A5567]/60 m-0 mt-1 tracking-wide">
-                    {file
-                      ? <span className="text-[#143888] font-medium">{file.name}</span>
-                      : "Select a .csv file separated by semicolons (;)"
-                    }
-                  </p>
-                </div>
-                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
-                  {file && (
-                    <button
-                      onClick={() => inputRef.current?.click()}
-                      className="text-[12px] text-gray-400 underline hover:text-gray-600 transition-colors"
-                    >
-                      Change file
-                    </button>
-                  )}
-                  <button
-                    onClick={handleUpload}
-                    disabled={!file || loading}
-                    className={`px-4 py-1.5 rounded-lg text-[13px] font-medium transition-colors flex items-center gap-2 ${
-                      !file
-                        ? "bg-white text-[#4A5567]/60 cursor-not-allowed border border-gray-200"
-                        : loading
-                        ? "bg-[#93aad6] text-white cursor-not-allowed"
-                        : "text-white bg-[#143888] border border-[#143888] hover:bg-[#0f2f6b]"
-                    }`}
-                  >
-                    {loading ? (
-                      <>
-                        <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                        </svg>
-                        Uploading…
-                      </>
-                    ) : "Upload"}
-                  </button>
-                </div>
-              </>
-            ) : (
-              /* AFTER upload — success state (matches screenshot) */
-              <div className="flex flex-col gap-1.5"  onClick={(e) => e.stopPropagation()}>
-                <p className="text-[16px] font-medium text-green-600 m-0">Uploaded successfully</p>
-                <div className="flex items-center gap-2 text-[13px] text-[#143888]">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8L14 2z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                  </svg>
-                  <span className="text-green-600">{uploadedFileName}</span>
-                </div>
-              </div>
-            )}
-          </div>
+      {/* ── CSV preview table ── */}
+      {file && previewRows.length > 0 && (
+        <PreviewTable rows={previewRows} importType={selectedOption} />
+      )}
+
+      {/* ── Errors & modals ── */}
+      {criticalError && <CriticalErrorNotification />}
+
+      {error && !criticalError && (
+        <div className="error-message" style={{ margin: "16px 0 0 0" }}>
+          <p style={{ fontWeight: 600, marginBottom: 8 }}>{error}</p>
+          {importResult?.error_report?.length > 0 && (
+            <button
+              className="import-upload-btn"
+              style={{ marginTop: 2 }}
+              onClick={() => setShowErrorModal(true)}
+            >
+              View error report
+            </button>
+          )}
         </div>
+      )}
 
-        {/* ── Post-upload: info text + actions ── */}
-        {showPreview && (
-          <div className="flex flex-col gap-4">
-            {selected === "students" && (
-              <p className="text-[14px] font-light text-gray-600 m-0">
-                When you submit, an automatic email is going to be sent to the student with their email and the password (their matricule) !
+      <ImportErrorReportModal
+        isOpen={showErrorModal}
+        importResult={importResult}
+        onClose={() => setShowErrorModal(false)}
+      />
+
+      {/* ── Footer actions ── */}
+      <div className="import-footer">
+        {file && (
+          <>
+            {selectedOption === 0 && (
+              <p className="import-footer-text">
+                When you submit, an automatic email is going to be sent to the
+                student with their email and the password (their matricule) !
               </p>
             )}
-            <div className="flex items-center gap-3">
+            <div className="import-footer-actions">
               <button
-                onClick={reset}
-                className="px-5 py-[7px] rounded-lg text-[13px] border border-gray-200 text-gray-600 bg-white hover:border-gray-300 transition-colors"
+                className="btn-cancel"
+                onClick={resetAll}
+                disabled={loading}
               >
                 Cancel
               </button>
               <button
+                className="btn-submit"
                 onClick={handleSubmit}
-                disabled={submitting}
-                className={`px-5 py-[7px] rounded-lg text-[13px] font-light text-white transition-colors flex items-center gap-2 ${
-                  submitting ? "bg-[#93aad6] cursor-not-allowed" : "bg-[#143888] hover:bg-[#0f2f6b]"
-                }`}
+                disabled={!file || loading}
               >
-                {submitting ? (
-                  <>
-                    <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                    </svg>
-                    Sending…
-                  </>
-                ) : "Submit & save"}
+                {loading ? "Processing..." : "Submit & save"}
               </button>
             </div>
-          </div>
+          </>
         )}
-
-        {/* ── Preview table ── */}
-        {showPreview && selected === "students" && (
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[20px] font-semibold text-[#143888] m-0">
-                Preview List of students uploaded !
-              </h3>
-              <span className="text-[13px] text-gray-500">
-                Total Students : <span className="font-semibold text-gray-800">{newStudents.length}</span>
-              </span>
-            </div>
-            <AdminStudentsTable students={newStudents} filterIds={[]} />
-          </div>
-        )}
-
       </div>
-    </>
+    </div>
   );
 }
-
-export default ImportPage;
