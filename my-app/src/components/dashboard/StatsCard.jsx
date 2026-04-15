@@ -52,7 +52,7 @@ export function StatsCard({ icon, iconBg, label, title, value }) {
         <div className="stats-card-icon" style={{ background: iconBg }}>
           {icon}
         </div>
-        <span className="stats-card-label w-[56px]">{label}</span>
+        <span className="stats-card-label w-14">{label}</span>
       </div>
       <div className="stats-card-body">
         <p className="stats-card-title">{title}</p>

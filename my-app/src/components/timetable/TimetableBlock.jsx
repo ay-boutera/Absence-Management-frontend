@@ -18,13 +18,13 @@ export default function TimetableBlock({ session }) {
 
   if (type === "Cours") {
     return (
-      <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-[6px] w-full">
+      <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-1.5 w-full">
         <div className="flex items-center justify-between gap-1">
           <span style={{ color: colors.label }} className="text-[11px] font-semibold leading-none">
             {type}
           </span>
           <span
-            className="text-[10px] leading-[18px] px-2 rounded-full"
+            className="text-[10px] leading-4.5 px-2 rounded-full"
             style={{ background: "rgba(255,255,255,0.5)" }}
           >
             {group}
@@ -41,13 +41,13 @@ export default function TimetableBlock({ session }) {
 
   if (type === "TD collectif") {
     return (
-      <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-[6px] w-full">
+      <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-1.5 w-full">
         <div className="flex items-center gap-1.5">
           <span style={{ color: colors.label }} className="text-[11px] font-semibold leading-none">
             {type}
           </span>
           <span
-            className="text-[10px] leading-[18px] px-2 rounded-full"
+            className="text-[10px] leading-4.5 px-2 rounded-full"
             style={{ background: "rgba(255,255,255,0.5)" }}
           >
             {group}
@@ -62,7 +62,7 @@ export default function TimetableBlock({ session }) {
   }
 
   return (
-    <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-[6px] w-full">
+    <div style={{ backgroundColor: colors.bg }} className="rounded p-2 flex flex-col gap-1.5 w-full">
       <span className="text-[11px] text-black leading-tight line-clamp-1">
         {group}: {subject}
       </span>

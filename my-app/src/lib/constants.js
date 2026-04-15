@@ -48,3 +48,64 @@ export const API_ENDPOINTS = {
   IMPORT_SESSIONS: "/v1/import/planning",
   IMPORT_EXPORT_HISTORY: "/v1/import-export/history",
 };
+
+
+
+
+export const CSV_SCHEMAS = {
+  // matches selectedOption === 0 in the import page
+  students: {
+    required: ["matricule", "nom", "prenom", "email", "filiere", "niveau", "groupe"],
+    optional: [],                          // columns allowed but not mandatory
+    separator: ",",                        // expected CSV separator
+    label: "List of students",
+  },
+  
+  // matches selectedOption === 1
+  teachers: {
+    required: ["id_enseignant", "nom", "prenom", "email"],
+    optional: ["grade", "departement"],
+    separator: ",",
+    label: "List of teachers",
+  },
+ 
+  // matches selectedOption === 2
+  timetable: {
+    required: [
+      "year",
+      "semester",
+      "day",
+      "time_start",
+      "time_end",
+      "type",
+      "subject",
+      "teacher",
+      "room",
+    ],
+    // section OR speciality must be present — handled as a special rule in the validator
+    optional: ["section", "speciality", "group"],
+    separator: ",",
+    label: "Session planning",
+  },
+};
+
+export const IMPORT_TYPE_TO_SCHEMA = {
+  0: "students",
+  1: "teachers",
+  2: "timetable",
+};
+
+export const STUDENT_STATUS = {
+  SAFE: "Safe",
+  EXCLU: "Exclu",
+};
+export const STUDENT_STATUS_STYLES = {
+  [STUDENT_STATUS.SAFE]: {
+    background: "#dcfce7",   // light green
+    color: "#15803d",        // dark green text
+  },
+  [STUDENT_STATUS.EXCLU]: {
+    background: "#fee2e2",   // light red
+    color: "#b91c1c",        // dark red text
+  },
+};
