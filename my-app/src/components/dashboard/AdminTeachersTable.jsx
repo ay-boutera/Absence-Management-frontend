@@ -1,6 +1,6 @@
 "use client";
 
-
+import { useRouter } from "next/navigation";
 import DataTable from "@/components/shared/DataTable";
 import { Avatar, IconDots } from "@/components/shared/TableShared";
 import useDashboardTable from "@/hooks/useDashboardTable";
@@ -9,8 +9,12 @@ const COLUMNS = ["Name", "Role", "Subjects", "Groups", "Action"];
 const PAGE_SIZE = 7;
 
 function TeacherRow({ teacher }) {
+  const router = useRouter();
   return (
-    <div className="admin-teachers-table__row">
+    <div
+      className="admin-teachers-table__row cursor-pointer hover:bg-[#f8faff]"
+      onClick={() => router.push(`/admin/teachers/${teacher.id}`)}
+    >
       <div className="admin-data-table__cell admin-data-table__cell--name">
         <div className="admin-data-table__name-wrap">
           <Avatar name={teacher.name} fallback="Teacher" />

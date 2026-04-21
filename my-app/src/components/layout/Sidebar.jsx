@@ -119,6 +119,19 @@ const icons = {
       />
     </svg>
   ),
+  administrators: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.1498 3.20471C15.4151 2.34165 13.2925 1.83398 11 1.83398C8.70751 1.83398 6.58487 2.34165 4.85023 3.20472C3.99959 3.62795 3.57426 3.83957 3.16213 4.50495C2.75 5.17033 2.75 5.81459 2.75 7.10311V10.3013C2.75 15.5111 6.91383 18.4076 9.32529 19.6483C9.99779 19.9943 10.334 20.1673 11 20.1673C11.6659 20.1673 12.0022 19.9943 12.6747 19.6483C15.0862 18.4076 19.25 15.5111 19.25 10.3013L19.25 7.10312C19.25 5.8146 19.25 5.17034 18.8379 4.50495C18.4257 3.83957 18.0004 3.62795 17.1498 3.20471Z" stroke="#16151C" stroke-opacity="0.8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8.25 10.5423C8.25 10.5423 9.54059 10.7733 10.0833 12.3757C10.0833 12.3757 11.4583 9.62565 13.75 8.70898" stroke="#16151C" stroke-opacity="0.8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+  ),
+  administratorsfill: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11 2.75L4.125 5.5V10.083C4.125 13.992 7.095 17.652 11 18.563C14.905 17.652 17.875 13.992 17.875 10.083V5.5L11 2.75Z" fill="currentColor" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M8.5 11L10.25 12.75L13.5 9.25" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
   lessons: (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path
@@ -553,6 +566,7 @@ const ADMIN_SECTIONS = [
       { label: "Dashboard", href: "/admin", icon: "dashboard" },
       { label: "Students", href: "/admin/students", icon: "students" },
       { label: "Teachers", href: "/admin/teachers", icon: "teachers" },
+      { label: "Administrators", href: "/admin/administrators", icon: "administrators" },
       { label: "Groups", href: "/admin/groups", icon: "groups" },
       { label: "Timetable", href: "/admin/timetable", icon: "timetable" },
     ],
@@ -618,7 +632,6 @@ const TEACHER_SECTIONS = [
   },
 ];
 
-// ── Component ─────────────────────────────────────────────────────────────────
 export function Sidebar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();

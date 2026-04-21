@@ -99,7 +99,6 @@ function YTick({ x, y, payload }) {
   );
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
 export default function ExamAbsencesPage() {
   const [activeLevel, setActiveLevel] = useState("All");
   const [page, setPage] = useState(1);

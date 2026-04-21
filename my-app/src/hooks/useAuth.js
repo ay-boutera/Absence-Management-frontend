@@ -17,7 +17,13 @@ export function useAuth() {
 
   useEffect(() => {
     // ── Rehydrate store on page refresh ──────
-    // Cookie is still valid → get current user from backend
+    // If already authenticated (e.g. just logged in), skip the getMe() call.
+    // Only fetch when the store is empty but a cookie might still exist (hard refresh).
+    if (isAuthenticated) {
+      setAuthLoading(false);
+      return;
+    }
+
     const rehydrate = async () => {
       setAuthLoading(true);
       try {
@@ -30,7 +36,7 @@ export function useAuth() {
       }
     };
     rehydrate();
-  }, [setAuth, clearAuth, setAuthLoading]);
+  }, [setAuth, clearAuth, setAuthLoading, isAuthenticated]);
 
   useEffect(() => {
     // ── Auto refresh token every 14 minutes ──

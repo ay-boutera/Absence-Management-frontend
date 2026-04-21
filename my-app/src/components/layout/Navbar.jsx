@@ -1,15 +1,9 @@
-// ============================================
-// AMS — ESI Sidi Bel Abbès
-// components/layout/Navbar.jsx
-// ============================================
-
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
 import { ROLES } from "@/lib/constants";
 import Image from "next/image";
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
 const SearchIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
     <circle cx="8" cy="8" r="5.5" stroke="#6b7280" strokeWidth="1.5" />
@@ -34,7 +28,6 @@ const NotificationIcon = () => (
   </svg>
 );
 
-// ── Component ─────────────────────────────────────────────────────────────────
 export function Navbar() {
   const { user, role } = useAuthStore();
   // console.log("[Navbar] user:", user); // Removed after confirming display

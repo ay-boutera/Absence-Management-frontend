@@ -11,7 +11,6 @@ export default function Home() {
     if (!isAuthenticated) {
       router.replace("/login");
     } else {
-      // Redirect to dashboard based on role
       if (role === "admin") {
         router.replace("/admin");
       } else if (role === "teacher") {

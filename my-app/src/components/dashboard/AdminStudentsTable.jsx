@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import DataTable from "@/components/shared/DataTable";
 import useDashboardTable from "@/hooks/useDashboardTable";
 import {
@@ -13,8 +14,12 @@ const COLUMNS = ["Name", "Student ID", "Year", "Group", "Absence", "Status", "Ac
 const PAGE_SIZE = 7;
 
 function StudentRow({ student }) {
+  const router = useRouter();
   return (
-    <div className="admin-students-table__row">
+    <div
+      className="admin-students-table__row cursor-pointer hover:bg-[#f8faff]"
+      onClick={() => router.push(`/admin/students/${student.id}`)}
+    >
       <div className="admin-data-table__cell admin-data-table__cell--name">
         <div className="admin-data-table__name-wrap">
           <Avatar name={student.name} fallback="Student" />
